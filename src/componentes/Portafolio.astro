@@ -1,0 +1,123 @@
+---
+import { getCollection } from 'astro:content';
+import Icono from './Icono.astro';
+
+const proyectos = (await getCollection('proyectos', ({ data }) => data.publicado)).sort(
+	(a, b) => a.data.orden - b.data.orden,
+);
+const tonos = ['#dce4f7', '#f3e3d3', '#ddefe6', '#ece3f5'];
+---
+
+<section class="seccion portafolio" id="portafolio">
+	<div class="contenedor">
+		<div class="encabezado-seccion">
+			<h2>Portafolio</h2>
+			<p>Proyectos reales que puedes abrir y probar.</p>
+		</div>
+
+		<div class="proyectos">
+			{
+				proyectos.map(({ data }, i) => (
+					<article class="proyecto">
+						{data.imagen ? (
+							<img class="proyecto__imagen" src={data.imagen} alt={data.titulo} loading="lazy" />
+						) : (
+							<div class="proyecto__imagen" style={`background:${tonos[i % tonos.length]}`} />
+						)}
+						<div class="proyecto__texto">
+							<h3>{data.titulo}</h3>
+							<p>{data.descripcion}</p>
+							<div class="proyecto__etiquetas">
+								{data.tecnologias.map((t) => <span>{t}</span>)}
+							</div>
+							{data.enlace && (
+								<a class="proyecto__enlace" href={data.enlace} target="_blank" rel="noopener">
+									Ver proyecto
+									<Icono nombre="enlace" tamano={16} />
+								</a>
+							)}
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.portafolio {
+		background: var(--color-superficie);
+		border-block: 1px solid var(--color-borde);
+	}
+
+	.proyectos {
+		display: grid;
+		gap: 16px;
+	}
+
+	.proyecto {
+		border: 1px solid var(--color-borde);
+		border-radius: 14px;
+		overflow: hidden;
+		background: var(--color-fondo);
+	}
+
+	.proyecto__imagen {
+		width: 100%;
+		aspect-ratio: 16 / 10;
+		object-fit: cover;
+	}
+
+	.proyecto__texto {
+		padding: 18px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	h3 {
+		font-size: 18px;
+	}
+
+	.proyecto__texto p {
+		color: var(--color-suave);
+		font-size: 14px;
+	}
+
+	.proyecto__etiquetas {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.proyecto__etiquetas span {
+		font-size: 12px;
+		background: var(--color-superficie);
+		border: 1px solid var(--color-borde);
+		border-radius: var(--radio-chico);
+		padding: 2px 8px;
+		color: var(--color-suave);
+	}
+
+	.proyecto__enlace {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-weight: 600;
+		font-size: 14px;
+		color: var(--color-marca);
+		text-decoration: none;
+	}
+
+	@media (min-width: 640px) {
+		.proyectos {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.proyectos {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+</style>

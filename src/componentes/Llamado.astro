@@ -1,0 +1,80 @@
+---
+import sitio from '../datos/sitio.json';
+import { enlaceWhatsapp } from '../lib/enlaces';
+import Icono from './Icono.astro';
+
+const { llamado } = sitio;
+const anio = new Date().getFullYear();
+---
+
+<footer class="llamado">
+	<div class="contenedor llamado__fila">
+		<div class="llamado__texto">
+			<h2>{llamado.titulo}</h2>
+			<p>{llamado.texto}</p>
+		</div>
+		<a
+			class="boton boton--whatsapp"
+			href={enlaceWhatsapp(`Hola, quiero el diagnóstico gratis de mi web`)}
+			target="_blank"
+			rel="noopener"
+		>
+			<Icono nombre="whatsapp" />
+			{llamado.boton}
+		</a>
+	</div>
+	<div class="contenedor llamado__pie">
+		<span>{sitio.marca} · {sitio.ciudad}</span>
+		<span>{sitio.correo}</span>
+		<span>© {anio}</span>
+	</div>
+</footer>
+
+<style>
+	.llamado {
+		background: var(--color-oscuro);
+		color: var(--color-oscuro-texto);
+		padding-block: 56px 24px;
+	}
+
+	.llamado__fila {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 20px;
+		padding-bottom: 40px;
+		border-bottom: 1px solid rgb(255 255 255 / 0.1);
+	}
+
+	.llamado__texto {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	h2 {
+		color: #fff;
+		font-size: 26px;
+	}
+
+	.llamado__pie {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 24px;
+		padding-top: 20px;
+		font-size: 13px;
+		color: #8a93a6;
+	}
+
+	@media (min-width: 768px) {
+		.llamado__fila {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		h2 {
+			font-size: 32px;
+		}
+	}
+</style>

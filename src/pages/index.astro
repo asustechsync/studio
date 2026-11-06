@@ -1,16 +1,23 @@
 ---
+import Base from '../layouts/Base.astro';
+import Cabecera from '../componentes/Cabecera.astro';
+import Portada from '../componentes/Portada.astro';
+import Paquetes from '../componentes/Paquetes.astro';
+import Portafolio from '../componentes/Portafolio.astro';
+import Proceso from '../componentes/Proceso.astro';
+import Llamado from '../componentes/Llamado.astro';
+import DatosNegocio from '../componentes/DatosNegocio.astro';
+import sitio from '../datos/sitio.json';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base titulo={`${sitio.marca} · Desarrollo web y comercio electrónico`} descripcion={sitio.portada.subtitulo}>
+	<DatosNegocio slot="head" />
+	<Cabecera />
+	<main>
+		<Portada />
+		<Paquetes />
+		<Portafolio />
+		<Proceso />
+	</main>
+	<Llamado />
+</Base>

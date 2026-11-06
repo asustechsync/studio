@@ -1,0 +1,30 @@
+{
+  "marca": "Studio",
+  "ciudad": "Tacna, Perú",
+  "whatsapp": "51900000000",
+  "mensajeWhatsapp": "Hola, quiero información sobre una web para mi negocio",
+  "correo": "hola@studio.pe",
+  "imagenCompartir": "",
+  "portada": {
+    "antetitulo": "Desarrollo web y comercio electrónico",
+    "titulo": "Desarrollo web corporativo y comercio electrónico",
+    "subtitulo": "Soluciones seguras, escalables y fáciles de administrar.",
+    "enlaceDemo": ""
+  },
+  "garantias": [
+    "Velocidad 95+ en Google",
+    "Garantía de 30 días",
+    "Entrega con fecha"
+  ],
+  "pasos": [
+    { "titulo": "Conversamos", "texto": "Por WhatsApp o en persona, sin compromiso." },
+    { "titulo": "Pagas el 50 %", "texto": "Y fijamos juntos la fecha de entrega." },
+    { "titulo": "Revisas avances", "texto": "Con un enlace de prueba para opinar." },
+    { "titulo": "Publicamos", "texto": "Pagas el resto y tu web sale al aire." }
+  ],
+  "llamado": {
+    "titulo": "¿Tu web es lenta o ya no carga?",
+    "texto": "Te mido la velocidad gratis y te digo qué mejorar.",
+    "boton": "Pedir diagnóstico gratis"
+  }
+}

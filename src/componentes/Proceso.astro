@@ -1,0 +1,69 @@
+---
+import sitio from '../datos/sitio.json';
+---
+
+<section class="seccion" id="proceso">
+	<div class="contenedor">
+		<div class="encabezado-seccion">
+			<h2>Cómo trabajo</h2>
+			<p>Cuatro pasos, sin sorpresas.</p>
+		</div>
+		<ol class="pasos">
+			{
+				sitio.pasos.map((p, i) => (
+					<li class="paso">
+						<span class="paso__numero">{i + 1}</span>
+						<h3>{p.titulo}</h3>
+						<p>{p.texto}</p>
+					</li>
+				))
+			}
+		</ol>
+	</div>
+</section>
+
+<style>
+	.pasos {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 20px;
+	}
+
+	.paso {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		border-top: 2px solid var(--color-marca);
+		padding-top: 14px;
+	}
+
+	.paso__numero {
+		font-family: var(--tipo-titulos);
+		font-weight: 600;
+		color: var(--color-marca);
+		font-size: 14px;
+	}
+
+	h3 {
+		font-size: 18px;
+	}
+
+	.paso p {
+		color: var(--color-suave);
+		font-size: 14px;
+	}
+
+	@media (min-width: 640px) {
+		.pasos {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.pasos {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
+</style>

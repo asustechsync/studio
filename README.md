@@ -1,43 +1,33 @@
-# Astro Starter Kit: Minimal
+# Studio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Web de servicios y portafolio, hecha con Astro. El contenido se edita directamente en archivos Markdown y JSON.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Comandos
 
-## 🚀 Project Structure
+| Comando | Qué hace |
+| --- | --- |
+| `npm run dev` | Sitio en http://localhost:4321 |
+| `npm run build` | Compila el sitio en `dist/` |
+| `npm run preview` | Sirve la versión compilada |
 
-Inside of your Astro project, you'll see the following folders and files:
+## Dónde está cada cosa
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+- `src/content/paquetes/` — un archivo por paquete (precio, qué incluye, orden).
+- `src/content/proyectos/` — un archivo por proyecto del portafolio.
+- `src/datos/sitio.json` — marca, WhatsApp, textos de portada, pasos y llamado final.
+- `src/componentes/` — secciones de la página.
+- `src/estilos/global.css` — colores, fuentes y espaciados.
+- `public/imagenes/` — fotos del portafolio (en el proyecto: `imagen: /imagenes/foto.jpg`).
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Antes de publicar
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+1. Cambia el número de WhatsApp y el correo en `src/datos/sitio.json`.
+2. Pon el dominio real en `site` de `astro.config.mjs`. De ahí salen el sitemap, `robots.txt`, la URL canónica y los datos para Google.
+3. Sube una imagen de 1200 × 630 px a `public/` y pon su ruta en `imagenCompartir` de `sitio.json` (por ejemplo `/compartir.jpg`). Es la vista previa al compartir el enlace por WhatsApp o Facebook.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## SEO incluido
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `sitemap-index.xml` generado al compilar con `@astrojs/sitemap`.
+- `robots.txt` generado desde `src/pages/robots.txt.ts`.
+- URL canónica y Open Graph en `src/layouts/Base.astro`.
+- Datos Schema.org del negocio y sus paquetes en `src/componentes/DatosNegocio.astro`.

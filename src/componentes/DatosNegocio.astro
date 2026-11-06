@@ -1,0 +1,33 @@
+---
+// Datos estructurados (Schema.org) para que Google entienda quién es el negocio
+// y qué paquetes ofrece. Salen de sitio.json y de la colección de paquetes.
+import { getCollection } from 'astro:content';
+import sitio from '../datos/sitio.json';
+
+const [ciudad, pais] = sitio.ciudad.split(',').map((parte) => parte.trim());
+const paquetes = (await getCollection('paquetes', ({ data }) => data.publicado)).sort(
+	(a, b) => a.data.orden - b.data.orden,
+);
+
+const datos = {
+	'@context': 'https://schema.org',
+	'@type': 'ProfessionalService',
+	name: sitio.marca,
+	description: sitio.portada.subtitulo,
+	url: Astro.site?.href,
+	telephone: `+${sitio.whatsapp}`,
+	email: sitio.correo,
+	address: { '@type': 'PostalAddress', addressLocality: ciudad, addressCountry: pais === 'Perú' ? 'PE' : pais },
+	areaServed: ciudad,
+	...(sitio.imagenCompartir && { image: new URL(sitio.imagenCompartir, Astro.site).href }),
+	makesOffer: paquetes.map(({ data }) => ({
+		'@type': 'Offer',
+		name: data.nombre,
+		price: data.precio,
+		priceCurrency: 'PEN',
+		description: data.incluye.join('. '),
+	})),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(datos)} />
