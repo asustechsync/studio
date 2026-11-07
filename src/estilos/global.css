@@ -1,21 +1,35 @@
 /* Tokens y base. Estilos de movil primero; los quiebres solo añaden. */
 :root {
-	--color-fondo: #f7f8fb;
-	--color-superficie: #ffffff;
-	--color-texto: #141922;
-	--color-suave: #5a6272;
-	--color-borde: #e3e6ec;
-	--color-marca: #2152d9;
-	--color-marca-suave: #e6ecfc;
+	color-scheme: dark;
+	/* Tinta y arcilla (versión oscura): fondo casi negro cálido y un solo acento arcilla */
+	--color-fondo: #141413;
+	--color-superficie: #1d1c1a;
+	--color-texto: #faf9f5;
+	--color-suave: #9b988f;
+	--color-borde: #2c2a27;
+	--color-marca: #d97757;
+	--color-marca-texto: #e8a47f;
+	--color-marca-suave: rgb(217 119 87 / 0.12);
+	--color-crema: #faf9f5;
+	/* Tonos de tinta para Cómo trabajo, el paquete destacado y el pie */
+	--cielo-noche: #141413;
+	--cielo-medio: #1d1c1a;
+	--cielo-violeta: #2a221e;
+	--cielo-terracota: #d97757;
+	--cielo-arena: #e8b89d;
+	--degradado-cielo: linear-gradient(160deg, var(--cielo-noche) 0%, var(--cielo-medio) 50%, var(--cielo-violeta) 100%);
+	--sombra-suave: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.5);
 	--color-whatsapp: #1a9a4f;
-	--color-oscuro: #0e1424;
-	--color-oscuro-texto: #b7bfce;
-	--color-exito: #1b7a4b;
+	--color-oscuro: #0f0e0d;
+	--color-oscuro-texto: #9b988f;
+	--color-exito: #5ec28f;
 	--color-exito-suave: #e3f3ea;
 
 	--tipo-titulos: 'Poppins', 'Segoe UI', system-ui, sans-serif;
 	--tipo-texto: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+	--tipo-cursiva: 'Instrument Serif', Georgia, serif;
 
+	--alto-cabecera: 64px;
 	--radio: 10px;
 	--radio-chico: 6px;
 	--ancho: 1120px;
@@ -85,16 +99,50 @@ a {
 .encabezado-seccion {
 	display: flex;
 	flex-direction: column;
-	gap: 6px;
-	margin-bottom: 28px;
+	align-items: center;
+	text-align: center;
+	gap: 12px;
+	margin-bottom: 40px;
 }
 
 .encabezado-seccion h2 {
-	font-size: 28px;
+	font-size: 30px;
+	letter-spacing: -0.02em;
+	max-width: 22ch;
 }
 
 .encabezado-seccion p {
 	color: var(--color-suave);
+	font-size: 17px;
+	max-width: 46ch;
+}
+
+/* Píldora sobre el título, igual que en la portada */
+.antetitulo {
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	padding: 5px 14px;
+	border-radius: 999px;
+	color: var(--color-marca-texto);
+	background: rgb(217 119 87 / 0.12);
+	border: 1px solid rgb(217 119 87 / 0.3);
+}
+
+/* Variante para secciones oscuras */
+.oscuro .antetitulo {
+	color: #fff;
+	background: rgb(255 255 255 / 0.08);
+	border-color: rgb(255 255 255 / 0.18);
+	backdrop-filter: blur(6px);
+}
+
+.oscuro .encabezado-seccion h2 {
+	color: #fff;
+}
+
+.oscuro .encabezado-seccion p {
+	color: rgb(255 255 255 / 0.74);
 }
 
 .boton {
@@ -118,17 +166,30 @@ a {
 
 .boton--marca {
 	background: var(--color-marca);
-	color: #fff;
+	color: #141413;
 }
 
 .boton--marca:hover {
-	background: #1a44ba;
+	background: #e5895f;
 }
 
 .boton--claro {
 	background: var(--color-superficie);
 	color: var(--color-texto);
-	border-color: #d5dae3;
+	border-color: #3d3a34;
+}
+
+.boton--claro:hover {
+	background: #26241f;
+}
+
+.boton--crema {
+	background: var(--color-crema);
+	color: var(--color-oscuro);
+}
+
+.boton--crema:hover {
+	background: #fff;
 }
 
 .boton--whatsapp {
@@ -147,7 +208,29 @@ a {
 	}
 
 	.encabezado-seccion h2 {
-		font-size: 36px;
+		font-size: 42px;
+	}
+}
+
+/* Aparición al entrar en pantalla (como velosyd.com).
+   El script de Base.astro pone .con-js en <html> y añade .visible a cada bloque una sola vez.
+   Sin JS o con movimiento reducido, todo se ve normal desde el inicio. */
+@media (prefers-reduced-motion: no-preference) {
+	.con-js .revela:not(.visible) {
+		opacity: 0;
+		transform: translateY(22px);
+	}
+
+	.con-js .revela.visible {
+		animation: revela-entra 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+		animation-delay: var(--retraso, 0ms);
+	}
+}
+
+@keyframes revela-entra {
+	from {
+		opacity: 0;
+		transform: translateY(22px);
 	}
 }
 

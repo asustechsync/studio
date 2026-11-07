@@ -7,24 +7,80 @@
   "imagenCompartir": "",
   "portada": {
     "antetitulo": "Desarrollo web y comercio electrónico",
-    "titulo": "Desarrollo web corporativo y comercio electrónico",
+    "titulo": {
+      "inicio": "Tu negocio en línea,",
+      "cursiva": "rápido y seguro,",
+      "fin": "a tu medida"
+    },
     "subtitulo": "Soluciones seguras, escalables y fáciles de administrar.",
     "enlaceDemo": ""
   },
   "garantias": [
-    "Velocidad 95+ en Google",
-    "Garantía de 30 días",
-    "Entrega con fecha"
+    {
+      "icono": "rayo",
+      "titulo": "Velocidad 95+ en Google",
+      "texto": "Webs ligeras que cargan rápido en el celular."
+    },
+    {
+      "icono": "escudo",
+      "titulo": "Garantía de 30 días",
+      "texto": "Te acompañamos después de publicar."
+    },
+    {
+      "icono": "calendario",
+      "titulo": "Entrega con fecha",
+      "texto": "Fijamos la fecha contigo antes de empezar."
+    }
   ],
   "pasos": [
-    { "titulo": "Conversamos", "texto": "Por WhatsApp o en persona, sin compromiso." },
-    { "titulo": "Pagas el 50 %", "texto": "Y fijamos juntos la fecha de entrega." },
-    { "titulo": "Revisas avances", "texto": "Con un enlace de prueba para opinar." },
-    { "titulo": "Publicamos", "texto": "Pagas el resto y tu web sale al aire." }
+    {
+      "titulo": "Conversamos",
+      "texto": "Por WhatsApp o en persona, sin compromiso."
+    },
+    {
+      "titulo": "Pagas el 50 %",
+      "texto": "Y fijamos juntos la fecha de entrega."
+    },
+    {
+      "titulo": "Revisas avances",
+      "texto": "Con un enlace de prueba para opinar."
+    },
+    {
+      "titulo": "Publicamos",
+      "texto": "Pagas el resto y tu web sale al aire."
+    }
   ],
   "llamado": {
     "titulo": "¿Tu web es lenta o ya no carga?",
     "texto": "Te mido la velocidad gratis y te digo qué mejorar.",
     "boton": "Pedir diagnóstico gratis"
-  }
+  },
+  "tecnologias": [
+    "WhatsApp",
+    "Google Maps",
+    "Dominio .pe",
+    "Astro"
+  ],
+  "preguntas": [
+    {
+      "p": "¿Cómo se paga?",
+      "r": "Pagas el 50 % al empezar y el otro 50 % al entregar. El precio es final, sin costos ocultos."
+    },
+    {
+      "p": "¿Cuánto demora mi web?",
+      "r": "Depende del paquete: una landing se entrega en 5 días hábiles, una web corporativa en 10 y una administrable en 2 a 3 semanas. La fecha exacta la fijamos juntos."
+    },
+    {
+      "p": "¿El dominio y el hosting están incluidos?",
+      "r": "En los paquetes de web, el primer año de dominio y hosting va incluido. Desde el segundo año se renueva cada año; el costo aparece en cada paquete."
+    },
+    {
+      "p": "¿Puedo ver mi web antes de pagar el resto?",
+      "r": "Sí. Te pasamos un enlace de prueba para que revises y opines. Cuando estés conforme, pagas el resto y publicamos."
+    },
+    {
+      "p": "¿Cómo empiezo?",
+      "r": "Escríbenos por WhatsApp. Conversamos sin compromiso y te decimos qué paquete te conviene."
+    }
+  ]
 }

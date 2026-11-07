@@ -1,12 +1,16 @@
 ---
 import sitio from '../datos/sitio.json';
 import { enlaceWhatsapp } from '../lib/enlaces';
+import { getCollection } from 'astro:content';
 import Icono from './Icono.astro';
 
+const hayProyectos = (await getCollection('proyectos', ({ data }) => data.publicado)).length > 0;
+
 const enlaces = [
-	{ texto: 'Paquetes', href: '#paquetes' },
-	{ texto: 'Portafolio', href: '#portafolio' },
-	{ texto: 'Cómo trabajo', href: '#proceso' },
+	...(hayProyectos ? [{ texto: 'Portafolio', href: '/#portafolio' }] : []),
+	{ texto: 'Soluciones', href: '/#soluciones' },
+	{ texto: 'Cómo trabajo', href: '/#proceso' },
+	{ texto: 'Preguntas', href: '/#preguntas' },
 ];
 ---
 
@@ -33,9 +37,11 @@ const enlaces = [
 		position: sticky;
 		top: 0;
 		z-index: 10;
-		color: #fff;
-		background: rgb(14 20 36 / 0.82);
+		color: var(--color-texto);
+		background: rgb(20 20 19 / 0.85);
 		backdrop-filter: saturate(1.4) blur(12px);
+		/* Altura fija que incluye el borde: la portada se sube exactamente esto */
+		height: var(--alto-cabecera);
 		border-bottom: 1px solid rgb(255 255 255 / 0.08);
 	}
 
@@ -49,24 +55,26 @@ const enlaces = [
 
 	@keyframes cabecera-oscurece {
 		from {
-			background: rgb(14 20 36 / 0);
+			background: rgb(20 20 19 / 0);
 			border-bottom-color: transparent;
 			backdrop-filter: none;
 		}
 	}
 
+	/* Tres columnas: marca a la izquierda, menú realmente centrado, botón a la derecha */
 	.cabecera__fila {
-		display: flex;
+		display: grid;
+		grid-template-columns: 1fr auto;
 		align-items: center;
 		gap: 16px;
-		min-height: 64px;
+		height: 100%;
 	}
 
 	.cabecera__marca {
 		display: flex;
 		align-items: center;
 		gap: 10px;
-		margin-right: auto;
+		justify-self: start;
 		font-family: var(--tipo-titulos);
 		font-weight: 600;
 		font-size: 18px;
@@ -80,7 +88,7 @@ const enlaces = [
 		height: 32px;
 		border-radius: 8px;
 		background: var(--color-marca);
-		color: #fff;
+		color: #141413;
 		font-size: 15px;
 	}
 
@@ -94,27 +102,31 @@ const enlaces = [
 		font-size: 14px;
 	}
 
+	.cabecera__boton {
+		justify-self: end;
+	}
+
 	@media (min-width: 768px) {
+		.cabecera__fila {
+			grid-template-columns: 1fr auto 1fr;
+		}
+
+		/* Menú sin fondo ni borde: solo texto sobre el cielo */
 		.cabecera__menu {
 			display: flex;
-			gap: 4px;
-			padding: 4px;
-			font-size: 14px;
-			border-radius: 999px;
-			background: rgb(255 255 255 / 0.08);
-			border: 1px solid rgb(255 255 255 / 0.14);
+			gap: 8px;
+			font-size: 15px;
 		}
 
 		.cabecera__menu a {
 			text-decoration: none;
 			padding: 6px 14px;
-			border-radius: 999px;
-			color: rgb(255 255 255 / 0.78);
+			color: var(--color-suave);
+			transition: color 0.2s ease;
 		}
 
 		.cabecera__menu a:hover {
-			color: #fff;
-			background: rgb(255 255 255 / 0.1);
+			color: var(--color-texto);
 		}
 	}
 </style>

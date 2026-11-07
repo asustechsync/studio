@@ -14,4 +14,5 @@ noIncluye:
   - Cuentas de desarrollador de Apple y Google
 destacado: false
 orden: 3
+publicado: false
 ---

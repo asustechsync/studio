@@ -1,0 +1,154 @@
+---
+// Página de una solución: aquí viven los paquetes con su precio.
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Cabecera from '../../componentes/Cabecera.astro';
+import Paquete from '../../componentes/Paquete.astro';
+import Llamado from '../../componentes/Llamado.astro';
+import Icono from '../../componentes/Icono.astro';
+import { soluciones } from '../../datos/soluciones';
+import { enlaceWhatsapp } from '../../lib/enlaces';
+import sitio from '../../datos/sitio.json';
+
+export function getStaticPaths() {
+	return soluciones.map((solucion) => ({ params: { slug: solucion.slug }, props: { solucion } }));
+}
+
+const { solucion } = Astro.props;
+
+const paquetes = (await getCollection('paquetes', ({ data }) => data.publicado))
+	.filter(({ id }) => solucion.paquetes.includes(id))
+	.sort((a, b) => a.data.orden - b.data.orden);
+---
+
+<Base titulo={`${solucion.nombre} · ${sitio.marca}`} descripcion={`${solucion.titular}. ${solucion.texto}`}>
+	<Cabecera />
+	<main>
+		<section class="seccion solucion-pagina">
+			<div class="contenedor">
+				<nav class="migas" aria-label="Ruta">
+					<a href="/#soluciones">Soluciones</a>
+					<span aria-hidden="true">/</span>
+					<span>{solucion.nombre}</span>
+				</nav>
+
+				<div class="encabezado-seccion revela">
+					<span class="antetitulo">{solucion.categoria}</span>
+					<h1>{solucion.nombre}</h1>
+					<p>{solucion.titular}. {solucion.texto}</p>
+				</div>
+
+				{
+					paquetes.length > 0 ? (
+						<>
+							<div class="paquetes">
+								{paquetes.map(({ data }) => (
+									<Paquete data={data} />
+								))}
+							</div>
+							<p class="solucion-pagina__nota">Precio final, sin costos ocultos. Pagas 50 % al empezar y 50 % al entregar.</p>
+						</>
+					) : (
+						<div class="proximamente revela">
+							<h2>Estamos preparando esta solución</h2>
+							<p>Todavía no está disponible. Escríbenos y te avisamos apenas esté lista, o vemos tu caso.</p>
+							<a
+								class="boton boton--marca"
+								href={enlaceWhatsapp(`Hola, me interesa la solución ${solucion.nombre}`)}
+								target="_blank"
+								rel="noopener"
+							>
+								<Icono nombre="whatsapp" />
+								Consultar por WhatsApp
+							</a>
+						</div>
+					)
+				}
+			</div>
+		</section>
+	</main>
+	<Llamado />
+</Base>
+
+<style>
+	.solucion-pagina {
+		background:
+			radial-gradient(ellipse 70% 320px at 50% 0, rgb(217 119 87 / 0.09), transparent 70%),
+			var(--color-fondo);
+	}
+
+	.migas {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 18px;
+		font-size: 14px;
+		color: var(--color-suave);
+	}
+
+	.migas a:hover {
+		color: var(--color-texto);
+	}
+
+	.paquetes {
+		display: grid;
+		gap: 18px;
+		margin-top: 36px;
+	}
+
+	.solucion-pagina__nota {
+		margin: 28px 0 0;
+		text-align: center;
+		font-size: 14px;
+		color: var(--color-suave);
+	}
+
+	.proximamente {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		margin: 36px auto 0;
+		max-width: 520px;
+		padding: 32px 26px;
+		text-align: center;
+		background: var(--color-superficie);
+		border: 1px solid var(--color-borde);
+		border-radius: 18px;
+	}
+
+	.proximamente h2 {
+		margin: 0;
+		font-family: var(--tipo-titulos);
+		font-size: 20px;
+	}
+
+	.proximamente p {
+		margin: 0 0 6px;
+		color: var(--color-suave);
+		font-size: 15px;
+	}
+
+	/* Un solo paquete: centrado y con ancho de tarjeta normal */
+	@media (min-width: 640px) {
+		.paquetes {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.paquetes:has(> :global(.paquete):only-child) {
+			grid-template-columns: minmax(0, 380px);
+			justify-content: center;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.paquetes {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.paquetes:has(> :global(.paquete):only-child) {
+			grid-template-columns: minmax(0, 380px);
+		}
+	}
+</style>

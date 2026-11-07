@@ -2,17 +2,19 @@
 import sitio from '../datos/sitio.json';
 ---
 
-<section class="seccion" id="proceso">
+<section class="seccion proceso oscuro" id="proceso">
+	<span class="proceso__sol" aria-hidden="true"></span>
 	<div class="contenedor">
-		<div class="encabezado-seccion">
+		<div class="encabezado-seccion revela">
+			<span class="antetitulo">Paso a paso</span>
 			<h2>Cómo trabajo</h2>
 			<p>Cuatro pasos, sin sorpresas.</p>
 		</div>
 		<ol class="pasos">
 			{
 				sitio.pasos.map((p, i) => (
-					<li class="paso">
-						<span class="paso__numero">{i + 1}</span>
+					<li class="paso revela">
+						<span class="paso__numero">{String(i + 1).padStart(2, '0')}</span>
 						<h3>{p.titulo}</h3>
 						<p>{p.texto}</p>
 					</li>
@@ -23,35 +25,66 @@ import sitio from '../datos/sitio.json';
 </section>
 
 <style>
+	/* Cielo de la portada, ya de noche, con el sol escondiéndose abajo */
+	.proceso {
+		position: relative;
+		overflow: hidden;
+		isolation: isolate;
+		color: #fff;
+		background: linear-gradient(180deg, var(--cielo-noche) 0%, var(--cielo-medio) 55%, var(--cielo-violeta) 100%);
+	}
+
+	.proceso__sol {
+		position: absolute;
+		z-index: -1;
+		left: 50%;
+		bottom: -360px;
+		width: min(90vw, 760px);
+		aspect-ratio: 1;
+		translate: -50% 0;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgb(217 119 87 / 0.32) 0%, rgb(217 119 87 / 0.1) 30%, transparent 62%);
+	}
+
 	.pasos {
 		list-style: none;
 		padding: 0;
 		margin: 0;
 		display: grid;
-		gap: 20px;
+		gap: 14px;
 	}
 
 	.paso {
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
-		border-top: 2px solid var(--color-marca);
-		padding-top: 14px;
+		padding: 22px;
+		border-radius: 18px;
+		background: rgb(255 255 255 / 0.06);
+		border: 1px solid rgb(255 255 255 / 0.12);
+		backdrop-filter: blur(8px);
 	}
 
 	.paso__numero {
 		font-family: var(--tipo-titulos);
 		font-weight: 600;
-		color: var(--color-marca);
-		font-size: 14px;
+		font-size: 32px;
+		line-height: 1;
+		margin-bottom: 8px;
+		background: linear-gradient(180deg, var(--cielo-arena), var(--cielo-terracota));
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		font-variant-numeric: tabular-nums;
 	}
 
 	h3 {
+		color: #fff;
 		font-size: 18px;
 	}
 
 	.paso p {
-		color: var(--color-suave);
+		color: rgb(255 255 255 / 0.72);
 		font-size: 14px;
 	}
 

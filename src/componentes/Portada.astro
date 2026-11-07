@@ -4,15 +4,14 @@ import { enlaceWhatsapp } from '../lib/enlaces';
 import Icono from './Icono.astro';
 import PanelMuestra from './PanelMuestra.astro';
 
-const { portada, garantias } = sitio;
-const iconosGarantia = ['rayo', 'escudo', 'calendario'] as const;
+const { portada } = sitio;
 
-// Cerros del desierto de Tacna al atardecer, de lejos a cerca. Cada capa se mueve distinto al hacer scroll.
+// Cerros del desierto de Tacna en tonos arena, de lejos a cerca. Cada capa se mueve distinto al hacer scroll.
 const capas = [
-	{ clase: 'lejos', color: '#b8806b', d: 'M0 250 C160 190 300 225 420 185 C560 135 660 205 800 165 C940 125 1060 195 1200 155 C1300 125 1380 165 1440 145 V400 H0Z' },
-	{ clase: 'medio', color: '#7b4c45', d: 'M0 295 C120 245 260 285 380 238 C500 190 600 268 740 228 C880 188 980 258 1120 218 C1260 178 1360 248 1440 218 V400 H0Z' },
-	{ clase: 'cerca', color: '#3b2a35', d: 'M0 338 C180 288 300 328 460 298 C620 268 720 328 900 298 C1060 273 1200 328 1440 288 V400 H0Z' },
-	{ clase: 'suelo', color: '#0e1424', d: 'M0 378 C240 348 480 373 720 358 C960 343 1200 370 1440 353 V400 H0Z' },
+	{ clase: 'lejos', color: '#2b221d', d: 'M0 250 C160 190 300 225 420 185 C560 135 660 205 800 165 C940 125 1060 195 1200 155 C1300 125 1380 165 1440 145 V400 H0Z' },
+	{ clase: 'medio', color: '#241d19', d: 'M0 295 C120 245 260 285 380 238 C500 190 600 268 740 228 C880 188 980 258 1120 218 C1260 178 1360 248 1440 218 V400 H0Z' },
+	{ clase: 'cerca', color: '#1c1815', d: 'M0 338 C180 288 300 328 460 298 C620 268 720 328 900 298 C1060 273 1200 328 1440 288 V400 H0Z' },
+	{ clase: 'suelo', color: '#161311', d: 'M0 378 C240 348 480 373 720 358 C960 343 1200 370 1440 353 V400 H0Z' },
 ];
 ---
 
@@ -30,11 +29,13 @@ const capas = [
 
 	<div class="contenedor portada__texto">
 		<span class="portada__antetitulo entra" style="--i:0">{portada.antetitulo}</span>
-		<h1 class="entra" style="--i:1">{portada.titulo}</h1>
+		<h1 class="entra" style="--i:1">
+			{portada.titulo.inicio} <em>{portada.titulo.cursiva}</em> {portada.titulo.fin}
+		</h1>
 		<p class="portada__subtitulo entra" style="--i:2">{portada.subtitulo}</p>
 		<div class="portada__acciones entra" style="--i:3">
-			<a class="portada__boton portada__boton--claro" href="#paquetes">
-				Ver paquetes
+			<a class="portada__boton portada__boton--claro" href="#soluciones">
+				Ver soluciones
 				<Icono nombre="flecha" />
 			</a>
 			{
@@ -51,16 +52,6 @@ const capas = [
 				)
 			}
 		</div>
-		<ul class="portada__garantias entra" style="--i:4">
-			{
-				garantias.map((g, i) => (
-					<li>
-						<Icono nombre={iconosGarantia[i % iconosGarantia.length]} tamano={16} />
-						{g}
-					</li>
-				))
-			}
-		</ul>
 	</div>
 
 	<div class="contenedor portada__escena">
@@ -77,10 +68,10 @@ const capas = [
 		position: relative;
 		overflow: hidden;
 		isolation: isolate;
-		margin-top: -64px;
+		margin-top: calc(var(--alto-cabecera) * -1);
 		padding-top: 128px;
-		background: #0f1730;
-		color: #fff;
+		background: var(--color-fondo);
+		color: var(--color-texto);
 		text-align: center;
 	}
 
@@ -89,7 +80,7 @@ const capas = [
 		position: absolute;
 		inset: 0;
 		z-index: -1;
-		background: linear-gradient(180deg, #0f1730 0%, #1f2a52 30%, #6b4a63 55%, #d48b62 74%, #f1c08a 86%);
+		background: linear-gradient(180deg, #141413 0%, #141413 45%, #1a1511 80%, #211a14 100%);
 		transform-origin: 50% 80%;
 	}
 
@@ -101,7 +92,7 @@ const capas = [
 		aspect-ratio: 1;
 		translate: -50% -50%;
 		border-radius: 50%;
-		background: radial-gradient(circle, rgb(255 222 170 / 0.9) 0%, rgb(255 190 130 / 0.35) 22%, transparent 60%);
+		background: radial-gradient(circle, rgb(217 119 87 / 0.22) 0%, rgb(217 119 87 / 0.08) 32%, transparent 62%);
 	}
 
 	.capa {
@@ -126,22 +117,32 @@ const capas = [
 		letter-spacing: 0.04em;
 		padding: 5px 14px;
 		border-radius: 999px;
-		background: rgb(255 255 255 / 0.08);
-		border: 1px solid rgb(255 255 255 / 0.18);
-		backdrop-filter: blur(6px);
+		color: var(--color-marca-texto);
+		background: rgb(255 255 255 / 0.05);
+		border: 1px solid var(--color-borde);
 	}
 
 	h1 {
-		color: #fff;
+		color: var(--color-texto);
 		font-size: 38px;
 		line-height: 1.08;
 		letter-spacing: -0.02em;
-		max-width: 24ch;
+		max-width: 20ch;
 		text-wrap: balance;
 	}
 
+	/* Palabras destacadas en cursiva serif, como en la referencia */
+	h1 em {
+		font-family: var(--tipo-cursiva);
+		font-style: italic;
+		font-weight: 400;
+		font-size: 1.14em;
+		letter-spacing: 0;
+		color: var(--color-marca);
+	}
+
 	.portada__subtitulo {
-		color: rgb(255 255 255 / 0.78);
+		color: var(--color-suave);
 		font-size: 17px;
 		max-width: 46ch;
 	}
@@ -159,52 +160,33 @@ const capas = [
 		align-items: center;
 		gap: 8px;
 		min-height: 46px;
-		padding: 10px 20px;
-		border-radius: 12px;
+		padding: 10px 22px;
+		border-radius: 999px;
 		font-weight: 600;
 		font-size: 15px;
 		text-decoration: none;
-		color: #fff;
-		background: rgb(255 255 255 / 0.1);
-		border: 1px solid rgb(255 255 255 / 0.25);
-		backdrop-filter: blur(6px);
+		color: var(--color-texto);
+		background: rgb(255 255 255 / 0.06);
+		border: 1px solid #3d3a34;
 		transition: background-color 0.2s ease, transform 0.15s ease;
 	}
 
 	.portada__boton:hover {
-		background: rgb(255 255 255 / 0.18);
+		background: rgb(255 255 255 / 0.12);
 	}
 
 	.portada__boton--claro {
-		background: #fff8ef;
-		color: var(--color-oscuro);
+		background: var(--color-marca);
+		color: #141413;
 		border-color: transparent;
 	}
 
 	.portada__boton--claro:hover {
-		background: #fff;
+		background: #e5895f;
 	}
 
 	.portada__boton:active {
 		transform: scale(0.98);
-	}
-
-	.portada__garantias {
-		list-style: none;
-		padding: 0;
-		margin: 2px 0 0;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 8px 20px;
-		font-size: 14px;
-		color: rgb(255 255 255 / 0.72);
-	}
-
-	.portada__garantias li {
-		display: flex;
-		align-items: center;
-		gap: 6px;
 	}
 
 	/* El panel asoma desde abajo y queda cortado por el borde de la portada */
