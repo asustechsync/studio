@@ -82,5 +82,18 @@
       "p": "¿Cómo empiezo?",
       "r": "Escríbenos por WhatsApp. Conversamos sin compromiso y te decimos qué paquete te conviene."
     }
-  ]
+  ],
+  "sobreMi": {
+    "nombre": "",
+    "cargo": "Desarrollador web en Tacna",
+    "foto": "",
+    "texto": ""
+  },
+  "testimonios": [],
+  "pie": {
+    "horario": "Lunes a sábado, 9:00 a 19:00",
+    "instagram": "",
+    "facebook": "",
+    "tiktok": ""
+  }
 }

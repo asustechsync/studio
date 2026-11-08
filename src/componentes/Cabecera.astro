@@ -6,11 +6,12 @@ import Icono from './Icono.astro';
 
 const hayProyectos = (await getCollection('proyectos', ({ data }) => data.publicado)).length > 0;
 
+const ruta = Astro.url.pathname.replace(/\/$/, '');
+const enSoluciones = ruta.startsWith('/soluciones');
 const enlaces = [
-	...(hayProyectos ? [{ texto: 'Portafolio', href: '/#portafolio' }] : []),
-	{ texto: 'Soluciones', href: '/#soluciones' },
-	{ texto: 'Cómo trabajo', href: '/#proceso' },
-	{ texto: 'Preguntas', href: '/#preguntas' },
+	{ texto: 'Soluciones', href: '/soluciones' },
+	...(hayProyectos ? [{ texto: 'Portafolio', href: '/portafolio' }] : []),
+	{ texto: 'Contacto', href: '/contacto' },
 ];
 ---
 
@@ -21,12 +22,18 @@ const enlaces = [
 			{sitio.marca}
 		</a>
 		<nav class="cabecera__menu" aria-label="Principal">
-			{enlaces.map((e) => <a href={e.href}>{e.texto}</a>)}
+			{enlaces.map((e) => <a href={e.href} aria-current={(e.href === '/soluciones' ? enSoluciones : ruta === e.href) ? 'page' : undefined}>{e.texto}</a>)}
 		</nav>
 		<a class="boton boton--whatsapp cabecera__boton" href={enlaceWhatsapp()} target="_blank" rel="noopener">
 			<Icono nombre="whatsapp" />
 			<span>WhatsApp</span>
 		</a>
+		<details class="movil">
+			<summary aria-label="Menú"><span></span></summary>
+			<div class="movil__panel">
+				{enlaces.map((e) => <a href={e.href}>{e.texto}</a>)}
+			</div>
+		</details>
 	</div>
 </header>
 
@@ -64,7 +71,7 @@ const enlaces = [
 	/* Tres columnas: marca a la izquierda, menú realmente centrado, botón a la derecha */
 	.cabecera__fila {
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: 1fr auto auto;
 		align-items: center;
 		gap: 16px;
 		height: 100%;
@@ -127,6 +134,87 @@ const enlaces = [
 
 		.cabecera__menu a:hover {
 			color: var(--color-texto);
+		}
+	}
+
+	.cabecera__menu a[aria-current='page'] {
+		color: var(--color-marca-texto);
+	}
+
+	/* Menú de celular: tres rayas que abren una lista */
+	.movil {
+		position: static;
+	}
+
+	.movil summary {
+		list-style: none;
+		display: grid;
+		place-items: center;
+		width: 40px;
+		height: 40px;
+		cursor: pointer;
+		border: 1px solid rgb(255 255 255 / 0.14);
+		border-radius: 10px;
+	}
+
+	.movil summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.movil summary span,
+	.movil summary span::before {
+		display: block;
+		width: 18px;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--color-texto);
+	}
+
+	.movil summary span {
+		position: relative;
+	}
+
+	.movil summary span::before {
+		content: '';
+		position: absolute;
+		top: 6px;
+	}
+
+	.movil summary span::after {
+		content: '';
+		position: absolute;
+		top: -6px;
+		width: 18px;
+		height: 2px;
+		border-radius: 2px;
+		background: var(--color-texto);
+	}
+
+	.movil__panel {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%;
+		display: flex;
+		flex-direction: column;
+		padding: 12px 16px 16px;
+		background: #141413;
+		border-bottom: 1px solid #3d3a34;
+	}
+
+	.movil__panel a {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		padding: 12px 0;
+		border-bottom: 1px solid rgb(255 255 255 / 0.07);
+		text-decoration: none;
+		color: var(--color-texto);
+	}
+
+	@media (min-width: 768px) {
+		.movil {
+			display: none;
 		}
 	}
 </style>

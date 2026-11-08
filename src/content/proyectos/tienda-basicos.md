@@ -6,6 +6,7 @@ tecnologias:
   - Panel
   - WhatsApp
 enlace: ""
+solucion: tienda-online
 orden: 1
 publicado: true
 ---

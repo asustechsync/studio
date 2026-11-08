@@ -12,7 +12,7 @@ const tarjetas = soluciones.map((solucion) => {
 		.sort((a, b) => a.data.orden - b.data.orden);
 	return {
 		...solucion,
-		nombres: paquetes.map(({ data }) => data.nombre.replace(/^Web (\w)/, (_, c) => c.toUpperCase())),
+		nombres: solucion.etiquetas ?? paquetes.map(({ data }) => data.nombre.replace(/^Web (\w)/, (_, c) => c.toUpperCase())),
 		disponible: paquetes.length > 0,
 		masPedido: paquetes.some(({ data }) => data.destacado),
 	};
@@ -34,51 +34,82 @@ const tarjetas = soluciones.map((solucion) => {
 						<div class="arte" aria-hidden="true">
 							{s.icono === 'mundo' && (
 								<>
-									<div class="ventana">
-										<div class="ventana__puntos">
+									<div class="mw">
+										<span class="puntos">
 											<i />
 											<i />
 											<i />
-										</div>
-										<div class="linea linea--titulo" />
-										<div class="linea" style="width:92%" />
-										<div class="linea" style="width:60%" />
-										<span class="ventana__boton">Cotizar</span>
+										</span>
+										<span class="mw__estrellas">★ 4.9</span>
+										<span class="mw__linea mw__linea--a" />
+										<span class="mw__linea mw__linea--b" />
+										<span class="mw__anillo" />
+										<span class="mw__boton">Cotizar</span>
 									</div>
-									<span class="flota">★ 4.9 · Abierto ahora</span>
+									<span class="mw__mensaje">
+										<Icono nombre="whatsapp" tamano={14} />
+										<span class="escribe">
+											<i />
+											<i />
+											<i />
+										</span>
+									</span>
 								</>
 							)}
-							{s.icono === 'whatsapp' && (
-								<div class="chat">
-									<div class="burbuja burbuja--entra">Hola, ¿tienen polos básicos?</div>
-									<div class="burbuja burbuja--sale">Sí, mira el catálogo</div>
-									<div class="producto">
-										<div class="producto__foto" />
-										<div>
-											<b>Polo básico</b>
-											<span>S/ 39 · Pedir</span>
-										</div>
+							{s.icono === 'rediseno' && (
+								<>
+									<div class="rw rw--vieja">
+										<span class="puntos">
+											<i />
+											<i />
+											<i />
+										</span>
+										<span class="rw__ruido" style="top:22px" />
+										<span class="rw__ruido" style="top:32px;width:50%" />
+										<span class="rw__ruido" style="bottom:14px;width:70%" />
 									</div>
-								</div>
+									<div class="rw rw--nueva">
+										<span class="puntos">
+											<i />
+											<i />
+											<i />
+										</span>
+										<span class="rw__menu" />
+									</div>
+									<span class="rw__brillo" />
+									<span class="rw__listo">✓</span>
+									<span class="rw__flecha">
+										<Icono nombre="flecha" tamano={14} />
+									</span>
+									<div class="rw__bloque">
+										<b />
+										<i />
+										<i />
+									</div>
+								</>
 							)}
 							{s.icono === 'carrito' && (
 								<>
-									<div class="pedido">
-										Pedido #1042
-										<b>S/ 149</b>
-										<span class="pedido__estado">
-											<span class="estado estado--espera">Pendiente</span>
-											<span class="estado estado--pago">✓ Pagado</span>
+									<div class="tw">
+										<span class="tw__foto" />
+										<span class="tw__linea" />
+										<span class="tw__precio" />
+									</div>
+									<span class="tw__toque" />
+									<span class="tw__punto" />
+									<span class="tw__carrito">
+										<Icono nombre="carrito" tamano={30} />
+										<em>1</em>
+									</span>
+									<span class="tw__venta">
+										<span class="tw__barras">
+											<i style="height:7px" />
+											<i style="height:11px" />
+											<i style="height:9px" />
+											<i style="height:18px" />
 										</span>
-									</div>
-									<div class="barras">
-										<i style="--h:40%" />
-										<i style="--h:62%;animation-delay:0.15s" />
-										<i style="--h:50%;animation-delay:0.3s" />
-										<i style="--h:90%;animation-delay:0.45s" />
-									</div>
-									<span class="barras__texto">Ventas</span>
-									<span class="flota flota--izq">+1 pedido</span>
+										+1 venta
+									</span>
 								</>
 							)}
 							<span class="solucion__categoria">{s.categoria}</span>
@@ -159,285 +190,489 @@ const tarjetas = soluciones.map((solucion) => {
 		color: var(--color-texto);
 	}
 
-	.ventana {
-		position: absolute;
-		left: 50%;
-		top: 56px;
-		translate: -50% 0;
-		width: min(76%, 280px);
-		padding: 14px;
-		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-		border-radius: 10px;
+	/* Partes comunes de las mini pantallas */
+	.arte:has(.rw),
+	.arte:has(.tw) {
+		container-type: inline-size;
 	}
 
-	.ventana__puntos {
+	.puntos {
+		position: absolute;
+		left: 10px;
+		top: 9px;
 		display: flex;
 		gap: 4px;
-		margin-bottom: 10px;
 	}
 
-	.ventana__puntos i {
-		width: 7px;
-		height: 7px;
+	.puntos i {
+		width: 6px;
+		height: 6px;
 		border-radius: 50%;
 		background: var(--color-borde);
 	}
 
-	.linea {
-		height: 9px;
-		margin-top: 9px;
-		border-radius: 4px;
-		background: var(--color-borde);
+	.mw,
+	.rw,
+	.tw {
+		position: absolute;
+		background: var(--color-superficie);
+		border: 1px solid var(--color-borde);
+		border-radius: 12px;
 	}
 
-	.linea--titulo {
-		width: 70%;
-		margin-top: 0;
+	/* Web para tu negocio: la web se arma y llega un mensaje */
+	.mw {
+		left: 50%;
+		top: 62px;
+		width: min(64%, 260px);
+		height: 132px;
+		transform: translateX(-50%);
+		animation: flota 5s ease-in-out infinite;
+	}
+
+	.mw__estrellas {
+		position: absolute;
+		right: 12px;
+		top: 30px;
+		font-size: 12px;
+		color: var(--color-marca-texto);
+		opacity: 0;
+		animation: aparece 7s ease infinite 0.6s;
+	}
+
+	.mw__linea {
+		position: absolute;
+		left: 16px;
+		height: 8px;
+		border-radius: 4px;
+		transform-origin: left;
+		animation: dibuja 7s ease infinite;
+	}
+
+	.mw__linea--a {
+		top: 34px;
+		width: 56%;
 		background: var(--color-texto);
 		opacity: 0.85;
 	}
 
-	.ventana__boton {
-		display: inline-block;
-		margin-top: 14px;
-		font-size: 13px;
+	.mw__linea--b {
+		top: 52px;
+		width: 40%;
+		background: var(--color-borde);
+		animation-delay: 0.2s;
+	}
+
+	.mw__boton,
+	.mw__anillo {
+		position: absolute;
+		left: 16px;
+		top: 80px;
+		border-radius: 7px;
+	}
+
+	.mw__boton {
 		padding: 5px 14px;
-		border-radius: 6px;
+		font-size: 13px;
 		font-weight: 600;
 		color: var(--color-fondo);
 		background: var(--color-marca);
-		animation: pulso 2s infinite;
-	}
-
-	.flota {
-		position: absolute;
-		right: 14px;
-		bottom: 14px;
-		font-size: 12px;
-		padding: 3px 10px;
-		border-radius: 999px;
-		color: var(--color-marca-texto);
-		background: var(--color-fondo);
-		border: 1px solid var(--color-marca);
-		animation: flota 3.5s ease-in-out infinite;
-	}
-
-	.flota--izq {
-		left: 22px;
-		right: auto;
-	}
-
-	.chat {
-		position: absolute;
-		inset: 0;
-		padding: 58px 22px 0;
-	}
-
-	.burbuja {
-		width: fit-content;
-		max-width: 80%;
-		margin-bottom: 9px;
-		font-size: 13px;
-		padding: 9px 14px;
-		border-radius: 12px;
-		line-height: 1.35;
 		opacity: 0;
+		animation: boton 7s ease infinite;
 	}
 
-	.burbuja--entra {
-		background: var(--color-borde);
-		border-bottom-left-radius: 3px;
-		animation: msg1 7s infinite;
+	.mw__anillo {
+		width: 78px;
+		height: 29px;
+		border: 2px solid var(--color-marca);
+		opacity: 0;
+		animation: anillo 7s ease-out infinite;
 	}
 
-	.burbuja--sale {
-		margin-left: auto;
-		background: var(--color-marca-suave);
-		border: 1px solid rgb(217 119 87 / 0.35);
-		border-bottom-right-radius: 3px;
-		animation: msg2 7s infinite;
-	}
-
-	.producto {
+	.mw__mensaje {
+		position: absolute;
+		right: 12%;
+		bottom: 24px;
 		display: flex;
 		align-items: center;
-		gap: 11px;
-		width: fit-content;
-		font-size: 13px;
-		padding: 9px 12px;
+		gap: 7px;
+		padding: 6px 11px;
+		color: var(--color-exito);
 		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-		border-radius: 10px;
+		border: 1px solid rgb(94 194 143 / 0.5);
+		border-radius: 14px 14px 4px 14px;
 		opacity: 0;
-		animation: msg3 7s infinite;
+		animation: aparece 7s ease infinite 2.6s;
 	}
 
-	.producto b {
-		display: block;
-		font-weight: 600;
+	.escribe {
+		display: flex;
+		gap: 3px;
 	}
 
-	.producto span {
-		color: var(--color-marca-texto);
+	.escribe i {
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: var(--color-exito);
+		animation: escribe 1s ease-in-out infinite;
 	}
 
-	.producto__foto {
-		flex: none;
-		width: 38px;
-		height: 38px;
+	.escribe i:nth-child(2) { animation-delay: 0.15s; }
+	.escribe i:nth-child(3) { animation-delay: 0.3s; }
+
+	/* Rediseño: el contenido salta de la web vieja a la nueva */
+	.rw {
+		top: 66px;
+		width: 34%;
+		height: 132px;
+	}
+
+	.rw--vieja {
+		left: 10%;
+		animation: apaga 7s ease infinite;
+	}
+
+	.rw--nueva {
+		right: 10%;
+	}
+
+	.rw__ruido {
+		position: absolute;
+		left: 10px;
+		right: 10px;
+		height: 5px;
+		border-radius: 3px;
+		background: var(--color-borde);
+	}
+
+	.rw__menu {
+		position: absolute;
+		right: 10px;
+		top: 10px;
+		width: 40%;
+		height: 5px;
+		border-radius: 3px;
+		background: var(--color-borde);
+		transform-origin: right;
+		animation: dibuja 7s ease infinite 2.4s;
+	}
+
+	.rw__brillo {
+		position: absolute;
+		right: 10%;
+		top: 66px;
+		width: 34%;
+		height: 132px;
+		border-radius: 12px;
+		animation: brillo 7s ease infinite;
+	}
+
+	.rw__listo {
+		position: absolute;
+		right: calc(10% - 9px);
+		top: 57px;
+		z-index: 2;
+		display: grid;
+		place-items: center;
+		width: 20px;
+		height: 20px;
+		font-size: 12px;
+		font-weight: 700;
+		color: var(--color-fondo);
+		background: var(--color-exito);
+		border-radius: 50%;
+		transform: scale(0);
+		animation: marca 7s ease infinite;
+	}
+
+	.rw__flecha {
+		position: absolute;
+		left: 50%;
+		top: 124px;
+		margin-left: -7px;
+		color: var(--color-suave);
+		animation: empuja 1.8s ease-in-out infinite;
+	}
+
+	.rw__bloque {
+		position: absolute;
+		top: 102px;
+		left: calc(10cqw + 12px);
+		width: calc(34cqw - 24px);
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		animation: salta 7s cubic-bezier(0.6, 0, 0.3, 1) infinite;
+	}
+
+	.rw__bloque b {
+		height: 28px;
 		border-radius: 7px;
+		background: var(--color-marca);
+	}
+
+	.rw__bloque i {
+		height: 6px;
+		border-radius: 3px;
+		background: var(--color-texto);
+		opacity: 0.7;
+	}
+
+	.rw__bloque i:last-child {
+		width: 60%;
+		background: var(--color-borde);
+		opacity: 1;
+	}
+
+	/* Tienda: un producto va al carrito y suma una venta */
+	.tw {
+		left: 14%;
+		top: 62px;
+		width: 34%;
+		height: 134px;
+		animation: flota 5s ease-in-out infinite;
+	}
+
+	.tw__foto {
+		position: absolute;
+		left: 10px;
+		right: 10px;
+		top: 10px;
+		height: 66px;
+		border-radius: 8px;
 		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
 	}
 
-	.pedido {
+	.tw__linea,
+	.tw__precio {
 		position: absolute;
-		left: 22px;
-		top: 58px;
-		width: 150px;
-		padding: 12px;
-		color: var(--color-suave);
-		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-		border-radius: 10px;
+		left: 10px;
+		height: 6px;
+		border-radius: 3px;
 	}
 
-	.pedido b {
-		display: block;
-		margin: 2px 0 8px;
-		font-family: var(--tipo-titulos);
-		font-size: 24px;
-		font-weight: 600;
-		color: var(--color-texto);
-	}
-
-	.pedido__estado {
-		position: relative;
-		display: block;
-		height: 20px;
-	}
-
-	.estado {
-		position: absolute;
-		left: 0;
-		padding: 1px 8px;
-		border-radius: 999px;
-	}
-
-	.estado--espera {
+	.tw__linea {
+		top: 88px;
+		width: 55%;
 		background: var(--color-borde);
-		animation: estado-a 5s infinite;
 	}
 
-	.estado--pago {
-		color: var(--color-exito);
-		background: rgb(94 194 143 / 0.15);
-		animation: estado-b 5s infinite;
+	.tw__precio {
+		top: 102px;
+		width: 30%;
+		background: var(--color-marca);
 	}
 
-	.barras {
+	.tw__toque,
+	.tw__punto {
 		position: absolute;
-		right: 26px;
-		top: 62px;
+		z-index: 1;
+		border-radius: 50%;
+	}
+
+	.tw__toque {
+		left: calc(31cqw - 14px);
+		top: 150px;
+		width: 28px;
+		height: 28px;
+		border: 2px solid var(--color-marca);
+		opacity: 0;
+		animation: toque 7s ease-out infinite;
+	}
+
+	.tw__punto {
+		left: calc(31cqw - 7px);
+		top: 157px;
+		width: 14px;
+		height: 14px;
+		background: var(--color-marca);
+		opacity: 0;
+		animation: vuela 7s cubic-bezier(0.5, 0, 0.3, 1) infinite;
+	}
+
+	.tw__carrito {
+		position: absolute;
+		right: 16%;
+		top: 84px;
+		color: var(--color-texto);
+		animation: sacude 7s ease infinite;
+	}
+
+	.tw__carrito em {
+		position: absolute;
+		right: -7px;
+		top: -4px;
+		display: grid;
+		place-items: center;
+		width: 17px;
+		height: 17px;
+		font-size: 10px;
+		font-style: normal;
+		font-weight: 700;
+		color: var(--color-fondo);
+		background: var(--color-marca);
+		border-radius: 50%;
+		transform: scale(0);
+		animation: marca 7s ease infinite;
+	}
+
+	.tw__venta {
+		position: absolute;
+		right: calc(16% - 18px);
+		top: 132px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 5px;
+		font-size: 12px;
+		color: var(--color-exito);
+		opacity: 0;
+		animation: aparece 7s ease infinite 3.4s;
+	}
+
+	.tw__barras {
 		display: flex;
 		align-items: flex-end;
-		gap: 9px;
-		width: 112px;
-		height: 112px;
-		border-bottom: 1px solid var(--color-borde);
+		gap: 3px;
+		height: 18px;
 	}
 
-	.barras i {
-		flex: 1;
-		height: var(--h);
-		border-radius: 3px 3px 0 0;
-		background: var(--color-marca);
-		transform-origin: bottom;
-		animation: crece 5s ease-in-out infinite;
+	.tw__barras i {
+		width: 6px;
+		border-radius: 1px;
+		background: var(--color-borde);
 	}
 
-	.barras__texto {
-		position: absolute;
-		right: 26px;
-		top: 182px;
-		width: 112px;
-		text-align: center;
-		color: var(--color-suave);
-	}
-
-	.solucion__insignia {
-		z-index: 1;
-	}
-
-	@keyframes pulso {
-		0%, 100% { box-shadow: 0 0 0 0 rgb(217 119 87 / 0.5); }
-		50% { box-shadow: 0 0 0 7px rgb(217 119 87 / 0); }
+	.tw__barras i:last-child {
+		background: var(--color-exito);
 	}
 
 	@keyframes flota {
-		0%, 100% { transform: translateY(0); }
-		50% { transform: translateY(-6px); }
+		0%, 100% { translate: 0 0; }
+		50% { translate: 0 -5px; }
 	}
 
-	@keyframes msg1 {
-		0% { opacity: 0; transform: translateY(8px); }
-		6%, 90% { opacity: 1; transform: none; }
-		97%, 100% { opacity: 0; }
+	@keyframes dibuja {
+		0%, 5% { transform: scaleX(0); }
+		20%, 90% { transform: scaleX(1); }
+		100% { transform: scaleX(0); }
 	}
 
-	@keyframes msg2 {
-		0%, 14% { opacity: 0; transform: translateY(8px); }
-		20%, 90% { opacity: 1; transform: none; }
-		97%, 100% { opacity: 0; }
-	}
-
-	@keyframes msg3 {
-		0%, 30% { opacity: 0; transform: translateY(8px); }
-		36%, 90% { opacity: 1; transform: none; }
-		97%, 100% { opacity: 0; }
-	}
-
-	@keyframes estado-a {
-		0%, 35% { opacity: 1; }
-		45%, 90% { opacity: 0; }
-		100% { opacity: 1; }
-	}
-
-	@keyframes estado-b {
-		0%, 35% { opacity: 0; }
-		45%, 90% { opacity: 1; }
+	@keyframes boton {
+		0%, 22% { opacity: 0; transform: scale(0.8); }
+		30%, 90% { opacity: 1; transform: none; }
 		100% { opacity: 0; }
 	}
 
-	@keyframes crece {
-		0%, 8% { transform: scaleY(0.15); }
-		45%, 85% { transform: scaleY(1); }
-		100% { transform: scaleY(0.15); }
+	@keyframes anillo {
+		0%, 32% { opacity: 0; transform: scale(1); }
+		34% { opacity: 0.7; }
+		48%, 100% { opacity: 0; transform: scale(1.4); }
+	}
+
+	@keyframes aparece {
+		0%, 10% { opacity: 0; transform: translateY(8px) scale(0.95); }
+		18%, 58% { opacity: 1; transform: none; }
+		66%, 100% { opacity: 0; }
+	}
+
+	@keyframes escribe {
+		0%, 100% { opacity: 0.3; transform: none; }
+		50% { opacity: 1; transform: translateY(-2px); }
+	}
+
+	@keyframes apaga {
+		0%, 22% { opacity: 1; filter: none; }
+		50%, 90% { opacity: 0.4; filter: grayscale(1); }
+		100% { opacity: 1; filter: none; }
+	}
+
+	@keyframes salta {
+		0%, 18% { transform: none; opacity: 1; }
+		33% { transform: translate(23cqw, -26px) rotate(-3deg); }
+		46% { transform: translate(46cqw, 0) scale(1.04); }
+		50%, 90% { transform: translate(46cqw, 0); opacity: 1; }
+		95%, 99.9% { transform: translate(46cqw, 0); opacity: 0; }
+		100% { transform: none; opacity: 1; }
+	}
+
+	@keyframes brillo {
+		0%, 46% { box-shadow: 0 0 0 0 rgb(217 119 87 / 0); }
+		48% { box-shadow: 0 0 0 0 rgb(217 119 87 / 0.5); }
+		62%, 100% { box-shadow: 0 0 0 12px rgb(217 119 87 / 0); }
+	}
+
+	@keyframes marca {
+		0%, 48% { transform: scale(0); }
+		53% { transform: scale(1.25); }
+		57%, 90% { transform: scale(1); }
+		96%, 100% { transform: scale(0); }
+	}
+
+	@keyframes empuja {
+		0%, 100% { translate: -2px 0; opacity: 0.5; }
+		50% { translate: 3px 0; opacity: 1; }
+	}
+
+	@keyframes toque {
+		0%, 14% { opacity: 0; transform: scale(0.4); }
+		16% { opacity: 0.8; }
+		26%, 100% { opacity: 0; transform: scale(1.6); }
+	}
+
+	@keyframes vuela {
+		0%, 18% { transform: none; opacity: 0; }
+		20% { transform: none; opacity: 1; }
+		32% { transform: translate(25cqw, -90px); }
+		44% { transform: translate(calc(50cqw - 15px), -62px) scale(0.6); opacity: 1; }
+		47%, 100% { transform: translate(calc(50cqw - 15px), -62px) scale(0); opacity: 0; }
+	}
+
+	@keyframes sacude {
+		0%, 44% { transform: none; }
+		48% { transform: translateY(-4px) rotate(-8deg); }
+		53%, 100% { transform: none; }
 	}
 
 	/* Sin movimiento: se muestra el estado final, quieto */
 	@media (prefers-reduced-motion: reduce) {
-		.ventana__boton,
-		.flota,
-		.burbuja,
-		.producto,
-		.estado,
-		.barras i {
-			animation: none;
+		.arte * {
+			animation: none !important;
 		}
 
-		.burbuja,
-		.producto {
+		.mw__estrellas,
+		.mw__boton,
+		.mw__mensaje,
+		.tw__venta {
 			opacity: 1;
 		}
 
-		.estado--espera {
-			opacity: 0;
+		.rw--vieja {
+			opacity: 0.4;
+			filter: grayscale(1);
+		}
+
+		.rw__bloque {
+			transform: translate(46cqw, 0);
+		}
+
+		.rw__listo,
+		.tw__carrito em {
+			transform: none;
+		}
+
+		.mw__anillo,
+		.tw__toque,
+		.tw__punto {
+			display: none;
 		}
 	}
 
 	.solucion__insignia {
 		position: absolute;
+		z-index: 1;
 		top: 12px;
 		right: 12px;
 		font-size: 12px;

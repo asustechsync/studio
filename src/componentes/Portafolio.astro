@@ -2,7 +2,17 @@
 import { getCollection } from 'astro:content';
 import Icono from './Icono.astro';
 
-const proyectos = (await getCollection('proyectos', ({ data }) => data.publicado)).sort(
+interface Props {
+	/** Slug de una solución: muestra solo sus proyectos. */
+	solucion?: string;
+	titulo?: string;
+	texto?: string;
+}
+
+const { solucion, titulo = 'Portafolio', texto = 'Ejemplos de lo que podemos construir para tu negocio.' } = Astro.props;
+const proyectos = (
+	await getCollection('proyectos', ({ data }) => data.publicado && (!solucion || data.solucion === solucion))
+).sort(
 	(a, b) => a.data.orden - b.data.orden,
 );
 // Fondos de reserva con los tonos del atardecer de la portada
@@ -20,8 +30,8 @@ const tonos = [
 	<div class="contenedor">
 		<div class="encabezado-seccion revela">
 			<span class="antetitulo">Ejemplos</span>
-			<h2>Portafolio</h2>
-			<p>Ejemplos de lo que podemos construir para tu negocio.</p>
+			<h2 set:html={titulo} />
+			<p>{texto}</p>
 		</div>
 
 		<div class="proyectos">

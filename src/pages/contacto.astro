@@ -1,0 +1,63 @@
+---
+import Interna from '../layouts/Interna.astro';
+import Icono from '../componentes/Icono.astro';
+import sitio from '../datos/sitio.json';
+import { enlaceWhatsapp } from '../lib/enlaces';
+
+const { pie } = sitio;
+const redes = [
+	{ texto: 'Instagram', href: pie.instagram },
+	{ texto: 'Facebook', href: pie.facebook },
+	{ texto: 'TikTok', href: pie.tiktok },
+].filter((r) => r.href);
+---
+
+<Interna titulo="Contacto" descripcion={`Escríbenos por WhatsApp. ${sitio.ciudad}.`}>
+	<section class="seccion">
+		<div class="contenedor contacto">
+			<div class="encabezado-seccion revela">
+				<span class="antetitulo">{sitio.ciudad}</span>
+				<h1>Contacto</h1>
+				<p>Escríbenos y te decimos qué te conviene, sin compromiso.</p>
+			</div>
+			<a class="boton boton--whatsapp" href={enlaceWhatsapp()} target="_blank" rel="noopener">
+				<Icono nombre="whatsapp" />
+				Escribir por WhatsApp
+			</a>
+			<ul class="datos">
+				<li><span>Correo</span><a href={`mailto:${sitio.correo}`}>{sitio.correo}</a></li>
+				{pie.horario && <li><span>Horario</span>{pie.horario}</li>}
+				{redes.map((r) => <li><span>{r.texto}</span><a href={r.href} target="_blank" rel="noopener">{r.texto}</a></li>)}
+			</ul>
+		</div>
+	</section>
+</Interna>
+
+<style>
+	.contacto {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 24px;
+		text-align: center;
+	}
+
+	.datos {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 10px;
+		font-size: 16px;
+	}
+
+	.datos span {
+		display: block;
+		font-size: 13px;
+		color: var(--color-suave);
+	}
+
+	.datos a {
+		color: var(--color-marca-texto);
+	}
+</style>

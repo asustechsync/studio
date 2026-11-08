@@ -111,6 +111,15 @@ a {
 	max-width: 22ch;
 }
 
+.encabezado-seccion :is(h1, h2) em {
+	font-family: var(--tipo-cursiva);
+	font-style: italic;
+	font-weight: 400;
+	font-size: 1.14em;
+	letter-spacing: 0;
+	color: var(--color-marca);
+}
+
 .encabezado-seccion p {
 	color: var(--color-suave);
 	font-size: 17px;

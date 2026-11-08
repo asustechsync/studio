@@ -1,0 +1,85 @@
+---
+import sitio from '../datos/sitio.json';
+
+const { sobreMi } = sitio;
+const iniciales = sobreMi.nombre
+	.split(' ')
+	.slice(0, 2)
+	.map((p) => p.slice(0, 1))
+	.join('');
+---
+
+{/* Sin nombre y texto en sitio.json, la sección se oculta: no mostramos una persona inventada */}
+{sobreMi.nombre && sobreMi.texto && (
+<section class="seccion sobre" id="sobre-mi">
+	<div class="contenedor sobre__fila revela">
+		{
+			sobreMi.foto ? (
+				<img class="sobre__foto" src={sobreMi.foto} alt={sobreMi.nombre} width="160" height="160" loading="lazy" />
+			) : (
+				<span class="sobre__foto sobre__foto--iniciales" aria-hidden="true">{iniciales}</span>
+			)
+		}
+		<div class="sobre__texto">
+			<span class="antetitulo">Quién está detrás</span>
+			<h2>{sobreMi.nombre}</h2>
+			<p class="sobre__cargo">{sobreMi.cargo}</p>
+			<p>{sobreMi.texto}</p>
+		</div>
+	</div>
+</section>
+)}
+
+<style>
+	.sobre__fila {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 24px;
+		text-align: center;
+		max-width: 760px;
+	}
+
+	.sobre__foto {
+		flex: none;
+		width: 140px;
+		height: 140px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 1px solid var(--color-borde);
+	}
+
+	.sobre__foto--iniciales {
+		display: grid;
+		place-items: center;
+		font-family: var(--tipo-titulos);
+		font-size: 44px;
+		color: var(--color-marca-texto);
+		background: var(--color-marca-suave);
+	}
+
+	.sobre__texto {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	.sobre__cargo {
+		color: var(--color-marca-texto);
+		font-weight: 600;
+		font-size: 14px;
+	}
+
+	.sobre__texto p:last-child {
+		color: var(--color-suave);
+		font-size: 17px;
+	}
+
+	@media (min-width: 720px) {
+		.sobre__fila {
+			flex-direction: row;
+			text-align: left;
+			gap: 40px;
+		}
+	}
+</style>

@@ -6,6 +6,7 @@ tecnologias:
   - Dominio .pe
   - Correo
 enlace: ""
+solucion: web-para-tu-negocio
 orden: 3
 publicado: true
 ---

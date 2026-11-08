@@ -4,6 +4,13 @@ import { enlaceWhatsapp } from '../lib/enlaces';
 import Icono from './Icono.astro';
 
 const { llamado } = sitio;
+const { pie } = sitio;
+const redes = [
+	{ texto: 'Instagram', href: pie.instagram },
+	{ texto: 'Facebook', href: pie.facebook },
+	{ texto: 'TikTok', href: pie.tiktok },
+].filter((r) => r.href);
+const telefono = `+${sitio.whatsapp.slice(0, 2)} ${sitio.whatsapp.slice(2)}`;
 const anio = new Date().getFullYear();
 
 // Los mismos cerros de la portada cierran la página, en tonos oscuros que terminan en el pie.
@@ -43,7 +50,10 @@ const cerros = [
 	</div>
 	<div class="contenedor llamado__pie">
 		<span>{sitio.marca} · {sitio.ciudad}</span>
-		<span>{sitio.correo}</span>
+		<a href={enlaceWhatsapp()} target="_blank" rel="noopener">WhatsApp {telefono}</a>
+		<a href={`mailto:${sitio.correo}`}>{sitio.correo}</a>
+		{pie.horario && <span>{pie.horario}</span>}
+		{redes.map((r) => <a href={r.href} target="_blank" rel="noopener">{r.texto}</a>)}
 		<span>© {anio}</span>
 	</div>
 </footer>
@@ -102,6 +112,15 @@ const cerros = [
 		min-height: 46px;
 		padding-inline: 20px;
 		border-radius: 12px;
+	}
+
+	.llamado__pie a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.llamado__pie a:hover {
+		color: #fff;
 	}
 
 	.llamado__pie {

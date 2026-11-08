@@ -1,15 +1,23 @@
 ---
 import sitio from '../datos/sitio.json';
 
-const { preguntas } = sitio;
+interface Props {
+	/** Sin lista, se usan las preguntas generales de sitio.json. */
+	lista?: { p: string; r: string }[];
+	titulo?: string;
+	texto?: string;
+}
+
+const { lista = sitio.preguntas, titulo = 'Preguntas frecuentes', texto = 'Lo que casi todos preguntan antes de empezar.' } = Astro.props;
+const preguntas = lista;
 ---
 
 <section class="seccion" id="preguntas">
 	<div class="contenedor preguntas">
 		<div class="encabezado-seccion revela">
 			<span class="antetitulo">Dudas frecuentes</span>
-			<h2>Preguntas frecuentes</h2>
-			<p>Lo que casi todos preguntan antes de empezar.</p>
+			<h2 set:html={titulo} />
+			<p>{texto}</p>
 		</div>
 
 		<!-- details/summary: se abre y cierra sin JavaScript y funciona con teclado -->

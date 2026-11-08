@@ -1,7 +1,7 @@
 ---
 linea: tiendas
-nombre: Catálogo WhatsApp
-etiqueta: Para tiendas físicas
+nombre: Tienda
+etiqueta: Pedidos por WhatsApp
 precio: 1290
 plazo: 2 semanas
 incluye:

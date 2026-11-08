@@ -6,6 +6,7 @@ tecnologias:
   - Google Maps
   - WhatsApp
 enlace: ""
+solucion: web-para-tu-negocio
 orden: 2
 publicado: true
 ---

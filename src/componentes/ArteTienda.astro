@@ -1,0 +1,548 @@
+---
+// Animación del encabezado de "Tienda online":
+// la tienda se arma en el navegador y en el celular, alguien hace clic en un producto
+// y llega el pedido por WhatsApp. Al final se publica en tu dominio.
+---
+
+<div class="arte-tienda" aria-hidden="true">
+	<div class="at-ventana">
+		<div class="at-barra">
+			<i></i><i></i><i></i>
+			<span class="at-url"><b></b><span>tutienda.pe</span></span>
+		</div>
+		<div class="at-lienzo">
+			<span class="at-nav"><span class="at-logo"></span><span class="at-menu"><i></i><i></i><i></i></span></span>
+			<span class="at-hero"></span>
+			<span class="at-titulo"></span>
+			<span class="at-productos">
+				<span class="at-producto"><i class="at-foto at-foto--a"></i><i class="at-nombre"></i><i class="at-precio"></i></span>
+				<span class="at-producto at-producto--elegido">
+					<i class="at-foto at-foto--b"></i><i class="at-nombre"></i><i class="at-precio"></i>
+					<span class="at-onda"></span>
+					<span class="at-cursor"></span>
+				</span>
+				<span class="at-producto"><i class="at-foto at-foto--c"></i><i class="at-nombre"></i><i class="at-precio"></i></span>
+			</span>
+		</div>
+		<span class="at-mensaje"><b>WhatsApp</b>Hola, me interesa este producto</span>
+		<span class="at-listo">✓</span>
+	</div>
+
+	<div class="at-celular">
+		<div class="at-pantalla">
+			<span class="at-muesca"></span>
+			<div class="at-lienzo">
+				<span class="at-logo at-nav"></span>
+				<span class="at-hero"></span>
+				<span class="at-titulo"></span>
+				<span class="at-productos">
+					<span class="at-producto"><i class="at-foto at-foto--a"></i><i class="at-nombre"></i></span>
+					<span class="at-producto"><i class="at-foto at-foto--b"></i><i class="at-nombre"></i></span>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	/* Navegador a la izquierda y celular a la derecha, cada uno en su espacio */
+	.arte-tienda {
+		display: flex;
+		align-items: flex-end;
+		gap: 18px;
+		width: 100%;
+		max-width: 520px;
+		margin-inline: auto;
+	}
+
+	.at-ventana {
+		position: relative;
+		flex: 1;
+		min-width: 0;
+		height: 290px;
+		background: var(--color-superficie);
+		border: 1px solid #3d3a34;
+		border-radius: 14px;
+		box-shadow: var(--sombra-suave);
+	}
+
+	.at-barra {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		height: 30px;
+		padding: 0 12px;
+		border-bottom: 1px solid var(--color-borde);
+	}
+
+	.at-barra > i {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: #3d3a34;
+	}
+
+	.at-url {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		flex: 1;
+		height: 17px;
+		margin-left: 8px;
+		padding-left: 9px;
+		border-radius: 9px;
+		background: var(--color-fondo);
+		font-size: 11px;
+		color: var(--color-texto);
+		overflow: hidden;
+	}
+
+	/* Candado verde y dirección que se escribe */
+	.at-url b {
+		flex: none;
+		width: 7px;
+		height: 6px;
+		border-radius: 1px;
+		background: var(--color-exito);
+	}
+
+	.at-url span {
+		overflow: hidden;
+		white-space: nowrap;
+	}
+
+	.at-lienzo {
+		position: absolute;
+		inset: 44px 16px 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.at-nav {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.at-logo {
+		width: 18px;
+		height: 18px;
+		border-radius: 5px;
+		background: var(--color-marca);
+	}
+
+	.at-menu {
+		display: flex;
+		gap: 6px;
+	}
+
+	.at-menu i {
+		width: 22px;
+		height: 4px;
+		border-radius: 2px;
+		background: #3d3a34;
+	}
+
+	.at-hero {
+		position: relative;
+		height: 66px;
+		border-radius: 10px;
+		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+		overflow: hidden;
+	}
+
+	/* Brillo que cruza la portada */
+	.at-hero::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: -50%;
+		width: 40%;
+		background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.18), transparent);
+	}
+
+	.at-titulo {
+		height: 7px;
+		width: 52%;
+		border-radius: 4px;
+		background: #e9e4d8;
+		transform-origin: left;
+	}
+
+	.at-productos {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 8px;
+		margin-top: auto;
+	}
+
+	.at-producto {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		padding: 6px;
+		border-radius: 9px;
+		background: #26241f;
+		border: 1px solid #2e2c28;
+	}
+
+	.at-foto {
+		height: 40px;
+		border-radius: 6px;
+	}
+
+	.at-foto--a {
+		background: #5a3324;
+	}
+
+	.at-foto--b {
+		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+	}
+
+	.at-foto--c {
+		background: #3a2a22;
+	}
+
+	.at-nombre {
+		height: 4px;
+		width: 70%;
+		border-radius: 2px;
+		background: #4a4640;
+	}
+
+	.at-precio {
+		height: 5px;
+		width: 38%;
+		border-radius: 2px;
+		background: var(--color-marca);
+	}
+
+	/* Cursor y onda viven dentro del producto elegido: así siempre caen sobre él */
+	.at-cursor {
+		position: absolute;
+		left: 55%;
+		top: 45%;
+		z-index: 2;
+		width: 0;
+		height: 0;
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		border-bottom: 16px solid var(--color-texto);
+		rotate: -30deg;
+		filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.8));
+		opacity: 0;
+	}
+
+	.at-onda {
+		position: absolute;
+		left: 50%;
+		top: 40%;
+		width: 24px;
+		height: 24px;
+		margin: -12px 0 0 -12px;
+		border-radius: 50%;
+		border: 2px solid var(--color-marca);
+		opacity: 0;
+	}
+
+	.at-mensaje {
+		position: absolute;
+		left: 50%;
+		bottom: 92px;
+		z-index: 3;
+		width: 176px;
+		margin-left: -88px;
+		padding: 8px 10px;
+		border-radius: 12px 12px 3px 12px;
+		font-size: 11px;
+		color: var(--color-texto);
+		background: var(--color-fondo);
+		border: 1px solid rgb(94 194 143 / 0.5);
+		opacity: 0;
+	}
+
+	.at-mensaje b {
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		margin-bottom: 3px;
+		font-size: 10px;
+		color: var(--color-exito);
+	}
+
+	.at-mensaje b::before {
+		content: '';
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-exito);
+	}
+
+	.at-listo {
+		position: absolute;
+		right: -11px;
+		top: -11px;
+		z-index: 3;
+		display: grid;
+		place-items: center;
+		width: 26px;
+		height: 26px;
+		border-radius: 50%;
+		font-size: 14px;
+		font-weight: 700;
+		color: #141413;
+		background: var(--color-exito);
+		transform: scale(0);
+	}
+
+	/* Celular */
+	.at-celular {
+		flex: none;
+		width: 112px;
+		height: 224px;
+		padding: 6px;
+		border-radius: 20px;
+		background: #0f0e0d;
+		border: 1px solid #3d3a34;
+		box-shadow: var(--sombra-suave);
+	}
+
+	.at-pantalla {
+		position: relative;
+		height: 100%;
+		border-radius: 14px;
+		background: var(--color-superficie);
+		overflow: hidden;
+	}
+
+	.at-muesca {
+		position: absolute;
+		left: 50%;
+		top: 6px;
+		width: 30px;
+		height: 4px;
+		margin-left: -15px;
+		border-radius: 2px;
+		background: #3d3a34;
+	}
+
+	.at-celular .at-lienzo {
+		inset: 18px 9px 9px;
+		gap: 7px;
+	}
+
+	.at-celular .at-logo {
+		width: 14px;
+		height: 14px;
+		border-radius: 4px;
+	}
+
+	.at-celular .at-hero {
+		height: 46px;
+	}
+
+	.at-celular .at-titulo {
+		width: 80%;
+		height: 5px;
+	}
+
+	.at-celular .at-productos {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 6px;
+	}
+
+	.at-celular .at-producto {
+		padding: 4px;
+	}
+
+	.at-celular .at-foto {
+		height: 32px;
+	}
+
+	@media (max-width: 420px) {
+		.arte-tienda {
+			gap: 12px;
+		}
+
+		.at-ventana {
+			height: 260px;
+		}
+
+		.at-hero {
+			height: 50px;
+		}
+
+		.at-celular {
+			width: 92px;
+			height: 190px;
+		}
+
+		.at-celular .at-hero {
+			height: 36px;
+		}
+	}
+
+	/* Un ciclo de 9 s: se arma, alguien elige un producto, llega el WhatsApp y se publica */
+	@media (prefers-reduced-motion: no-preference) {
+		.at-ventana .at-nav {
+			animation: at-cae 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite;
+		}
+
+		.at-ventana .at-hero {
+			animation: at-cae-grande 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite;
+		}
+
+		.at-hero::after {
+			animation: at-brillo 9s ease infinite;
+		}
+
+		.at-ventana .at-titulo {
+			animation: at-dibuja 9s ease infinite;
+		}
+
+		.at-ventana .at-producto {
+			animation: at-sube 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite;
+		}
+
+		.at-ventana .at-producto:nth-child(3) {
+			animation-delay: 0.24s;
+		}
+
+		.at-ventana .at-producto--elegido {
+			animation:
+				at-sube 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite 0.12s,
+				at-elige 9s ease infinite;
+		}
+
+		.at-celular .at-nav {
+			animation: at-cae-celular 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite;
+		}
+
+		.at-celular .at-hero {
+			animation: at-cae-celular 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite 0.15s;
+		}
+
+		.at-celular .at-titulo,
+		.at-celular .at-productos {
+			animation: at-cae-celular 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite 0.3s;
+		}
+
+		.at-cursor {
+			animation: at-cursor 9s ease-in-out infinite;
+		}
+
+		.at-onda {
+			animation: at-onda 9s ease-out infinite;
+		}
+
+		.at-mensaje {
+			animation: at-mensaje 9s ease infinite;
+		}
+
+		.at-url span {
+			animation: at-escribe 9s steps(11) infinite;
+		}
+
+		.at-url b {
+			animation: at-candado 9s ease infinite;
+		}
+
+		.at-listo {
+			animation: at-listo 9s ease infinite;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.at-producto--elegido {
+			border-color: var(--color-marca);
+		}
+
+		.at-listo {
+			transform: none;
+		}
+	}
+
+	@keyframes at-cae {
+		0%, 2% { opacity: 0; transform: translateY(-14px); }
+		8%, 94% { opacity: 1; transform: none; }
+		100% { opacity: 0; }
+	}
+
+	@keyframes at-cae-grande {
+		0%, 7% { opacity: 0; transform: translateY(-30px) scale(0.96); }
+		15%, 94% { opacity: 1; transform: none; }
+		100% { opacity: 0; }
+	}
+
+	@keyframes at-brillo {
+		0%, 15% { left: -50%; }
+		26%, 100% { left: 120%; }
+	}
+
+	@keyframes at-dibuja {
+		0%, 15% { transform: scaleX(0); }
+		22%, 94% { transform: scaleX(1); }
+		100% { transform: scaleX(0); }
+	}
+
+	@keyframes at-sube {
+		0%, 22% { opacity: 0; transform: translateY(18px); }
+		30%, 94% { opacity: 1; transform: none; }
+		100% { opacity: 0; }
+	}
+
+	@keyframes at-elige {
+		0%, 58% { translate: 0 0; border-color: #2e2c28; box-shadow: none; }
+		61%, 80% { translate: 0 -6px; border-color: var(--color-marca); box-shadow: 0 12px 24px -10px rgb(217 119 87 / 0.6); }
+		84%, 100% { translate: 0 0; border-color: #2e2c28; box-shadow: none; }
+	}
+
+	@keyframes at-cae-celular {
+		0%, 32% { opacity: 0; transform: translateY(-12px) scale(0.96); }
+		40%, 94% { opacity: 1; transform: none; }
+		100% { opacity: 0; }
+	}
+
+	@keyframes at-cursor {
+		0%, 44% { opacity: 0; transform: translate(120px, 70px); }
+		48% { opacity: 1; }
+		57% { transform: none; }
+		59% { transform: scale(0.8); }
+		61%, 66% { opacity: 1; transform: none; }
+		72%, 100% { opacity: 0; transform: translate(-90px, 60px); }
+	}
+
+	@keyframes at-onda {
+		0%, 58% { opacity: 0; transform: scale(0.4); }
+		60% { opacity: 1; }
+		70%, 100% { opacity: 0; transform: scale(2); }
+	}
+
+	@keyframes at-mensaje {
+		0%, 63% { opacity: 0; transform: translateY(10px) scale(0.95); }
+		68%, 84% { opacity: 1; transform: none; }
+		88%, 100% { opacity: 0; }
+	}
+
+	@keyframes at-escribe {
+		0%, 82% { max-width: 0; }
+		90%, 96% { max-width: 90px; }
+		100% { max-width: 0; }
+	}
+
+	@keyframes at-candado {
+		0%, 89% { opacity: 0; transform: scale(0); }
+		91%, 96% { opacity: 1; transform: none; }
+		100% { opacity: 0; }
+	}
+
+	@keyframes at-listo {
+		0%, 90% { transform: scale(0); }
+		92% { transform: scale(1.3); }
+		94%, 97% { transform: scale(1); }
+		100% { transform: scale(0); }
+	}
+</style>

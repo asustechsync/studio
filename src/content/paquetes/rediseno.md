@@ -13,6 +13,5 @@ incluye:
 noIncluye:
   - Funciones nuevas, que se cotizan aparte
 destacado: false
-publicado: false
 orden: 6
 ---

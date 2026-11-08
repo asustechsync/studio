@@ -29,6 +29,8 @@ const proyectos = defineCollection({
 		tecnologias: z.array(z.string()).default([]),
 		imagen: z.string().optional(),
 		enlace: z.string().optional(),
+		/** Slug de la solución a la que pertenece (ver src/datos/soluciones.ts). */
+		solucion: z.string().optional(),
 		orden: z.number(),
 		publicado: z.boolean().default(true),
 	}),
