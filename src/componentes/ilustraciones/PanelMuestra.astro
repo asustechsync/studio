@@ -8,7 +8,7 @@ const pedidos = [
 ];
 ---
 
-<div class="panel" role="img" aria-label="Ejemplo del panel de administración con ventas, pedidos y visitas">
+<div class="panel" data-animado role="img" aria-label="Ejemplo del panel de administración con ventas, pedidos y visitas">
 	<div class="panel__barra">
 		<span class="panel__puntos"><i></i><i></i><i></i></span>
 		<span class="panel__url">panel.tunegocio.pe</span>
@@ -18,28 +18,28 @@ const pedidos = [
 		<div class="panel__pestanas">
 			<b>Resumen</b><span>Pedidos</span><span>Productos</span><span>Contenido</span>
 		</div>
-		<div class="panel__tarjetas">
-			<div class="tarjeta">
-				<span class="tarjeta__titulo">Ventas del mes</span>
-				<b class="tarjeta__cifra">S/ 8,420</b>
-				<span class="tarjeta__nota">+18 % frente a octubre</span>
-				<div class="tarjeta__barras">{barras.map((h) => <i style={`height:${h}%`}></i>)}</div>
+		<div class="panel__datos">
+			<div class="dato">
+				<span class="dato__titulo">Ventas del mes</span>
+				<b class="dato__cifra">S/ 8,420</b>
+				<span class="dato__nota">+18 % frente a octubre</span>
+				<div class="dato__barras">{barras.map((h) => <i style={`height:${h}%`}></i>)}</div>
 			</div>
-			<div class="tarjeta">
-				<span class="tarjeta__titulo">Pedidos por WhatsApp</span>
-				<b class="tarjeta__cifra">64</b>
-				<span class="tarjeta__nota">12 esta semana</span>
-				<div class="tarjeta__puntos">{Array.from({ length: 28 }, (_, i) => <i class:list={{ activo: i % 3 !== 1 }}></i>)}</div>
+			<div class="dato">
+				<span class="dato__titulo">Pedidos por WhatsApp</span>
+				<b class="dato__cifra">64</b>
+				<span class="dato__nota">12 esta semana</span>
+				<div class="dato__puntos">{Array.from({ length: 28 }, (_, i) => <i class:list={{ activo: i % 3 !== 1 }}></i>)}</div>
 			</div>
-			<div class="tarjeta tarjeta--extra">
-				<span class="tarjeta__titulo">Visitas a la web</span>
-				<b class="tarjeta__cifra">1,920</b>
-				<span class="tarjeta__nota">68 % desde celular</span>
-				<div class="tarjeta__columnas"><i style="height:40%"></i><i style="height:62%"></i><i style="height:48%"></i><i class="alta" style="height:92%"></i><i style="height:55%"></i></div>
+			<div class="dato dato--extra">
+				<span class="dato__titulo">Visitas a la web</span>
+				<b class="dato__cifra">1,920</b>
+				<span class="dato__nota">68 % desde celular</span>
+				<div class="dato__columnas"><i style="height:40%"></i><i style="height:62%"></i><i style="height:48%"></i><i class="alta" style="height:92%"></i><i style="height:55%"></i></div>
 			</div>
 		</div>
 		<div class="panel__lista">
-			<span class="tarjeta__titulo">Últimos pedidos</span>
+			<span class="dato__titulo">Últimos pedidos</span>
 			{
 				pedidos.map((p) => (
 					<div class="fila">
@@ -56,15 +56,15 @@ const pedidos = [
 
 <style>
 	.panel {
-		--vidrio: rgb(20 24 36 / 0.72);
-		--linea: rgb(255 255 255 / 0.1);
-		--suave: rgb(255 255 255 / 0.6);
-		color: #fff;
+		--vidrio: color-mix(in srgb, var(--color-fondo) 72%, transparent);
+		--linea: color-mix(in srgb, var(--color-blanco) 10%, transparent);
+		--suave: color-mix(in srgb, var(--color-blanco) 60%, transparent);
+		color: var(--color-blanco);
 		background: var(--vidrio);
 		border: 1px solid var(--linea);
 		border-radius: 14px;
 		backdrop-filter: blur(14px) saturate(1.2);
-		box-shadow: 0 30px 80px rgb(0 0 0 / 0.45);
+		box-shadow: 0 30px 80px color-mix(in srgb, var(--color-negro) 45%, transparent);
 		overflow: hidden;
 		text-align: left;
 	}
@@ -88,13 +88,13 @@ const pedidos = [
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		background: rgb(255 255 255 / 0.22);
+		background: color-mix(in srgb, var(--color-blanco) 22%, transparent);
 	}
 
 	.panel__url {
 		flex: 1;
 		text-align: center;
-		background: rgb(255 255 255 / 0.06);
+		background: color-mix(in srgb, var(--color-blanco) 6%, transparent);
 		border-radius: 6px;
 		padding: 3px 10px;
 		max-width: 260px;
@@ -113,11 +113,11 @@ const pedidos = [
 		gap: 14px;
 		font-family: var(--tipo-titulos);
 		font-size: 22px;
-		color: rgb(255 255 255 / 0.35);
+		color: color-mix(in srgb, var(--color-blanco) 35%, transparent);
 	}
 
 	.panel__pestanas b {
-		color: #fff;
+		color: var(--color-blanco);
 		font-weight: 600;
 	}
 
@@ -125,15 +125,15 @@ const pedidos = [
 		display: none;
 	}
 
-	.panel__tarjetas {
+	.panel__datos {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 10px;
 	}
 
-	.tarjeta,
+	.dato,
 	.panel__lista {
-		background: rgb(255 255 255 / 0.05);
+		background: color-mix(in srgb, var(--color-blanco) 5%, transparent);
 		border: 1px solid var(--linea);
 		border-radius: 10px;
 		padding: 12px;
@@ -143,29 +143,29 @@ const pedidos = [
 		min-width: 0;
 	}
 
-	.tarjeta--extra {
+	.dato--extra {
 		display: none;
 	}
 
-	.tarjeta__titulo {
+	.dato__titulo {
 		font-size: 11px;
 		color: var(--suave);
 	}
 
-	.tarjeta__cifra {
+	.dato__cifra {
 		font-family: var(--tipo-titulos);
 		font-size: 22px;
 		font-weight: 600;
 		font-variant-numeric: tabular-nums;
 	}
 
-	.tarjeta__nota {
+	.dato__nota {
 		font-size: 10.5px;
-		color: #7ee2a8;
+		color: var(--color-exito);
 	}
 
-	.tarjeta__barras,
-	.tarjeta__columnas {
+	.dato__barras,
+	.dato__columnas {
 		display: flex;
 		align-items: flex-end;
 		gap: 3px;
@@ -173,23 +173,23 @@ const pedidos = [
 		margin-top: 8px;
 	}
 
-	.tarjeta__barras i {
+	.dato__barras i {
 		flex: 1;
-		background: rgb(255 255 255 / 0.55);
+		background: color-mix(in srgb, var(--color-blanco) 55%, transparent);
 		border-radius: 2px;
 	}
 
-	.tarjeta__columnas i {
+	.dato__columnas i {
 		flex: 1;
-		background: rgb(255 255 255 / 0.18);
+		background: color-mix(in srgb, var(--color-blanco) 18%, transparent);
 		border-radius: 3px;
 	}
 
-	.tarjeta__columnas i.alta {
-		background: #fff;
+	.dato__columnas i.alta {
+		background: var(--color-blanco);
 	}
 
-	.tarjeta__puntos {
+	.dato__puntos {
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
 		gap: 7px;
@@ -197,15 +197,15 @@ const pedidos = [
 		justify-items: center;
 	}
 
-	.tarjeta__puntos i {
+	.dato__puntos i {
 		width: 6px;
 		height: 6px;
 		border-radius: 50%;
-		background: rgb(255 255 255 / 0.18);
+		background: color-mix(in srgb, var(--color-blanco) 18%, transparent);
 	}
 
-	.tarjeta__puntos i.activo {
-		background: #fff;
+	.dato__puntos i.activo {
+		background: var(--color-blanco);
 	}
 
 	.fila {
@@ -249,11 +249,11 @@ const pedidos = [
 			display: inline;
 		}
 
-		.panel__tarjetas {
+		.panel__datos {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 
-		.tarjeta--extra {
+		.dato--extra {
 			display: flex;
 		}
 

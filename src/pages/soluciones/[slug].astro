@@ -1,19 +1,17 @@
 ---
-// Página de una solución, en bloques: encabezado, planes, por qué, ejemplos, cómo trabajamos y preguntas.
+// Página de una solución, en bloques: encabezado, ejemplos, planes, lo que ganas, pasos y preguntas.
 // Los textos salen de src/datos/soluciones.ts; los planes, de src/content/paquetes/.
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
-import Cabecera from '../../componentes/Cabecera.astro';
-import Paquete from '../../componentes/Paquete.astro';
-import Portafolio from '../../componentes/Portafolio.astro';
-import Preguntas from '../../componentes/Preguntas.astro';
-import Llamado from '../../componentes/Llamado.astro';
-import Icono from '../../componentes/Icono.astro';
-import ArteWeb from '../../componentes/ArteWeb.astro';
-import ArteTienda from '../../componentes/ArteTienda.astro';
+import Cabecera from '../../componentes/sitio/Cabecera.astro';
+import Pie from '../../componentes/sitio/Pie.astro';
+import HeroSolucion from '../../componentes/secciones/solucion/HeroSolucion.astro';
+import PlanesSolucion from '../../componentes/secciones/solucion/PlanesSolucion.astro';
+import TresBloques from '../../componentes/secciones/solucion/TresBloques.astro';
+import Portafolio from '../../componentes/secciones/Portafolio.astro';
+import Preguntas from '../../componentes/secciones/Preguntas.astro';
 import { soluciones } from '../../datos/soluciones';
-import { enlaceWhatsapp, precioEnSoles } from '../../lib/enlaces';
-import sitio from '../../datos/sitio.json';
+import negocio from '../../datos/negocio.json';
 
 export function getStaticPaths() {
 	return soluciones.map((solucion) => ({ params: { slug: solucion.slug }, props: { solucion } }));
@@ -25,131 +23,27 @@ const paquetes = (await getCollection('paquetes', ({ data }) => data.publicado))
 	.filter(({ id }) => solucion.paquetes.includes(id))
 	.sort((a, b) => a.data.orden - b.data.orden);
 const desde = paquetes.length ? Math.min(...paquetes.map(({ data }) => data.precio)) : null;
-// Las soluciones con animación propia llevan el encabezado en dos columnas
-const artes: Partial<Record<typeof solucion.icono, typeof ArteWeb>> = { mundo: ArteWeb, carrito: ArteTienda };
-const Arte = artes[solucion.icono];
-const conArte = Boolean(Arte);
 const mensaje = `Hola, me interesa la solución ${solucion.nombre}`;
 ---
 
-<Base titulo={`${solucion.nombre} · ${sitio.marca}`} descripcion={`${solucion.titular}. ${solucion.texto}`}>
+<Base titulo={`${solucion.nombre} · ${negocio.marca}`} descripcion={`${solucion.titular}. ${solucion.texto}`}>
 	<Cabecera />
-	<main class="pagina-solucion">
-		<section class="seccion solucion-pagina">
-			<div class="contenedor">
-				<nav class:list={['migas', { 'migas--izq': conArte }]} aria-label="Ruta">
-					<a href="/soluciones">Soluciones</a>
-					<span aria-hidden="true">/</span>
-					<span>{solucion.nombre}</span>
-				</nav>
-
-				<div class:list={['solucion-hero', { 'solucion-hero--arte': conArte }]}>
-				<div class="encabezado-seccion revela">
-					<span class="antetitulo">{solucion.categoria}</span>
-					<h1>{solucion.encabezado ? solucion.encabezado.inicio : `${solucion.nombre},`} <em>{solucion.encabezado ? solucion.encabezado.cursiva : solucion.lema}</em></h1>
-					<p>{solucion.texto}</p>
-					{desde !== null && (
-						<p class="desde">desde <b>{precioEnSoles(desde)}</b></p>
-					)}
-					{solucion.nota && <p class="nota">{solucion.nota}</p>}
-					<div class="acciones">
-						<a class="boton boton--whatsapp" href={enlaceWhatsapp(mensaje)} target="_blank" rel="noopener">
-							<Icono nombre="whatsapp" />
-							Cotizar
-						</a>
-						{paquetes.length > 0 && (
-							<a class="boton boton--claro" href="#planes">Ver planes</a>
-						)}
-					</div>
-				</div>
-				{Arte && <Arte />}
-				</div>
-			</div>
-		</section>
-
-		<section class="seccion planes" id="planes">
-			<div class="contenedor">
-				<div class="encabezado-seccion revela">
-					<span class="antetitulo">Planes</span>
-					<h2>{solucion.titular}</h2>
-					<p>Precio final, sin costos ocultos.</p>
-				</div>
-				{
-					paquetes.length > 0 ? (
-						<>
-							<div class="paquetes">
-								{paquetes.map(({ data }) => (
-									<Paquete data={data} />
-								))}
-							</div>
-							<p class="solucion-pagina__nota">Pagas 50 % al empezar y 50 % al entregar.</p>
-						</>
-					) : (
-						<div class="proximamente revela">
-							<h2>Estamos preparando esta solución</h2>
-							<p>Todavía no está disponible. Escríbenos y te avisamos apenas esté lista, o vemos tu caso.</p>
-							<a class="boton boton--marca" href={enlaceWhatsapp(mensaje)} target="_blank" rel="noopener">
-								<Icono nombre="whatsapp" />
-								Consultar por WhatsApp
-							</a>
-						</div>
-					)
-				}
-			</div>
-		</section>
-
-		<section class="seccion">
-			<div class="contenedor">
-				<div class="encabezado-seccion revela">
-					<span class="antetitulo">Por qué</span>
-					<h2>Lo que <em>ganas</em></h2>
-				</div>
-				<div class="tres">
-					{solucion.beneficios.map((b) => (
-						<article class="bloque revela">
-							<span class="bloque__icono"><Icono nombre={b.icono} tamano={20} /></span>
-							<h3>{b.titulo}</h3>
-							<p>{b.texto}</p>
-						</article>
-					))}
-				</div>
-			</div>
-		</section>
-
-		<Portafolio solucion={solucion.slug} titulo="Lo que podemos <em>construir</em>" texto="Ejemplos de esta solución para distintos rubros." />
-
-		<section class="seccion">
-			<div class="contenedor">
-				<div class="encabezado-seccion revela">
-					<span class="antetitulo">Cómo trabajamos</span>
-					<h2>Tres pasos, <em>sin vueltas</em></h2>
-				</div>
-				<ol class="tres">
-					{solucion.pasos.map((p, i) => (
-						<li class="bloque revela">
-							<span class="bloque__numero">{String(i + 1).padStart(2, '0')}</span>
-							<h3>{p.titulo}</h3>
-							<p>{p.texto}</p>
-						</li>
-					))}
-				</ol>
-			</div>
-		</section>
-
-		<Preguntas lista={solucion.preguntas} titulo="Lo que suelen <em>preguntar</em>" texto={`Dudas sobre ${solucion.nombre.toLowerCase()}.`} />
+	<main class="pagina-solucion" id="contenido">
+		<HeroSolucion solucion={solucion} desde={desde} mensaje={mensaje} />
+		<Portafolio solucion={solucion.slug} limite={4} titulo="Proyectos *desarrollados*" texto="Sitios web construidos para distintos sectores, con diseño profesional y listos para tu marca." />
+		<PlanesSolucion titulo={solucion.titular} paquetes={paquetes} mensaje={mensaje} />
+		<TresBloques titulo="Lo que *ganas*" bloques={solucion.beneficios} />
+		<TresBloques titulo="Tres pasos, *sin vueltas*" bloques={solucion.pasos} numerados />
+		<Preguntas lista={solucion.preguntas} titulo="Lo que suelen *preguntar*" texto={`Dudas sobre ${solucion.nombre.toLowerCase()}.`} />
 	</main>
-	<Llamado />
+	<Pie />
 </Base>
 
 <style>
-	/* Títulos de las páginas de solución: Plus Jakarta Sans, con las palabras destacadas solo en color */
-	.pagina-solucion {
-		--tipo-titulos: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
-	}
-
+	/* Títulos de las páginas de solución: misma fuente del sitio, más apretada,
+	   con las palabras destacadas solo en color (sin cursiva) */
 	.pagina-solucion :global(h1),
 	.pagina-solucion :global(h2) {
-		font-weight: 800;
 		letter-spacing: -0.03em;
 	}
 
@@ -161,221 +55,5 @@ const mensaje = `Hola, me interesa la solución ${solucion.nombre}`;
 		font-weight: inherit;
 		letter-spacing: inherit;
 		color: var(--color-marca);
-	}
-
-	.solucion-pagina {
-		background:
-			radial-gradient(ellipse 70% 320px at 50% 0, rgb(217 119 87 / 0.09), transparent 70%),
-			var(--color-fondo);
-	}
-
-	.solucion-hero--arte {
-		display: grid;
-		gap: 44px;
-	}
-
-	@media (min-width: 960px) {
-		.solucion-hero--arte {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-			align-items: center;
-			gap: 56px;
-		}
-
-		.solucion-hero--arte .encabezado-seccion {
-			align-items: flex-start;
-			text-align: left;
-			margin-bottom: 0;
-		}
-
-		.solucion-hero--arte .acciones {
-			margin-inline: 0;
-		}
-
-		.migas.migas--izq {
-			justify-content: flex-start;
-		}
-
-		.solucion-hero--arte h1 {
-			font-size: 44px;
-		}
-	}
-
-	.planes {
-		padding-top: 0;
-	}
-
-	.desde {
-		margin-top: 4px;
-		font-size: 15px;
-	}
-
-	.encabezado-seccion p.nota {
-		margin-top: -6px;
-		font-size: 12px;
-		color: var(--color-suave);
-		opacity: 0.85;
-	}
-
-	.desde b {
-		margin-left: 4px;
-		font-family: var(--tipo-titulos);
-		font-size: 24px;
-		font-weight: 600;
-		color: var(--color-texto);
-	}
-
-	/* Botones gemelos: mismo ancho, misma altura y esquinas poco redondeadas */
-	.acciones {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 10px;
-		width: 100%;
-		max-width: 360px;
-		margin: 8px auto 0;
-	}
-
-	.acciones :global(.boton) {
-		min-height: 42px;
-		padding-inline: 12px;
-		border-radius: 8px;
-		font-size: 14px;
-	}
-
-	/* La etiqueta sobre el título, con esquinas menos redondeadas */
-	.solucion-hero :global(.antetitulo),
-	.planes :global(.antetitulo) {
-		border-radius: 6px;
-		padding: 4px 10px;
-		font-size: 12px;
-	}
-
-	.tres {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		display: grid;
-		gap: 14px;
-	}
-
-	.bloque {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-		padding: 22px;
-		border-radius: 18px;
-		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-	}
-
-	.bloque h3 {
-		font-size: 17px;
-	}
-
-	.bloque p {
-		margin: 0;
-		color: var(--color-suave);
-		font-size: 14px;
-	}
-
-	.bloque__icono {
-		display: grid;
-		place-items: center;
-		width: 40px;
-		height: 40px;
-		margin-bottom: 6px;
-		border-radius: 11px;
-		color: var(--color-marca);
-		background: var(--color-marca-suave);
-	}
-
-	.bloque__numero {
-		margin-bottom: 4px;
-		font-family: var(--tipo-titulos);
-		font-weight: 600;
-		font-size: 30px;
-		line-height: 1;
-		color: var(--color-marca);
-		font-variant-numeric: tabular-nums;
-	}
-
-	@media (min-width: 768px) {
-		.tres {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
-	.migas {
-		display: flex;
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin-bottom: 18px;
-		font-size: 14px;
-		color: var(--color-suave);
-	}
-
-	.migas a:hover {
-		color: var(--color-texto);
-	}
-
-	.paquetes {
-		display: grid;
-		gap: 18px;
-		margin-top: 36px;
-	}
-
-	.solucion-pagina__nota {
-		margin: 28px 0 0;
-		text-align: center;
-		font-size: 14px;
-		color: var(--color-suave);
-	}
-
-	.proximamente {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 12px;
-		margin: 36px auto 0;
-		max-width: 520px;
-		padding: 32px 26px;
-		text-align: center;
-		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-		border-radius: 18px;
-	}
-
-	.proximamente h2 {
-		margin: 0;
-		font-family: var(--tipo-titulos);
-		font-size: 20px;
-	}
-
-	.proximamente p {
-		margin: 0 0 6px;
-		color: var(--color-suave);
-		font-size: 15px;
-	}
-
-	/* Un solo paquete: centrado y con ancho de tarjeta normal */
-	@media (min-width: 640px) {
-		.paquetes {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-
-		.paquetes:has(> :global(.paquete):only-child) {
-			grid-template-columns: minmax(0, 380px);
-			justify-content: center;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.paquetes {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-
-		.paquetes:has(> :global(.paquete):only-child) {
-			grid-template-columns: minmax(0, 380px);
-		}
 	}
 </style>

@@ -1,15 +1,14 @@
 ---
-import sitio from '../datos/sitio.json';
+import textos from '../../datos/textos.json';
 
-const testimonios = sitio.testimonios as { texto: string; nombre: string; negocio: string }[];
+const testimonios = textos.testimonios as { texto: string; nombre: string; negocio: string }[];
 ---
 
-{/* Sin opiniones reales en sitio.json, la sección se oculta */}
+{/* Sin opiniones reales en textos.json, la sección se oculta */}
 {testimonios.length > 0 && (
 <section class="seccion testimonios" id="opiniones">
 	<div class="contenedor">
 		<div class="encabezado-seccion revela">
-			<span class="antetitulo">Clientes</span>
 			<h2>Lo que dicen</h2>
 		</div>
 		<div class="citas">
@@ -42,28 +41,28 @@ const testimonios = sitio.testimonios as { texto: string; nombre: string; negoci
 		gap: 16px;
 		padding: 22px;
 		border: 1px solid var(--color-borde);
-		border-radius: 18px;
+		border-radius: var(--radio-lg);
 		background: var(--color-superficie);
 		box-shadow: var(--sombra-suave);
 	}
 
 	blockquote {
 		margin: 0;
-		font-size: 16px;
+		font-size: var(--texto-lg);
 		line-height: 1.6;
 	}
 
 	figcaption {
 		display: flex;
 		flex-direction: column;
-		font-size: 14px;
+		font-size: var(--texto-md);
 	}
 
 	figcaption span {
 		color: var(--color-suave);
 	}
 
-	@media (min-width: 720px) {
+	@media (min-width: 768px) {
 		.citas {
 			grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
 		}

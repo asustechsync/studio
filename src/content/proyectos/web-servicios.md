@@ -7,6 +7,11 @@ tecnologias:
   - Correo
 enlace: ""
 solucion: web-para-tu-negocio
+ventajas:
+  - Páginas de servicios
+  - Formulario de contacto
+  - Correo con tu dominio
+categoria: Servicios
 orden: 3
 publicado: true
 ---

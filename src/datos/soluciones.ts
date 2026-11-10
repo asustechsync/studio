@@ -20,6 +20,10 @@ export interface Solucion {
 	nota?: string;
 	/** Título propio de la página. Si falta, se usa "nombre, lema". */
 	encabezado?: { inicio: string; cursiva: string };
+	/** Franja de datos bajo el encabezado (opcional). */
+	cifras?: { valor: string; texto: string }[];
+	/** Lista de checks bajo el precio (opcional). */
+	incluye?: string[];
 	/** Bloque "Por qué": tres razones con su icono. */
 	beneficios: { icono: 'celular' | 'buscar' | 'whatsapp' | 'rayo' | 'escudo' | 'carrito' | 'barras'; titulo: string; texto: string }[];
 	/** Bloque "Cómo trabajamos": tres pasos. */
@@ -36,11 +40,17 @@ export const soluciones: Solucion[] = [
 		resumen: 'Que te encuentren en Google y te escriban.',
 		icono: 'mundo',
 		titular: 'Elige el nivel según cuánto quieras crecer',
-		texto: 'Un sitio responsive y a medida que transmite confianza y profesionalismo a tus clientes.',
+		texto: 'Creamos experiencias digitales que transmiten confianza, destacan tu negocio y te conectan con nuevos clientes.',
 		nota: 'Primer año de dominio y hosting incluido',
 		paquetes: ['landing', 'web-corporativa', 'web-administrable'],
 		lema: 'lista en días',
 		encabezado: { inicio: 'La web que', cursiva: 'tu empresa necesita' },
+		cifras: [
+			{ valor: '24/7', texto: 'tu web siempre en línea' },
+			{ valor: '100 %', texto: 'responsive en celular y PC' },
+			{ valor: '1 año', texto: 'de dominio y hosting' },
+		],
+		incluye: ['Diseño a medida', 'Carga optimizada', 'Certificado de seguridad'],
 		beneficios: [
 			{ icono: 'celular', titulo: 'Se ve bien en el celular', texto: 'Pensada primero para la pantalla del teléfono, donde te buscan tus clientes.' },
 			{ icono: 'buscar', titulo: 'Te encuentran en Google', texto: 'Títulos, mapa del sitio y tu ficha en Google Maps configurados.' },

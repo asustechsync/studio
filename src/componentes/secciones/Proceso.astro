@@ -1,19 +1,18 @@
 ---
-import sitio from '../datos/sitio.json';
+import textos from '../../datos/textos.json';
 ---
 
-<section class="seccion proceso oscuro" id="proceso">
-	<span class="proceso__sol" aria-hidden="true"></span>
+<section class="seccion proceso" id="proceso">
+	<span class="proceso__brillo" aria-hidden="true"></span>
 	<div class="contenedor">
 		<div class="encabezado-seccion revela">
-			<span class="antetitulo">Paso a paso</span>
 			<h2>Cómo trabajo</h2>
 			<p>Cuatro pasos, sin sorpresas.</p>
 		</div>
 		<ol class="pasos">
 			{
-				sitio.pasos.map((p, i) => (
-					<li class="paso revela">
+				textos.pasos.map((p, i) => (
+					<li class="paso tarjeta tarjeta--elevable revela">
 						<span class="paso__numero">{String(i + 1).padStart(2, '0')}</span>
 						<h3>{p.titulo}</h3>
 						<p>{p.texto}</p>
@@ -25,25 +24,24 @@ import sitio from '../datos/sitio.json';
 </section>
 
 <style>
-	/* Cielo de la portada, ya de noche, con el sol escondiéndose abajo */
 	.proceso {
 		position: relative;
 		overflow: hidden;
 		isolation: isolate;
-		color: #fff;
-		background: linear-gradient(180deg, var(--cielo-noche) 0%, var(--cielo-medio) 55%, var(--cielo-violeta) 100%);
+		background: var(--color-fondo);
 	}
 
-	.proceso__sol {
+	/* Brillo del acento que asoma desde abajo */
+	.proceso__brillo {
 		position: absolute;
 		z-index: -1;
 		left: 50%;
-		bottom: -360px;
+		bottom: -380px;
 		width: min(90vw, 760px);
 		aspect-ratio: 1;
 		translate: -50% 0;
-		border-radius: 50%;
-		background: radial-gradient(circle, rgb(217 119 87 / 0.32) 0%, rgb(217 119 87 / 0.1) 30%, transparent 62%);
+		border-radius: var(--radio-redondo);
+		background: radial-gradient(circle, color-mix(in srgb, var(--color-marca) 22%, transparent) 0%, color-mix(in srgb, var(--color-marca) 7%, transparent) 30%, transparent 62%);
 	}
 
 	.pasos {
@@ -59,16 +57,12 @@ import sitio from '../datos/sitio.json';
 		flex-direction: column;
 		gap: 6px;
 		padding: 22px;
-		border-radius: 18px;
-		background: rgb(255 255 255 / 0.06);
-		border: 1px solid rgb(255 255 255 / 0.12);
-		backdrop-filter: blur(8px);
 	}
 
 	.paso__numero {
 		font-family: var(--tipo-titulos);
 		font-weight: 600;
-		font-size: 32px;
+		font-size: var(--titulo-sm);
 		line-height: 1;
 		margin-bottom: 8px;
 		background: linear-gradient(180deg, var(--cielo-arena), var(--cielo-terracota));
@@ -79,13 +73,12 @@ import sitio from '../datos/sitio.json';
 	}
 
 	h3 {
-		color: #fff;
-		font-size: 18px;
+		font-size: var(--texto-xl);
 	}
 
 	.paso p {
-		color: rgb(255 255 255 / 0.72);
-		font-size: 14px;
+		color: var(--color-suave);
+		font-size: var(--texto-md);
 	}
 
 	@media (min-width: 640px) {

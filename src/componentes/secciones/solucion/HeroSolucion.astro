@@ -1,0 +1,234 @@
+---
+// Encabezado de una página de solución: ruta, título, precio desde, lo que incluye, botones,
+// ilustración (si la solución tiene una) y la franja de cifras.
+import Icono from '../../ui/Icono.astro';
+import ArteWeb from '../../ilustraciones/ArteWeb.astro';
+import ArteTienda from '../../ilustraciones/ArteTienda.astro';
+import { enlaceWhatsapp, precioEnSoles } from '../../../lib/enlaces';
+import type { Solucion } from '../../../datos/soluciones';
+
+interface Props {
+	solucion: Solucion;
+	/** Precio más bajo de sus planes; null si todavía no tiene planes. */
+	desde: number | null;
+	mensaje: string;
+}
+
+const { solucion, desde, mensaje } = Astro.props;
+// Las soluciones con animación propia llevan el encabezado en dos columnas
+const artes: Partial<Record<Solucion['icono'], typeof ArteWeb>> = { mundo: ArteWeb, carrito: ArteTienda };
+const Arte = artes[solucion.icono];
+const conArte = Boolean(Arte);
+---
+
+<section class="seccion solucion-pagina">
+	<div class="contenedor">
+		<nav class:list={['migas', { 'migas--izq': conArte }]} aria-label="Ruta">
+			<a href="/soluciones">Soluciones</a>
+			<span aria-hidden="true">/</span>
+			<span>{solucion.nombre}</span>
+		</nav>
+
+		<div class:list={['solucion-hero', { 'solucion-hero--arte': conArte }]}>
+			<div class="encabezado-seccion revela">
+				<h1>{solucion.encabezado ? solucion.encabezado.inicio : `${solucion.nombre},`} <em>{solucion.encabezado ? solucion.encabezado.cursiva : solucion.lema}</em></h1>
+				<p>{solucion.texto}</p>
+				{desde !== null && <p class="desde">desde <b>{precioEnSoles(desde)}</b></p>}
+				{solucion.nota && <p class="nota">{solucion.nota}</p>}
+				{solucion.incluye && (
+					<ul class="incluye">
+						{solucion.incluye.map((i) => (
+							<li>
+								<span class="incluye__icono"><Icono nombre="check" tamano={16} /></span>
+								{i}
+							</li>
+						))}
+					</ul>
+				)}
+				<div class="acciones">
+					<a class="boton boton--whatsapp" href={enlaceWhatsapp(mensaje)} target="_blank" rel="noopener noreferrer">
+						<Icono nombre="whatsapp" />
+						Cotizar
+					</a>
+					{desde !== null && <a class="boton boton--claro" href="#planes">Ver planes</a>}
+				</div>
+			</div>
+			{Arte && <Arte />}
+		</div>
+
+		{solucion.cifras && (
+			<ul class="cifras">
+				{solucion.cifras.map((c) => (
+					<li>
+						<b>{c.valor}</b>
+						<span class="cifras__etiqueta">{c.texto}</span>
+					</li>
+				))}
+			</ul>
+		)}
+	</div>
+</section>
+
+<style>
+	.solucion-pagina {
+		padding-block: 72px 88px;
+		background:
+			radial-gradient(ellipse 70% 320px at 50% 0, color-mix(in srgb, var(--color-marca) 8%, transparent), transparent 70%),
+			var(--color-fondo);
+	}
+
+	.migas {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 32px;
+		font-size: var(--texto-md);
+		color: var(--color-suave);
+	}
+
+	.migas a:hover {
+		color: var(--color-texto);
+	}
+
+	.solucion-hero--arte {
+		display: grid;
+		gap: 56px;
+	}
+
+	.desde {
+		margin-top: 4px;
+		font-size: var(--texto-base);
+	}
+
+	.desde b {
+		margin-left: 4px;
+		font-family: var(--tipo-titulos);
+		font-size: var(--texto-3xl);
+		font-weight: 600;
+		color: var(--color-texto);
+	}
+
+	.encabezado-seccion p.nota {
+		margin-top: -6px;
+		font-size: var(--texto-xs);
+		color: var(--color-suave);
+		opacity: 0.85;
+	}
+
+	/* Visto verde suelto y una línea de texto */
+	.incluye {
+		list-style: none;
+		margin: 4px 0 0;
+		padding: 0;
+		display: grid;
+		gap: 10px;
+		font-size: var(--texto-base);
+		color: var(--color-texto);
+	}
+
+	.incluye li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.incluye__icono {
+		flex: none;
+		display: grid;
+		color: var(--color-whatsapp);
+	}
+
+	/* Botones gemelos: mismo ancho, misma altura y esquinas poco redondeadas */
+	.acciones {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+		width: 100%;
+		max-width: 360px;
+		margin: 8px auto 0;
+	}
+
+	.acciones :global(.boton) {
+		min-height: 42px;
+		padding-inline: 12px;
+		border-radius: var(--radio);
+		font-size: var(--texto-md);
+	}
+
+	/* Una sola franja con divisores entre cifras */
+	.cifras {
+		list-style: none;
+		display: grid;
+		margin: 56px 0 0;
+		padding: 0;
+		border: 1px solid var(--color-borde);
+		border-radius: var(--radio);
+		background: var(--color-superficie);
+		overflow: hidden;
+	}
+
+	.cifras li {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 28px 32px;
+	}
+
+	.cifras li + li {
+		border-top: 1px solid var(--color-borde);
+	}
+
+	.cifras__etiqueta {
+		font-size: var(--texto-md);
+		color: var(--color-suave);
+	}
+
+	.cifras b {
+		font-family: var(--tipo-titulos);
+		font-size: var(--titulo-pagina);
+		font-weight: 600;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+		color: var(--color-texto);
+	}
+
+	@media (min-width: 768px) {
+		.cifras {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			margin-top: 72px;
+		}
+
+		.cifras li + li {
+			border-top: 0;
+			border-left: 1px solid var(--color-borde);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.solucion-hero--arte {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+			align-items: center;
+			gap: 72px;
+		}
+
+		.solucion-hero--arte .encabezado-seccion {
+			align-items: flex-start;
+			text-align: left;
+			margin-bottom: 0;
+			gap: 20px;
+		}
+
+		.solucion-hero--arte .acciones {
+			margin: 12px 0 0;
+		}
+
+		.migas--izq {
+			justify-content: flex-start;
+		}
+
+		.solucion-hero--arte h1 {
+			font-size: var(--titulo-pagina);
+		}
+	}
+</style>

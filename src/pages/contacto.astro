@@ -1,10 +1,10 @@
 ---
 import Interna from '../layouts/Interna.astro';
-import Icono from '../componentes/Icono.astro';
-import sitio from '../datos/sitio.json';
+import Icono from '../componentes/ui/Icono.astro';
+import negocio from '../datos/negocio.json';
 import { enlaceWhatsapp } from '../lib/enlaces';
 
-const { pie } = sitio;
+const { pie } = negocio;
 const redes = [
 	{ texto: 'Instagram', href: pie.instagram },
 	{ texto: 'Facebook', href: pie.facebook },
@@ -12,22 +12,21 @@ const redes = [
 ].filter((r) => r.href);
 ---
 
-<Interna titulo="Contacto" descripcion={`Escríbenos por WhatsApp. ${sitio.ciudad}.`}>
+<Interna titulo="Contacto" descripcion={`Escríbenos por WhatsApp. ${negocio.ciudad}.`}>
 	<section class="seccion">
 		<div class="contenedor contacto">
 			<div class="encabezado-seccion revela">
-				<span class="antetitulo">{sitio.ciudad}</span>
 				<h1>Contacto</h1>
 				<p>Escríbenos y te decimos qué te conviene, sin compromiso.</p>
 			</div>
-			<a class="boton boton--whatsapp" href={enlaceWhatsapp()} target="_blank" rel="noopener">
+			<a class="boton boton--whatsapp" href={enlaceWhatsapp()} target="_blank" rel="noopener noreferrer">
 				<Icono nombre="whatsapp" />
 				Escribir por WhatsApp
 			</a>
 			<ul class="datos">
-				<li><span>Correo</span><a href={`mailto:${sitio.correo}`}>{sitio.correo}</a></li>
+				<li><span>Correo</span><a href={`mailto:${negocio.correo}`}>{negocio.correo}</a></li>
 				{pie.horario && <li><span>Horario</span>{pie.horario}</li>}
-				{redes.map((r) => <li><span>{r.texto}</span><a href={r.href} target="_blank" rel="noopener">{r.texto}</a></li>)}
+				{redes.map((r) => <li><span>{r.texto}</span><a href={r.href} target="_blank" rel="noopener noreferrer">{r.texto}</a></li>)}
 			</ul>
 		</div>
 	</section>
@@ -48,12 +47,12 @@ const redes = [
 		margin: 0;
 		display: grid;
 		gap: 10px;
-		font-size: 16px;
+		font-size: var(--texto-lg);
 	}
 
 	.datos span {
 		display: block;
-		font-size: 13px;
+		font-size: var(--texto-sm);
 		color: var(--color-suave);
 	}
 

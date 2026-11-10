@@ -1,0 +1,40 @@
+/* Animaciones compartidas. Todas se apagan si la persona pidió reducir el movimiento. */
+
+/* Aparición al entrar en pantalla.
+   El script de Base.astro pone .con-js en <html> y añade .visible a cada .revela una sola vez.
+   Sin JS o con movimiento reducido, todo se ve normal desde el inicio. */
+@media (prefers-reduced-motion: no-preference) {
+	.con-js .revela:not(.visible) {
+		opacity: 0;
+		transform: translateY(22px);
+	}
+
+	.con-js .revela.visible {
+		animation: revela-entra var(--duracion-lenta) var(--curva-salida) both;
+		animation-delay: var(--retraso, 0ms);
+	}
+}
+
+@keyframes revela-entra {
+	from {
+		opacity: 0;
+		transform: translateY(22px);
+	}
+}
+
+/* Flotar suave: lo usan las mini pantallas de Soluciones */
+@keyframes flota {
+	0%,
+	100% {
+		translate: 0 0;
+	}
+	50% {
+		translate: 0 -5px;
+	}
+}
+
+/* Ilustraciones fuera de pantalla: el script de Base.astro les pone .fuera-de-vista y se congelan */
+.fuera-de-vista,
+.fuera-de-vista * {
+	animation-play-state: paused !important;
+}

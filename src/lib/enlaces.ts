@@ -1,8 +1,8 @@
-import sitio from '../datos/sitio.json';
+import negocio from '../datos/negocio.json';
 
 /** Enlace a WhatsApp con un mensaje ya escrito. */
-export function enlaceWhatsapp(mensaje: string = sitio.mensajeWhatsapp): string {
-	return `https://wa.me/${sitio.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+export function enlaceWhatsapp(mensaje: string = negocio.mensajeWhatsapp): string {
+	return `https://wa.me/${negocio.whatsapp}?text=${encodeURIComponent(mensaje)}`;
 }
 
 const formatoSoles = new Intl.NumberFormat('es-PE', { maximumFractionDigits: 0 });

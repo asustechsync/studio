@@ -1,0 +1,290 @@
+---
+import textos from '../../datos/textos.json';
+import { enlaceWhatsapp } from '../../lib/enlaces';
+import Icono from '../ui/Icono.astro';
+import PanelMuestra from '../ilustraciones/PanelMuestra.astro';
+
+const { portada, tecnologias } = textos;
+---
+
+<section class="portada">
+	<div class="contenedor portada__texto">
+		{
+			portada.antetitulo && (
+				<span class="portada__insignia entra" style="--i:0">
+					<i aria-hidden="true" />
+					{portada.antetitulo}
+				</span>
+			)
+		}
+		<h1 class="entra" style="--i:1">
+			{portada.titulo.inicio} <em>{portada.titulo.cursiva}</em> {portada.titulo.fin}
+		</h1>
+		<p class="portada__subtitulo entra" style="--i:2">{portada.subtitulo}</p>
+		<div class="portada__acciones entra" style="--i:3">
+			<a class="boton boton--marca portada__boton" href="#soluciones">
+				Ver soluciones
+				<Icono nombre="flecha" />
+			</a>
+			{
+				portada.enlaceDemo ? (
+					<a class="boton boton--claro portada__boton" href={portada.enlaceDemo} target="_blank" rel="noopener noreferrer">
+						<Icono nombre="reproducir" />
+						Probar tienda demo
+					</a>
+				) : (
+					<a class="boton boton--claro portada__boton" href={enlaceWhatsapp()} target="_blank" rel="noopener noreferrer">
+						<Icono nombre="whatsapp" />
+						Escríbenos
+					</a>
+				)
+			}
+		</div>
+	</div>
+
+	<div class="portada__escenario">
+		<div class="contenedor portada__escena">
+			<div class="portada__inclinacion">
+				<div class="portada__panel">
+					<PanelMuestra />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{
+		tecnologias.length > 0 && (
+			<div class="contenedor portada__tecnologias revela">
+				<h2>Con lo que trabajamos</h2>
+				<ul>
+					{tecnologias.map((t) => (
+						<li>{t}</li>
+					))}
+				</ul>
+			</div>
+		)
+	}
+</section>
+
+<style>
+	.portada {
+		position: relative;
+		overflow: hidden;
+		isolation: isolate;
+		margin-top: calc(var(--alto-cabecera) * -1);
+		padding-top: 128px;
+		padding-bottom: 56px;
+		background:
+			radial-gradient(ellipse 70% 420px at 50% 0, var(--color-superficie), transparent 75%),
+			var(--color-fondo);
+		color: var(--color-texto);
+		text-align: center;
+	}
+
+	.portada__texto {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 18px;
+	}
+
+	/* Insignia con punto de acento sobre el titular */
+	.portada__insignia {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--espacio-2);
+		padding: var(--espacio-1) var(--espacio-3);
+		border-radius: var(--radio-sm);
+		font-size: var(--texto-sm);
+		font-weight: 500;
+		color: var(--color-texto);
+		background: var(--color-superficie);
+		border: 1px solid var(--color-borde);
+	}
+
+	.portada__insignia i {
+		width: 7px;
+		height: 7px;
+		border-radius: var(--radio-redondo);
+		background: var(--color-marca-hover);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-marca) 15%, transparent);
+	}
+
+	/* Titular: crece solo con la pantalla; en escritorio cabe en dos líneas */
+	h1 {
+		color: var(--color-texto);
+		font-size: var(--titulo-portada);
+		line-height: 1.08;
+		letter-spacing: -0.02em;
+		max-width: 20ch;
+	}
+
+	/* Palabras destacadas en cursiva serif */
+	h1 em {
+		font-family: var(--tipo-cursiva);
+		font-style: italic;
+		font-weight: 400;
+		font-size: 1.14em;
+		letter-spacing: 0;
+		color: var(--color-destacado);
+	}
+
+	.portada__subtitulo {
+		color: var(--color-suave);
+		font-size: var(--texto-intro);
+		max-width: 46ch;
+	}
+
+	.portada__acciones {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 6px;
+	}
+
+	/* Los botones de la portada son un poco más altos que los del resto del sitio */
+	.portada__boton {
+		min-height: 46px;
+		padding-inline: 22px;
+	}
+
+	.portada__escenario {
+		position: relative;
+		margin-top: 56px;
+	}
+
+	/* El panel asoma desde abajo: se recorta solo por abajo (no por los lados, para no cortar su sombra)
+	   y su parte final se disuelve en el fondo */
+	.portada__escena {
+		position: relative;
+		max-width: 980px;
+		height: 330px;
+		perspective: 1600px;
+		clip-path: inset(-120px -120px 0 -120px);
+	}
+
+	.portada__inclinacion {
+		transform-origin: 50% 0;
+	}
+
+	.portada__escena::after {
+		content: '';
+		position: absolute;
+		z-index: 1;
+		inset: auto -140px 0;
+		height: 65%;
+		background: linear-gradient(180deg, transparent, var(--color-fondo) 85%);
+		pointer-events: none;
+	}
+
+	/* Franja de tecnologías */
+	.portada__tecnologias {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 22px;
+		margin-top: var(--espacio-5);
+	}
+
+	.portada__tecnologias h2 {
+		font-size: var(--texto-2xl);
+		letter-spacing: -0.01em;
+	}
+
+	.portada__tecnologias ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 14px 40px;
+	}
+
+	.portada__tecnologias li {
+		font-family: var(--tipo-titulos);
+		font-weight: 600;
+		font-size: var(--texto-2xl);
+		letter-spacing: -0.02em;
+		color: var(--color-apagado);
+	}
+
+	@media (min-width: 640px) {
+		.portada__escena {
+			height: 400px;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.portada {
+			padding-top: 150px;
+			padding-bottom: 72px;
+		}
+
+		h1 {
+			max-width: 27ch;
+		}
+
+		.portada__escenario {
+			margin-top: 72px;
+		}
+
+		.portada__escena {
+			height: 440px;
+		}
+
+		.portada__tecnologias li {
+			font-size: var(--texto-3xl);
+		}
+	}
+
+	/* Movimiento: solo si la persona no pidió reducirlo */
+	@media (prefers-reduced-motion: no-preference) {
+		.entra {
+			animation: portada-entra var(--duracion-lenta) var(--curva-suave) both;
+			animation-delay: calc(var(--i) * 90ms + 120ms);
+		}
+
+		.portada__panel {
+			animation: portada-sube 1.2s 0.6s var(--curva-suave) both;
+		}
+
+		.portada__inclinacion {
+			transform: rotateX(16deg) scale(0.94);
+		}
+
+		@supports (animation-timeline: view()) {
+			.portada__inclinacion {
+				animation: portada-endereza linear both;
+				animation-timeline: view();
+				animation-range: entry 10% cover 50%;
+			}
+		}
+	}
+
+	@keyframes portada-entra {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+			filter: blur(8px);
+		}
+	}
+
+	@keyframes portada-sube {
+		from {
+			opacity: 0;
+			transform: translateY(120px);
+		}
+	}
+
+	@keyframes portada-endereza {
+		from {
+			transform: rotateX(16deg) scale(0.94);
+		}
+		to {
+			transform: rotateX(0deg) scale(1);
+		}
+	}
+</style>

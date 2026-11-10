@@ -1,10 +1,10 @@
 ---
 // Datos estructurados (Schema.org) para que Google entienda quién es el negocio
-// y qué paquetes ofrece. Salen de sitio.json y de la colección de paquetes.
+// y qué paquetes ofrece. Salen de negocio.json y de la colección de paquetes.
 import { getCollection } from 'astro:content';
-import sitio from '../datos/sitio.json';
+import negocio from '../../datos/negocio.json';
 
-const [ciudad, pais] = sitio.ciudad.split(',').map((parte) => parte.trim());
+const [ciudad, pais] = negocio.ciudad.split(',').map((parte) => parte.trim());
 const paquetes = (await getCollection('paquetes', ({ data }) => data.publicado)).sort(
 	(a, b) => a.data.orden - b.data.orden,
 );
@@ -12,14 +12,15 @@ const paquetes = (await getCollection('paquetes', ({ data }) => data.publicado))
 const datos = {
 	'@context': 'https://schema.org',
 	'@type': 'ProfessionalService',
-	name: sitio.marca,
-	description: sitio.portada.subtitulo,
+	name: negocio.marca,
+	description: negocio.descripcion,
 	url: Astro.site?.href,
-	telephone: `+${sitio.whatsapp}`,
-	email: sitio.correo,
+	telephone: `+${negocio.whatsapp}`,
+	email: negocio.correo,
+	taxID: negocio.ruc,
 	address: { '@type': 'PostalAddress', addressLocality: ciudad, addressCountry: pais === 'Perú' ? 'PE' : pais },
 	areaServed: ciudad,
-	...(sitio.imagenCompartir && { image: new URL(sitio.imagenCompartir, Astro.site).href }),
+	...(negocio.imagenCompartir && { image: new URL(negocio.imagenCompartir, Astro.site).href }),
 	makesOffer: paquetes.map(({ data }) => ({
 		'@type': 'Offer',
 		name: data.nombre,
@@ -30,4 +31,4 @@ const datos = {
 };
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(datos)} />
+<script type="application/ld+json" set:html={JSON.stringify(datos).replace(/</g, '\\u003c')} />

@@ -1,7 +1,7 @@
 ---
 // Tarjeta de un paquete con su precio. Se usa en la página de cada solución.
 import type { CollectionEntry } from 'astro:content';
-import { enlaceWhatsapp, precioEnSoles } from '../lib/enlaces';
+import { enlaceWhatsapp, precioEnSoles } from '../../lib/enlaces';
 import Icono from './Icono.astro';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const { data } = Astro.props;
 ---
 
-<article class:list={['paquete', 'revela', { 'paquete--destacado': data.destacado }]}>
+<article class:list={['paquete', 'tarjeta', 'tarjeta--elevable', 'revela', { 'paquete--destacado': data.destacado }]}>
 	<span class="paquete__etiqueta">{data.etiqueta}</span>
 	<h2>{data.nombre}</h2>
 	<div class="paquete__precio">
@@ -51,7 +51,7 @@ const { data } = Astro.props;
 		class:list={['boton', data.destacado ? 'boton--crema' : 'boton--claro', 'paquete__boton']}
 		href={enlaceWhatsapp(`Hola, me interesa el paquete ${data.nombre}`)}
 		target="_blank"
-		rel="noopener"
+		rel="noopener noreferrer"
 	>
 		Lo quiero
 	</a>
@@ -63,61 +63,51 @@ const { data } = Astro.props;
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-		border-radius: 18px;
 		padding: 26px;
-		box-shadow: var(--sombra-suave);
-		transition: translate 0.25s ease, box-shadow 0.25s ease;
-	}
-
-	.paquete:hover {
-		translate: 0 -4px;
-		box-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 22px 44px -16px rgb(0 0 0 / 0.7);
 	}
 
 	/* El destacado lleva el cielo de la portada */
 	.paquete--destacado {
-		--color-texto: #fff;
-		--color-suave: rgb(255 255 255 / 0.72);
-		--color-borde: rgb(255 255 255 / 0.14);
+		--color-texto: var(--color-blanco);
+		--color-suave: color-mix(in srgb, var(--color-blanco) 72%, transparent);
+		--color-borde: color-mix(in srgb, var(--color-blanco) 14%, transparent);
 		--color-exito: var(--cielo-arena);
-		color: #fff;
+		color: var(--color-blanco);
 		background:
-			radial-gradient(circle at 50% 120%, rgb(217 119 87 / 0.3), transparent 55%),
+			radial-gradient(circle at 50% 120%, color-mix(in srgb, var(--color-marca) 30%, transparent), transparent 55%),
 			var(--degradado-cielo);
-		border-color: rgb(217 119 87 / 0.55);
-		box-shadow: 0 24px 48px -18px rgb(217 119 87 / 0.25);
+		border-color: color-mix(in srgb, var(--color-marca) 55%, transparent);
+		box-shadow: 0 24px 48px -18px color-mix(in srgb, var(--color-marca) 25%, transparent);
 	}
 
 	.paquete__etiqueta {
 		align-self: flex-start;
-		font-size: 12px;
+		font-size: var(--texto-xs);
 		font-weight: 600;
 		letter-spacing: 0.03em;
 		color: var(--color-marca-texto);
 		background: var(--color-marca-suave);
-		border-radius: 999px;
-		padding: 3px 12px;
+		border-radius: var(--radio-sm);
+		padding: 4px 10px;
 	}
 
 	.paquete--destacado .paquete__etiqueta {
-		color: #fff;
-		background: rgb(255 255 255 / 0.1);
-		border: 1px solid rgb(255 255 255 / 0.2);
+		color: var(--color-blanco);
+		background: color-mix(in srgb, var(--color-blanco) 10%, transparent);
+		border: 1px solid color-mix(in srgb, var(--color-blanco) 20%, transparent);
 	}
 
 	h2 {
 		margin: 0;
 		font-family: var(--tipo-titulos);
 		font-weight: 600;
-		font-size: 20px;
+		font-size: var(--texto-2xl);
 		line-height: 1.15;
 	}
 
 	.paquete__renovacion {
 		display: block;
-		font-size: 13px;
+		font-size: var(--texto-sm);
 	}
 
 	.paquete__precio {
@@ -125,19 +115,19 @@ const { data } = Astro.props;
 		align-items: baseline;
 		gap: 6px;
 		color: var(--color-suave);
-		font-size: 14px;
+		font-size: var(--texto-md);
 	}
 
 	.paquete__precio b {
 		font-family: var(--tipo-titulos);
-		font-size: 32px;
+		font-size: var(--titulo-sm);
 		font-weight: 600;
 		color: var(--color-texto);
 		font-variant-numeric: tabular-nums;
 	}
 
 	.paquete__plazo {
-		font-size: 14px;
+		font-size: var(--texto-md);
 		color: var(--color-suave);
 		padding-bottom: 12px;
 		border-bottom: 1px solid var(--color-borde);
@@ -150,7 +140,7 @@ const { data } = Astro.props;
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
-		font-size: 14px;
+		font-size: var(--texto-md);
 	}
 
 	.paquete__lista li {

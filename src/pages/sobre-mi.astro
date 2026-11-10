@@ -1,10 +1,25 @@
 ---
 import Interna from '../layouts/Interna.astro';
-import SobreMi from '../componentes/SobreMi.astro';
-import Testimonios from '../componentes/Testimonios.astro';
+import SobreMi from '../componentes/secciones/SobreMi.astro';
+import Testimonios from '../componentes/secciones/Testimonios.astro';
+import { sobreMiCompleta } from '../lib/sobre-mi';
+import { enlaceWhatsapp } from '../lib/enlaces';
 ---
 
-<Interna titulo="Quién está detrás" descripcion="Conoce a la persona que hace tu web.">
-	<SobreMi />
-	<Testimonios />
+{/* Mientras falten nombre y texto en textos.json, la página no se indexa ni entra al sitemap (ver astro.config.mjs) */}
+<Interna titulo="Quién está detrás" descripcion="Conoce a la persona que hace tu web." indexar={sobreMiCompleta}>
+	{sobreMiCompleta ? (
+		<>
+			<SobreMi />
+			<Testimonios />
+		</>
+	) : (
+		<section class="seccion">
+			<div class="contenedor encabezado-seccion">
+				<h1>Muy pronto</h1>
+				<p>Estamos preparando esta página. Mientras tanto, escríbenos y conversamos sobre tu proyecto.</p>
+				<a class="boton boton--whatsapp" href={enlaceWhatsapp()} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+			</div>
+		</section>
+	)}
 </Interna>

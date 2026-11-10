@@ -29,6 +29,12 @@ const proyectos = defineCollection({
 		tecnologias: z.array(z.string()).default([]),
 		imagen: z.string().optional(),
 		enlace: z.string().optional(),
+		/** Rubro del cliente, se muestra como etiqueta sobre la imagen. */
+		categoria: z.string().optional(),
+		/** Ventajas del proyecto, se muestran como etiquetas en el destacado. */
+		ventajas: z.array(z.string()).default([]),
+		/** Ciudad o país del cliente, se muestra al pie de la tarjeta. */
+		ubicacion: z.string().optional(),
 		/** Slug de la solución a la que pertenece (ver src/datos/soluciones.ts). */
 		solucion: z.string().optional(),
 		orden: z.number(),

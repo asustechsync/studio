@@ -1,0 +1,153 @@
+/* Piezas compartidas por todas las páginas: contenedor, sección, encabezado, botones y tarjeta. */
+
+.contenedor {
+	width: 100%;
+	max-width: var(--ancho);
+	margin-inline: auto;
+	padding-inline: var(--margen);
+}
+
+.seccion {
+	padding-block: var(--seccion);
+}
+
+/* Encabezado de sección: título, texto y palabra destacada en cursiva */
+.encabezado-seccion {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: var(--espacio-3);
+	margin-bottom: 40px;
+}
+
+.encabezado-seccion h2 {
+	font-size: var(--titulo-seccion);
+	letter-spacing: -0.02em;
+	max-width: 22ch;
+}
+
+.encabezado-seccion :is(h1, h2) em {
+	font-family: var(--tipo-cursiva);
+	font-style: italic;
+	font-weight: 400;
+	font-size: 1.14em;
+	letter-spacing: 0;
+	color: var(--color-destacado);
+}
+
+.encabezado-seccion p {
+	color: var(--color-suave);
+	font-size: var(--texto-intro);
+	max-width: 46ch;
+}
+
+/* ── Botones ─────────────────────────────────────────────── */
+.boton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--espacio-2);
+	min-height: 44px;
+	padding: 10px 18px;
+	border-radius: var(--radio);
+	font-weight: 600;
+	font-size: var(--texto-base);
+	text-decoration: none;
+	border: 1px solid transparent;
+	transition:
+		transform var(--duracion-rapida) ease,
+		background-color var(--duracion-rapida) ease,
+		border-color var(--duracion-rapida) ease;
+}
+
+.boton:active {
+	transform: scale(0.98);
+}
+
+.boton--marca {
+	background: var(--color-marca);
+	color: var(--color-sobre-marca);
+}
+
+.boton--marca:hover {
+	background: var(--color-marca-hover);
+}
+
+.boton--claro {
+	background: var(--color-superficie);
+	color: var(--color-texto);
+	border-color: var(--color-borde-fuerte);
+}
+
+.boton--claro:hover {
+	background: var(--color-superficie-alta);
+}
+
+.boton--crema {
+	background: var(--color-crema);
+	color: var(--color-oscuro);
+}
+
+.boton--crema:hover {
+	background: var(--color-blanco);
+}
+
+.boton--whatsapp {
+	background: var(--color-whatsapp);
+	color: var(--color-blanco);
+}
+
+.boton--whatsapp:hover {
+	background: var(--color-whatsapp-hover);
+}
+
+/* ── Tarjeta ─────────────────────────────────────────────── */
+/* Fondo, borde, esquinas y sombra iguales en todo el sitio.
+   Con .tarjeta--elevable sube un poco al pasar el mouse. */
+.tarjeta {
+	background: var(--tarjeta-fondo);
+	border: 1px solid var(--tarjeta-borde);
+	border-radius: var(--tarjeta-radio);
+	box-shadow: var(--sombra-suave);
+}
+
+.tarjeta--elevable {
+	transition:
+		translate var(--duracion) ease,
+		box-shadow var(--duracion) ease,
+		border-color var(--duracion) ease;
+}
+
+.tarjeta--elevable:hover {
+	translate: 0 -4px;
+	border-color: var(--color-borde-fuerte);
+	box-shadow: var(--sombra-alta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.boton,
+	.tarjeta--elevable {
+		transition: none;
+	}
+}
+
+/* ── Saltar al contenido ─────────────────────────────────── */
+/* Primer enlace de cada página: invisible hasta que se llega con Tab */
+.saltar {
+	position: absolute;
+	z-index: 100;
+	top: var(--espacio-2);
+	left: var(--espacio-2);
+	padding: var(--espacio-2) var(--espacio-4);
+	border-radius: var(--radio);
+	background: var(--color-marca);
+	color: var(--color-sobre-marca);
+	font-weight: 600;
+	text-decoration: none;
+	translate: 0 -200%;
+}
+
+.saltar:focus {
+	translate: 0 0;
+}

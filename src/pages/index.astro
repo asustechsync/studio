@@ -1,23 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
-import Cabecera from '../componentes/Cabecera.astro';
-import Portada from '../componentes/Portada.astro';
-import Garantias from '../componentes/Garantias.astro';
-import Soluciones from '../componentes/Soluciones.astro';
-import Portafolio from '../componentes/Portafolio.astro';
-import SobreMi from '../componentes/SobreMi.astro';
-import Testimonios from '../componentes/Testimonios.astro';
-import Proceso from '../componentes/Proceso.astro';
-import Preguntas from '../componentes/Preguntas.astro';
-import Llamado from '../componentes/Llamado.astro';
-import DatosNegocio from '../componentes/DatosNegocio.astro';
-import sitio from '../datos/sitio.json';
+import Cabecera from '../componentes/sitio/Cabecera.astro';
+import Portada from '../componentes/secciones/Portada.astro';
+import Garantias from '../componentes/secciones/Garantias.astro';
+import Soluciones from '../componentes/secciones/Soluciones.astro';
+import Portafolio from '../componentes/secciones/Portafolio.astro';
+import Proceso from '../componentes/secciones/Proceso.astro';
+import Preguntas from '../componentes/secciones/Preguntas.astro';
+import Pie from '../componentes/sitio/Pie.astro';
+import DatosNegocio from '../componentes/sitio/DatosNegocio.astro';
+import negocio from '../datos/negocio.json';
 ---
 
-<Base titulo={`${sitio.marca} · Desarrollo web y comercio electrónico`} descripcion={sitio.portada.subtitulo}>
+<Base titulo={`${negocio.marca} · Desarrollo web y comercio electrónico`} descripcion={negocio.descripcion}>
 	<DatosNegocio slot="head" />
 	<Cabecera />
-	<main>
+	<main id="contenido">
 		<Portada />
 		<Soluciones />
 		<Garantias />
@@ -25,5 +23,5 @@ import sitio from '../datos/sitio.json';
 		<Proceso />
 		<Preguntas />
 	</main>
-	<Llamado />
+	<Pie />
 </Base>

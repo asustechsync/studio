@@ -1,17 +1,31 @@
 ---
+// Fuentes alojadas en el propio sitio (sin pedirlas a Google): solo latín y solo los pesos que se usan
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/manrope/latin-400.css';
+import '@fontsource/manrope/latin-500.css';
+import '@fontsource/manrope/latin-600.css';
+import '@fontsource/instrument-serif/latin-400.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
 import '../estilos/global.css';
-import sitio from '../datos/sitio.json';
+// Las dos letras que se ven primero se piden de inmediato, así el titular no cambia de letra al cargar
+import poppins600 from '@fontsource/poppins/files/poppins-latin-600-normal.woff2?url';
+import manrope400 from '@fontsource/manrope/files/manrope-latin-400-normal.woff2?url';
+import negocio from '../datos/negocio.json';
 
 interface Props {
 	titulo: string;
 	descripcion: string;
 	/** Ruta de una imagen en public/ para la vista al compartir, por ejemplo "/compartir.jpg". */
 	imagen?: string;
+	/** false: la página no se indexa en Google (por ejemplo, mientras está incompleta). */
+	indexar?: boolean;
 }
 
-const { titulo, descripcion, imagen = sitio.imagenCompartir } = Astro.props;
+const { titulo, descripcion, imagen = negocio.imagenCompartir, indexar = true } = Astro.props;
 const canonica = new URL(Astro.url.pathname, Astro.site);
 const imagenUrl = imagen ? new URL(imagen, Astro.site) : undefined;
+// Solo en el sitio publicado: en local no se cuentan visitas
+const tokenAnalitica = import.meta.env.PROD ? negocio.analitica.cloudflareToken : '';
 ---
 
 <!doctype html>
@@ -21,27 +35,27 @@ const imagenUrl = imagen ? new URL(imagen, Astro.site) : undefined;
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{titulo}</title>
 		<meta name="description" content={descripcion} />
+		{!indexar && <meta name="robots" content="noindex" />}
 		<link rel="canonical" href={canonica} />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<meta name="theme-color" content="#141413" />
+		<link rel="preload" href={poppins600} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={manrope400} as="font" type="font/woff2" crossorigin />
 
 		<!-- Vista al compartir en WhatsApp, Facebook y otras redes -->
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content="es_PE" />
-		<meta property="og:site_name" content={sitio.marca} />
+		<meta property="og:site_name" content={negocio.marca} />
 		<meta property="og:title" content={titulo} />
 		<meta property="og:description" content={descripcion} />
 		<meta property="og:url" content={canonica} />
 		{imagenUrl && <meta property="og:image" content={imagenUrl} />}
 		<meta name="twitter:card" content={imagenUrl ? 'summary_large_image' : 'summary'} />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Manrope:wght@400;500;600&family=Plus+Jakarta+Sans:wght@800&family=Poppins:wght@600&display=swap"
-		/>
 		<slot name="head" />
 		<!-- Va en el head para ocultar los bloques antes de pintar y evitar parpadeo -->
 		<script is:inline>
@@ -49,7 +63,25 @@ const imagenUrl = imagen ? new URL(imagen, Astro.site) : undefined;
 		</script>
 	</head>
 	<body>
+		<a class="saltar" href="#contenido">Saltar al contenido</a>
 		<slot />
+		{/* Visitas con Cloudflare Web Analytics: sin cookies ni aviso. Se activa al poner el token en negocio.json */}
+		{tokenAnalitica && (
+			<script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon={JSON.stringify({ token: tokenAnalitica })}></script>
+		)}
+		<script>
+			// Clic en WhatsApp: es la conversión del sitio. Se envía a Tag Manager / GA4 cuando estén instalados
+			// (window.dataLayer) y como evento del navegador para cualquier otra herramienta.
+			document.addEventListener('click', (evento) => {
+				const enlace = (evento.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="https://wa.me/"]');
+				if (!enlace) return;
+				const ubicacion = enlace.closest('header, footer, section[id], main')?.id || enlace.closest('header, footer')?.tagName.toLowerCase() || 'pagina';
+				const datos = { event: 'clic_whatsapp', ubicacion, pagina: location.pathname };
+				const ventana = window as typeof window & { dataLayer?: object[] };
+				ventana.dataLayer?.push(datos);
+				document.dispatchEvent(new CustomEvent('studio:whatsapp', { detail: datos }));
+			});
+		</script>
 		<script>
 			// Muestra cada .revela una sola vez al entrar en pantalla; los que entran juntos salen escalonados.
 			const observador = new IntersectionObserver(
@@ -66,6 +98,12 @@ const imagenUrl = imagen ? new URL(imagen, Astro.site) : undefined;
 				{ rootMargin: '0px 0px -20% 0px' },
 			);
 			document.querySelectorAll('.revela').forEach((el) => observador.observe(el));
+
+			// Pausa las ilustraciones animadas mientras están fuera de pantalla para no gastar batería ni CPU.
+			const pausador = new IntersectionObserver((entradas) =>
+				entradas.forEach((e) => e.target.classList.toggle('fuera-de-vista', !e.isIntersecting)),
+			);
+			document.querySelectorAll('[data-animado]').forEach((el) => pausador.observe(el));
 		</script>
 	</body>
 </html>

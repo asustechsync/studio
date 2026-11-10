@@ -7,6 +7,11 @@ tecnologias:
   - Astro
 enlace: ""
 solucion: web-para-tu-negocio
+ventajas:
+  - Programa del evento
+  - Ubicación en el mapa
+  - Botón de inscripción
+categoria: Eventos
 orden: 4
 publicado: true
 ---

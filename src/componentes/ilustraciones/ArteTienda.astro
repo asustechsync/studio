@@ -4,7 +4,7 @@
 // y llega el pedido por WhatsApp. Al final se publica en tu dominio.
 ---
 
-<div class="arte-tienda" aria-hidden="true">
+<div class="arte-tienda" aria-hidden="true" data-animado>
 	<div class="at-ventana">
 		<div class="at-barra">
 			<i></i><i></i><i></i>
@@ -61,7 +61,7 @@
 		min-width: 0;
 		height: 290px;
 		background: var(--color-superficie);
-		border: 1px solid #3d3a34;
+		border: 1px solid var(--color-borde-fuerte);
 		border-radius: 14px;
 		box-shadow: var(--sombra-suave);
 	}
@@ -79,7 +79,7 @@
 		width: 7px;
 		height: 7px;
 		border-radius: 50%;
-		background: #3d3a34;
+		background: var(--color-borde-fuerte);
 	}
 
 	.at-url {
@@ -141,14 +141,14 @@
 		width: 22px;
 		height: 4px;
 		border-radius: 2px;
-		background: #3d3a34;
+		background: var(--color-borde-fuerte);
 	}
 
 	.at-hero {
 		position: relative;
 		height: 66px;
 		border-radius: 10px;
-		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+		background: linear-gradient(160deg, var(--color-marca-sombra), var(--color-marca));
 		overflow: hidden;
 	}
 
@@ -160,14 +160,14 @@
 		bottom: 0;
 		left: -50%;
 		width: 40%;
-		background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.18), transparent);
+		background: linear-gradient(100deg, transparent, color-mix(in srgb, var(--color-blanco) 18%, transparent), transparent);
 	}
 
 	.at-titulo {
 		height: 7px;
 		width: 52%;
 		border-radius: 4px;
-		background: #e9e4d8;
+		background: var(--color-crema);
 		transform-origin: left;
 	}
 
@@ -185,8 +185,8 @@
 		gap: 5px;
 		padding: 6px;
 		border-radius: 9px;
-		background: #26241f;
-		border: 1px solid #2e2c28;
+		background: var(--color-superficie-alta);
+		border: 1px solid var(--color-borde);
 	}
 
 	.at-foto {
@@ -195,22 +195,22 @@
 	}
 
 	.at-foto--a {
-		background: #5a3324;
+		background: color-mix(in srgb, var(--color-marca) 40%, black);
 	}
 
 	.at-foto--b {
-		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+		background: linear-gradient(160deg, var(--color-marca-sombra), var(--color-marca));
 	}
 
 	.at-foto--c {
-		background: #3a2a22;
+		background: var(--color-marca-sombra);
 	}
 
 	.at-nombre {
 		height: 4px;
 		width: 70%;
 		border-radius: 2px;
-		background: #4a4640;
+		background: var(--color-linea-fuerte);
 	}
 
 	.at-precio {
@@ -232,7 +232,7 @@
 		border-right: 7px solid transparent;
 		border-bottom: 16px solid var(--color-texto);
 		rotate: -30deg;
-		filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.8));
+		filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--color-negro) 80%, transparent));
 		opacity: 0;
 	}
 
@@ -260,7 +260,7 @@
 		font-size: 11px;
 		color: var(--color-texto);
 		background: var(--color-fondo);
-		border: 1px solid rgb(94 194 143 / 0.5);
+		border: 1px solid color-mix(in srgb, var(--color-exito) 50%, transparent);
 		opacity: 0;
 	}
 
@@ -293,7 +293,7 @@
 		border-radius: 50%;
 		font-size: 14px;
 		font-weight: 700;
-		color: #141413;
+		color: var(--color-fondo);
 		background: var(--color-exito);
 		transform: scale(0);
 	}
@@ -305,8 +305,8 @@
 		height: 224px;
 		padding: 6px;
 		border-radius: 20px;
-		background: #0f0e0d;
-		border: 1px solid #3d3a34;
+		background: var(--color-oscuro);
+		border: 1px solid var(--color-borde-fuerte);
 		box-shadow: var(--sombra-suave);
 	}
 
@@ -326,7 +326,7 @@
 		height: 4px;
 		margin-left: -15px;
 		border-radius: 2px;
-		background: #3d3a34;
+		background: var(--color-borde-fuerte);
 	}
 
 	.at-celular .at-lienzo {
@@ -422,7 +422,7 @@
 		}
 
 		.at-celular .at-hero {
-			animation: at-cae-celular 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite 0.15s;
+			animation: at-cae-celular 9s cubic-bezier(0.3, 1.4, 0.5, 1) infinite var(--duracion-rapida);
 		}
 
 		.at-celular .at-titulo,
@@ -495,9 +495,9 @@
 	}
 
 	@keyframes at-elige {
-		0%, 58% { translate: 0 0; border-color: #2e2c28; box-shadow: none; }
-		61%, 80% { translate: 0 -6px; border-color: var(--color-marca); box-shadow: 0 12px 24px -10px rgb(217 119 87 / 0.6); }
-		84%, 100% { translate: 0 0; border-color: #2e2c28; box-shadow: none; }
+		0%, 58% { translate: 0 0; border-color: var(--color-borde); box-shadow: none; }
+		61%, 80% { translate: 0 -6px; border-color: var(--color-marca); box-shadow: 0 12px 24px -10px color-mix(in srgb, var(--color-marca) 60%, transparent); }
+		84%, 100% { translate: 0 0; border-color: var(--color-borde); box-shadow: none; }
 	}
 
 	@keyframes at-cae-celular {

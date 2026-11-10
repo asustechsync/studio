@@ -1,23 +1,24 @@
 ---
 // Página interna del menú: cabecera, un título, el contenido y el pie con contacto.
 import Base from './Base.astro';
-import Cabecera from '../componentes/Cabecera.astro';
-import Llamado from '../componentes/Llamado.astro';
-import sitio from '../datos/sitio.json';
+import Cabecera from '../componentes/sitio/Cabecera.astro';
+import Pie from '../componentes/sitio/Pie.astro';
+import negocio from '../datos/negocio.json';
 
 interface Props {
 	titulo: string;
 	descripcion: string;
+	indexar?: boolean;
 }
-const { titulo, descripcion } = Astro.props;
+const { titulo, descripcion, indexar } = Astro.props;
 ---
 
-<Base titulo={`${titulo} · ${sitio.marca}`} descripcion={descripcion}>
+<Base titulo={`${titulo} · ${negocio.marca}`} descripcion={descripcion} indexar={indexar}>
 	<Cabecera />
-	<main class="interna">
+	<main class="interna" id="contenido">
 		<slot />
 	</main>
-	<Llamado />
+	<Pie />
 </Base>
 
 <style>

@@ -1,8 +1,8 @@
 ---
 // Soluciones de la portada, sin precios. Cada tarjeta lleva a la página de la solución, donde están los precios.
 import { getCollection } from 'astro:content';
-import { soluciones } from '../datos/soluciones';
-import Icono from './Icono.astro';
+import { soluciones } from '../../datos/soluciones';
+import Icono from '../ui/Icono.astro';
 
 const publicados = await getCollection('paquetes', ({ data }) => data.publicado);
 
@@ -19,10 +19,9 @@ const tarjetas = soluciones.map((solucion) => {
 });
 ---
 
-<section class="seccion soluciones-seccion" id="soluciones">
+<section class="seccion soluciones-seccion" id="soluciones" data-animado>
 	<div class="contenedor">
 		<div class="encabezado-seccion revela">
-			<span class="antetitulo">Soluciones</span>
 			<h2>Elige por dónde empezar a vender más</h2>
 			<p>Tres caminos según lo que tu negocio necesita hoy. El precio final lo ves dentro de cada solución.</p>
 		</div>
@@ -30,7 +29,7 @@ const tarjetas = soluciones.map((solucion) => {
 		<div class="soluciones">
 			{
 				tarjetas.map((s) => (
-					<a class="solucion revela" href={`/soluciones/${s.slug}`}>
+					<a class="solucion tarjeta tarjeta--elevable revela" href={`/soluciones/${s.slug}`}>
 						<div class="arte" aria-hidden="true">
 							{s.icono === 'mundo' && (
 								<>
@@ -141,14 +140,12 @@ const tarjetas = soluciones.map((solucion) => {
 
 <style>
 	.soluciones-seccion {
-		background:
-			radial-gradient(ellipse 70% 320px at 50% 0, rgb(217 119 87 / 0.09), transparent 70%),
-			var(--color-fondo);
+		background: var(--color-fondo);
 	}
 
 	.soluciones {
 		display: grid;
-		gap: 18px;
+		gap: 16px;
 	}
 
 	.solucion {
@@ -157,17 +154,6 @@ const tarjetas = soluciones.map((solucion) => {
 		overflow: hidden;
 		text-decoration: none;
 		color: var(--color-texto);
-		background: var(--color-superficie);
-		border: 1px solid var(--color-borde);
-		border-radius: 18px;
-		box-shadow: var(--sombra-suave);
-		transition: translate 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-	}
-
-	.solucion:hover {
-		translate: 0 -4px;
-		border-color: rgb(255 255 255 / 0.18);
-		box-shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 22px 44px -16px rgb(0 0 0 / 0.7);
 	}
 
 	.solucion:focus-visible {
@@ -183,10 +169,10 @@ const tarjetas = soluciones.map((solucion) => {
 		border-bottom: 1px solid var(--color-borde);
 		background-color: var(--color-fondo);
 		background-image:
-			linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px),
-			linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px);
+			linear-gradient(color-mix(in srgb, var(--color-blanco) 3%, transparent) 1px, transparent 1px),
+			linear-gradient(90deg, color-mix(in srgb, var(--color-blanco) 3%, transparent) 1px, transparent 1px);
 		background-size: 22px 22px;
-		font-size: 12px;
+		font-size: var(--texto-xs);
 		color: var(--color-texto);
 	}
 
@@ -207,7 +193,7 @@ const tarjetas = soluciones.map((solucion) => {
 	.puntos i {
 		width: 6px;
 		height: 6px;
-		border-radius: 50%;
+		border-radius: var(--radio-redondo);
 		background: var(--color-borde);
 	}
 
@@ -217,7 +203,7 @@ const tarjetas = soluciones.map((solucion) => {
 		position: absolute;
 		background: var(--color-superficie);
 		border: 1px solid var(--color-borde);
-		border-radius: 12px;
+		border-radius: var(--radio-lg);
 	}
 
 	/* Web para tu negocio: la web se arma y llega un mensaje */
@@ -234,7 +220,7 @@ const tarjetas = soluciones.map((solucion) => {
 		position: absolute;
 		right: 12px;
 		top: 30px;
-		font-size: 12px;
+		font-size: var(--texto-xs);
 		color: var(--color-marca-texto);
 		opacity: 0;
 		animation: aparece 7s ease infinite 0.6s;
@@ -244,7 +230,7 @@ const tarjetas = soluciones.map((solucion) => {
 		position: absolute;
 		left: 16px;
 		height: 8px;
-		border-radius: 4px;
+		border-radius: var(--radio-xs);
 		transform-origin: left;
 		animation: dibuja 7s ease infinite;
 	}
@@ -268,12 +254,12 @@ const tarjetas = soluciones.map((solucion) => {
 		position: absolute;
 		left: 16px;
 		top: 80px;
-		border-radius: 7px;
+		border-radius: var(--radio-sm);
 	}
 
 	.mw__boton {
 		padding: 5px 14px;
-		font-size: 13px;
+		font-size: var(--texto-sm);
 		font-weight: 600;
 		color: var(--color-fondo);
 		background: var(--color-marca);
@@ -299,8 +285,8 @@ const tarjetas = soluciones.map((solucion) => {
 		padding: 6px 11px;
 		color: var(--color-exito);
 		background: var(--color-superficie);
-		border: 1px solid rgb(94 194 143 / 0.5);
-		border-radius: 14px 14px 4px 14px;
+		border: 1px solid color-mix(in srgb, var(--color-exito) 50%, transparent);
+		border-radius: var(--radio-lg) var(--radio-lg) var(--radio-xs) var(--radio-lg);
 		opacity: 0;
 		animation: aparece 7s ease infinite 2.6s;
 	}
@@ -313,12 +299,12 @@ const tarjetas = soluciones.map((solucion) => {
 	.escribe i {
 		width: 5px;
 		height: 5px;
-		border-radius: 50%;
+		border-radius: var(--radio-redondo);
 		background: var(--color-exito);
 		animation: escribe 1s ease-in-out infinite;
 	}
 
-	.escribe i:nth-child(2) { animation-delay: 0.15s; }
+	.escribe i:nth-child(2) { animation-delay: var(--duracion-rapida); }
 	.escribe i:nth-child(3) { animation-delay: 0.3s; }
 
 	/* Rediseño: el contenido salta de la web vieja a la nueva */
@@ -342,7 +328,7 @@ const tarjetas = soluciones.map((solucion) => {
 		left: 10px;
 		right: 10px;
 		height: 5px;
-		border-radius: 3px;
+		border-radius: var(--radio-xs);
 		background: var(--color-borde);
 	}
 
@@ -352,7 +338,7 @@ const tarjetas = soluciones.map((solucion) => {
 		top: 10px;
 		width: 40%;
 		height: 5px;
-		border-radius: 3px;
+		border-radius: var(--radio-xs);
 		background: var(--color-borde);
 		transform-origin: right;
 		animation: dibuja 7s ease infinite 2.4s;
@@ -364,7 +350,7 @@ const tarjetas = soluciones.map((solucion) => {
 		top: 66px;
 		width: 34%;
 		height: 132px;
-		border-radius: 12px;
+		border-radius: var(--radio-lg);
 		animation: brillo 7s ease infinite;
 	}
 
@@ -377,11 +363,11 @@ const tarjetas = soluciones.map((solucion) => {
 		place-items: center;
 		width: 20px;
 		height: 20px;
-		font-size: 12px;
+		font-size: var(--texto-xs);
 		font-weight: 700;
 		color: var(--color-fondo);
 		background: var(--color-exito);
-		border-radius: 50%;
+		border-radius: var(--radio-redondo);
 		transform: scale(0);
 		animation: marca 7s ease infinite;
 	}
@@ -409,13 +395,13 @@ const tarjetas = soluciones.map((solucion) => {
 
 	.rw__bloque b {
 		height: 28px;
-		border-radius: 7px;
+		border-radius: var(--radio-sm);
 		background: var(--color-marca);
 	}
 
 	.rw__bloque i {
 		height: 6px;
-		border-radius: 3px;
+		border-radius: var(--radio-xs);
 		background: var(--color-texto);
 		opacity: 0.7;
 	}
@@ -441,8 +427,8 @@ const tarjetas = soluciones.map((solucion) => {
 		right: 10px;
 		top: 10px;
 		height: 66px;
-		border-radius: 8px;
-		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+		border-radius: var(--radio);
+		background: linear-gradient(160deg, var(--color-marca-sombra), var(--color-marca));
 	}
 
 	.tw__linea,
@@ -450,7 +436,7 @@ const tarjetas = soluciones.map((solucion) => {
 		position: absolute;
 		left: 10px;
 		height: 6px;
-		border-radius: 3px;
+		border-radius: var(--radio-xs);
 	}
 
 	.tw__linea {
@@ -469,7 +455,7 @@ const tarjetas = soluciones.map((solucion) => {
 	.tw__punto {
 		position: absolute;
 		z-index: 1;
-		border-radius: 50%;
+		border-radius: var(--radio-redondo);
 	}
 
 	.tw__toque {
@@ -508,12 +494,12 @@ const tarjetas = soluciones.map((solucion) => {
 		place-items: center;
 		width: 17px;
 		height: 17px;
-		font-size: 10px;
+		font-size: var(--texto-2xs);
 		font-style: normal;
 		font-weight: 700;
 		color: var(--color-fondo);
 		background: var(--color-marca);
-		border-radius: 50%;
+		border-radius: var(--radio-redondo);
 		transform: scale(0);
 		animation: marca 7s ease infinite;
 	}
@@ -526,7 +512,7 @@ const tarjetas = soluciones.map((solucion) => {
 		flex-direction: column;
 		align-items: center;
 		gap: 5px;
-		font-size: 12px;
+		font-size: var(--texto-xs);
 		color: var(--color-exito);
 		opacity: 0;
 		animation: aparece 7s ease infinite 3.4s;
@@ -541,17 +527,12 @@ const tarjetas = soluciones.map((solucion) => {
 
 	.tw__barras i {
 		width: 6px;
-		border-radius: 1px;
+		border-radius: var(--radio-xs);
 		background: var(--color-borde);
 	}
 
 	.tw__barras i:last-child {
 		background: var(--color-exito);
-	}
-
-	@keyframes flota {
-		0%, 100% { translate: 0 0; }
-		50% { translate: 0 -5px; }
 	}
 
 	@keyframes dibuja {
@@ -599,9 +580,9 @@ const tarjetas = soluciones.map((solucion) => {
 	}
 
 	@keyframes brillo {
-		0%, 46% { box-shadow: 0 0 0 0 rgb(217 119 87 / 0); }
-		48% { box-shadow: 0 0 0 0 rgb(217 119 87 / 0.5); }
-		62%, 100% { box-shadow: 0 0 0 12px rgb(217 119 87 / 0); }
+		0%, 46% { box-shadow: 0 0 0 0 transparent; }
+		48% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-marca) 50%, transparent); }
+		62%, 100% { box-shadow: 0 0 0 12px transparent; }
 	}
 
 	@keyframes marca {
@@ -675,13 +656,12 @@ const tarjetas = soluciones.map((solucion) => {
 		z-index: 1;
 		top: 12px;
 		right: 12px;
-		font-size: 12px;
+		font-size: var(--texto-xs);
 		font-weight: 600;
-		color: var(--color-marca-texto);
-		background: var(--color-fondo);
-		border: 1px solid var(--color-marca);
-		border-radius: 999px;
-		padding: 3px 12px;
+		color: var(--color-sobre-marca);
+		background: var(--color-marca);
+		border-radius: var(--radio-sm);
+		padding: 4px 10px;
 	}
 
 	.solucion__cuerpo {
@@ -697,15 +677,15 @@ const tarjetas = soluciones.map((solucion) => {
 		top: 12px;
 		left: 12px;
 		z-index: 1;
-		font-size: 11px;
+		font-size: var(--texto-2xs);
 		font-weight: 600;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: var(--color-marca-texto);
 		background: var(--color-fondo);
-		border: 1px solid rgb(217 119 87 / 0.35);
-		border-radius: 999px;
-		padding: 3px 12px;
+		border: 1px solid color-mix(in srgb, var(--color-marca) 35%, transparent);
+		border-radius: var(--radio-sm);
+		padding: 4px 10px;
 	}
 
 	.solucion__fila {
@@ -721,28 +701,29 @@ const tarjetas = soluciones.map((solucion) => {
 		place-items: center;
 		width: 30px;
 		height: 30px;
-		color: var(--color-marca-texto);
-		border: 1px solid rgb(217 119 87 / 0.35);
-		border-radius: 50%;
-		transition: background-color 0.2s ease, color 0.2s ease;
+		color: var(--color-texto);
+		border: 1px solid var(--color-borde);
+		border-radius: var(--radio-sm);
+		transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 	}
 
 	.solucion:hover .solucion__flecha {
-		color: var(--color-fondo);
+		color: var(--color-sobre-marca);
 		background: var(--color-marca);
+		border-color: var(--color-marca);
 	}
 
 	h3 {
 		margin: 0;
 		font-family: var(--tipo-titulos);
 		font-weight: 600;
-		font-size: 18px;
+		font-size: var(--texto-xl);
 		line-height: 1.2;
 	}
 
 	p {
 		margin: 0;
-		font-size: 14px;
+		font-size: var(--texto-md);
 		color: var(--color-suave);
 	}
 
@@ -756,22 +737,16 @@ const tarjetas = soluciones.map((solucion) => {
 	}
 
 	.solucion__niveles li {
-		font-size: 11px;
+		font-size: var(--texto-2xs);
 		white-space: nowrap;
 		color: var(--color-suave);
 		background: var(--color-fondo);
 		border: 1px solid var(--color-borde);
-		border-radius: 6px;
+		border-radius: var(--radio-sm);
 		padding: 2px 8px;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.solucion {
-			transition: none;
-		}
-	}
-
-	@media (min-width: 720px) {
+	@media (min-width: 768px) {
 		.soluciones {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}

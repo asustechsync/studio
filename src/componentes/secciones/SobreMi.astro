@@ -1,7 +1,7 @@
 ---
-import sitio from '../datos/sitio.json';
+import textos from '../../datos/textos.json';
 
-const { sobreMi } = sitio;
+const { sobreMi } = textos;
 const iniciales = sobreMi.nombre
 	.split(' ')
 	.slice(0, 2)
@@ -9,7 +9,7 @@ const iniciales = sobreMi.nombre
 	.join('');
 ---
 
-{/* Sin nombre y texto en sitio.json, la sección se oculta: no mostramos una persona inventada */}
+{/* Sin nombre y texto en textos.json, la sección se oculta: no mostramos una persona inventada */}
 {sobreMi.nombre && sobreMi.texto && (
 <section class="seccion sobre" id="sobre-mi">
 	<div class="contenedor sobre__fila revela">
@@ -21,7 +21,6 @@ const iniciales = sobreMi.nombre
 			)
 		}
 		<div class="sobre__texto">
-			<span class="antetitulo">Quién está detrás</span>
 			<h2>{sobreMi.nombre}</h2>
 			<p class="sobre__cargo">{sobreMi.cargo}</p>
 			<p>{sobreMi.texto}</p>
@@ -44,7 +43,7 @@ const iniciales = sobreMi.nombre
 		flex: none;
 		width: 140px;
 		height: 140px;
-		border-radius: 50%;
+		border-radius: var(--radio-redondo);
 		object-fit: cover;
 		border: 1px solid var(--color-borde);
 	}
@@ -53,7 +52,7 @@ const iniciales = sobreMi.nombre
 		display: grid;
 		place-items: center;
 		font-family: var(--tipo-titulos);
-		font-size: 44px;
+		font-size: var(--titulo-pagina);
 		color: var(--color-marca-texto);
 		background: var(--color-marca-suave);
 	}
@@ -67,15 +66,15 @@ const iniciales = sobreMi.nombre
 	.sobre__cargo {
 		color: var(--color-marca-texto);
 		font-weight: 600;
-		font-size: 14px;
+		font-size: var(--texto-md);
 	}
 
 	.sobre__texto p:last-child {
 		color: var(--color-suave);
-		font-size: 17px;
+		font-size: var(--texto-xl);
 	}
 
-	@media (min-width: 720px) {
+	@media (min-width: 768px) {
 		.sobre__fila {
 			flex-direction: row;
 			text-align: left;

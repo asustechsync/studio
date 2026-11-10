@@ -4,7 +4,7 @@
 // para editar el título. Un ciclo dura 20 s.
 ---
 
-<div class="arte-web" aria-hidden="true">
+<div class="arte-web" aria-hidden="true" data-animado>
 	<div class="br">
 		<div class="bb">
 			<i></i><i></i><i></i>
@@ -86,7 +86,7 @@
 		width: 100%;
 		height: 270px;
 		background: var(--color-superficie);
-		border: 1px solid #3d3a34;
+		border: 1px solid var(--color-borde-fuerte);
 		border-radius: 14px;
 		overflow: hidden;
 	}
@@ -104,7 +104,7 @@
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		background: #3d3a34;
+		background: var(--color-borde-fuerte);
 	}
 
 	.ur {
@@ -176,7 +176,7 @@
 		width: 26px;
 		height: 5px;
 		border-radius: 3px;
-		background: #3d3a34;
+		background: var(--color-borde-fuerte);
 	}
 
 	.mn {
@@ -202,12 +202,6 @@
 		background: var(--color-marca);
 	}
 
-	.hero {
-		height: 84px;
-		border-radius: 12px;
-		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
-	}
-
 	.ln,
 	.ln2 {
 		display: block;
@@ -216,38 +210,12 @@
 
 	.ln {
 		height: 6px;
-		background: #7a756b;
+		background: var(--color-apagado);
 	}
 
 	.ln2 {
 		height: 5px;
-		background: #3d3a34;
-	}
-
-	.bt {
-		width: 64px;
-		height: 20px;
-		border-radius: 6px;
-		background: var(--color-marca);
-	}
-
-	.bt--wa {
-		width: 70px;
-		height: 18px;
-		background: var(--color-whatsapp);
-	}
-
-	.row {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 9px;
-	}
-
-	.row i {
-		height: 42px;
-		border-radius: 9px;
-		background: #26241f;
-		border: 1px solid #2e2c28;
+		background: var(--color-borde-fuerte);
 	}
 
 	/* Landing */
@@ -269,14 +237,14 @@
 		width: 58px;
 		height: 12px;
 		border-radius: 6px;
-		background: #2a1f1a;
-		border: 1px solid #4a3a30;
+		background: var(--cielo-violeta);
+		border: 1px solid var(--color-linea-fuerte);
 	}
 
 	.big {
 		height: 11px;
 		border-radius: 5px;
-		background: #7a756b;
+		background: var(--color-apagado);
 	}
 
 	.acc {
@@ -297,14 +265,14 @@
 
 	.acc__otro {
 		width: 56px;
-		border: 1px solid #3d3a34;
+		border: 1px solid var(--color-borde-fuerte);
 	}
 
 	.img {
 		position: relative;
 		height: 118px;
 		border-radius: 14px;
-		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+		background: linear-gradient(160deg, var(--color-marca-sombra), var(--color-marca));
 		overflow: hidden;
 	}
 
@@ -316,7 +284,7 @@
 		width: 90px;
 		height: 90px;
 		border-radius: 50%;
-		background: rgb(255 255 255 / 0.08);
+		background: color-mix(in srgb, var(--color-blanco) 8%, transparent);
 	}
 
 	.strip {
@@ -332,8 +300,8 @@
 		gap: 7px;
 		padding: 9px;
 		border-radius: 9px;
-		background: #26241f;
-		border: 1px solid #2e2c28;
+		background: var(--color-superficie-alta);
+		border: 1px solid var(--color-borde);
 	}
 
 	.strip em {
@@ -341,14 +309,14 @@
 		width: 14px;
 		height: 14px;
 		border-radius: 4px;
-		background: rgb(217 119 87 / 0.22);
+		background: color-mix(in srgb, var(--color-marca) 22%, transparent);
 	}
 
 	.strip i {
 		width: 80%;
 		height: 4px;
 		border-radius: 2px;
-		background: #4a4640;
+		background: var(--color-linea-fuerte);
 	}
 
 	/* Punto, ingreso y panel */
@@ -361,7 +329,7 @@
 		border-right: 7px solid transparent;
 		border-bottom: 16px solid var(--color-texto);
 		rotate: -30deg;
-		filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.8));
+		filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--color-negro) 80%, transparent));
 		opacity: 0;
 	}
 
@@ -392,7 +360,7 @@
 		z-index: 4;
 		display: grid;
 		place-items: center;
-		background: rgb(20 20 19 / 0.72);
+		background: color-mix(in srgb, var(--color-fondo) 72%, transparent);
 		opacity: 0;
 	}
 
@@ -403,8 +371,8 @@
 		width: 224px;
 		padding: 12px 16px;
 		border-radius: 10px;
-		background: #1a1917;
-		border: 1px solid #2a2825;
+		background: var(--color-superficie);
+		border: 1px solid var(--color-borde);
 	}
 
 	.bx__tit {
@@ -420,7 +388,7 @@
 		height: 22px;
 		padding: 0 8px;
 		border-radius: 6px;
-		border: 1px solid #33312c;
+		border: 1px solid var(--color-borde-fuerte);
 		background: var(--color-fondo);
 		font-size: 11px;
 		letter-spacing: 1px;
@@ -456,7 +424,7 @@
 		font-size: 10px;
 		letter-spacing: 0;
 		text-decoration: none;
-		color: #5b574f;
+		color: var(--color-muy-apagado);
 	}
 
 	.fila {
@@ -482,7 +450,7 @@
 		width: 9px;
 		height: 9px;
 		border-radius: 2px;
-		border: 1px solid #4a4640;
+		border: 1px solid var(--color-linea-fuerte);
 	}
 
 	.rec__caja::after {
@@ -535,7 +503,7 @@
 		width: 9px;
 		height: 9px;
 		border-radius: 50%;
-		border: 1.5px solid rgb(232 164 127 / 0.25);
+		border: 1.5px solid color-mix(in srgb, var(--color-marca-texto) 25%, transparent);
 		border-top-color: var(--color-marca-texto);
 	}
 
@@ -556,7 +524,7 @@
 		padding: 12px 10px;
 		font-size: 10px;
 		color: var(--color-suave);
-		background: #1a1917;
+		background: var(--color-superficie);
 		border-right: 1px solid var(--color-borde);
 	}
 
@@ -574,7 +542,7 @@
 
 	.sb span.on {
 		color: var(--color-marca-texto);
-		background: #2a1f1a;
+		background: var(--cielo-violeta);
 	}
 
 	.ed {
@@ -616,11 +584,11 @@
 		width: 46px;
 		height: 34px;
 		border-radius: 7px;
-		background: #3a2a22;
+		background: var(--color-marca-sombra);
 	}
 
 	.im i:first-child {
-		background: linear-gradient(160deg, #3a2a22, var(--color-marca));
+		background: linear-gradient(160deg, var(--color-marca-sombra), var(--color-marca));
 	}
 
 	/* El alto del navegador no cambia en celular: así el clic sigue cayendo sobre "Entrar" */
@@ -645,7 +613,7 @@
 
 		.l1 { animation-name: aw-landing; }
 		.txt > * { animation-name: aw-izq; }
-		.txt > :nth-child(2) { animation-delay: 0.25s; }
+		.txt > :nth-child(2) { animation-delay: var(--duracion); }
 		.txt > :nth-child(3) { animation-delay: 0.5s; }
 		.txt > :nth-child(4) { animation-delay: 0.75s; }
 		.txt > :nth-child(5) { animation-delay: 1s; }
@@ -730,8 +698,8 @@
 	}
 
 	@keyframes aw-caja {
-		0%, 57% { border-color: #4a4640; background: transparent; }
-		58%, 100% { border-color: var(--color-marca); background: rgb(217 119 87 / 0.15); }
+		0%, 57% { border-color: var(--color-linea-fuerte); background: transparent; }
+		58%, 100% { border-color: var(--color-marca); background: color-mix(in srgb, var(--color-marca) 15%, transparent); }
 	}
 
 	@keyframes aw-visto {
@@ -750,15 +718,15 @@
 	}
 
 	@keyframes aw-foco1 {
-		0%, 46% { border-color: #33312c; }
+		0%, 46% { border-color: var(--color-borde-fuerte); }
 		47%, 52.5% { border-color: var(--color-marca); }
-		53%, 100% { border-color: #33312c; }
+		53%, 100% { border-color: var(--color-borde-fuerte); }
 	}
 
 	@keyframes aw-foco2 {
-		0%, 52% { border-color: #33312c; }
+		0%, 52% { border-color: var(--color-borde-fuerte); }
 		53%, 57.5% { border-color: var(--color-marca); }
-		58%, 100% { border-color: #33312c; }
+		58%, 100% { border-color: var(--color-borde-fuerte); }
 	}
 
 	@keyframes aw-btn-a {

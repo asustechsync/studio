@@ -1,0 +1,19 @@
+{
+  "marca": "Studio",
+  "ciudad": "Tacna, Perú",
+  "ruc": "20603875631",
+  "whatsapp": "51961360665",
+  "mensajeWhatsapp": "Hola, quiero información sobre una web para mi negocio",
+  "correo": "hola@studio.pe",
+  "imagenCompartir": "/compartir.png",
+  "descripcion": "Diseño y desarrollo de páginas web y tiendas online para negocios en Tacna. Rápidas, seguras y fáciles de administrar.",
+  "analitica": {
+    "cloudflareToken": ""
+  },
+  "pie": {
+    "horario": "Lunes a sábado, 9:00 a 19:00",
+    "instagram": "",
+    "facebook": "",
+    "tiktok": ""
+  }
+}

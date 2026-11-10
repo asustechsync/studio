@@ -1,0 +1,109 @@
+---
+// Planes de una solución. Sin planes publicados, muestra un aviso de «próximamente».
+import type { CollectionEntry } from 'astro:content';
+import Paquete from '../../ui/Paquete.astro';
+import Icono from '../../ui/Icono.astro';
+import { enlaceWhatsapp } from '../../../lib/enlaces';
+
+interface Props {
+	titulo: string;
+	paquetes: CollectionEntry<'paquetes'>[];
+	mensaje: string;
+}
+
+const { titulo, paquetes, mensaje } = Astro.props;
+---
+
+<section class="seccion planes" id="planes">
+	<div class="contenedor">
+		<div class="encabezado-seccion revela">
+			<h2>{titulo}</h2>
+			<p>Precio final, sin costos ocultos.</p>
+		</div>
+		{
+			paquetes.length > 0 ? (
+				<>
+					<div class="paquetes">
+						{paquetes.map(({ data }) => (
+							<Paquete data={data} />
+						))}
+					</div>
+					<p class="planes__nota">Pagas 50 % al empezar y 50 % al entregar.</p>
+				</>
+			) : (
+				<div class="proximamente tarjeta revela">
+					<h2>Estamos preparando esta solución</h2>
+					<p>Todavía no está disponible. Escríbenos y te avisamos apenas esté lista, o vemos tu caso.</p>
+					<a class="boton boton--marca" href={enlaceWhatsapp(mensaje)} target="_blank" rel="noopener noreferrer">
+						<Icono nombre="whatsapp" />
+						Consultar por WhatsApp
+					</a>
+				</div>
+			)
+		}
+	</div>
+</section>
+
+<style>
+	.planes {
+		padding-top: 0;
+	}
+
+	.paquetes {
+		display: grid;
+		gap: 18px;
+		margin-top: 36px;
+	}
+
+	.planes__nota {
+		margin: 28px 0 0;
+		text-align: center;
+		font-size: var(--texto-md);
+		color: var(--color-suave);
+	}
+
+	.proximamente {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		margin: 36px auto 0;
+		max-width: 520px;
+		padding: 32px 26px;
+		text-align: center;
+	}
+
+	.proximamente h2 {
+		margin: 0;
+		font-family: var(--tipo-titulos);
+		font-size: var(--texto-2xl);
+	}
+
+	.proximamente p {
+		margin: 0 0 6px;
+		color: var(--color-suave);
+		font-size: var(--texto-base);
+	}
+
+	/* Un solo paquete: centrado y con ancho de tarjeta normal */
+	@media (min-width: 640px) {
+		.paquetes {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.paquetes:has(> :global(.paquete):only-child) {
+			grid-template-columns: minmax(0, 380px);
+			justify-content: center;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.paquetes {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+
+		.paquetes:has(> :global(.paquete):only-child) {
+			grid-template-columns: minmax(0, 380px);
+		}
+	}
+</style>

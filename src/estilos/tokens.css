@@ -1,0 +1,116 @@
+/* Tokens de diseño: la única fuente de colores, letras, espacios, radios, sombras y movimiento.
+   Para cambiar la paleta del sitio, se cambia solo este archivo.
+   Los componentes nunca escriben colores a mano: usan var(--…) o color-mix() sobre estos tokens. */
+:root {
+	color-scheme: dark;
+
+	/* ── Color: tinta y arcilla ─────────────────────────────── */
+	--color-fondo: #141413;
+	--color-superficie: #1d1c1a;
+	--color-superficie-alta: #26241f;
+	--color-oscuro: #0f0e0d;
+	--color-texto: #faf9f5;
+	--color-suave: #9b988f;
+	--color-apagado: #7a756b;
+	--color-muy-apagado: #5b574f;
+	--color-borde: #2c2a27;
+	--color-borde-fuerte: #3d3a34;
+	--color-linea-fuerte: #4a4640;
+	--color-blanco: #ffffff;
+	--color-negro: #000000;
+
+	/* Acento arcilla y sus variantes */
+	--color-marca: #d97757;
+	--color-marca-hover: #e5895f;
+	--color-marca-texto: #e8a47f;
+	--color-marca-sombra: #3a2a22;
+	--color-marca-suave: color-mix(in srgb, var(--color-marca) 12%, transparent);
+	--color-sobre-marca: var(--color-fondo);
+	/* Palabras destacadas de los titulares */
+	--color-destacado: var(--color-marca);
+
+	/* Estados y canales */
+	--color-whatsapp: #1a9a4f;
+	--color-whatsapp-hover: #158442;
+	--color-exito: #5ec28f;
+	--color-crema: #faf9f5;
+
+	/* Tonos de tinta para el paquete destacado y los números de los pasos */
+	--cielo-noche: var(--color-fondo);
+	--cielo-medio: var(--color-superficie);
+	--cielo-violeta: #2a221e;
+	--cielo-terracota: var(--color-marca);
+	--cielo-arena: #e8b89d;
+	--degradado-cielo: linear-gradient(160deg, var(--cielo-noche) 0%, var(--cielo-medio) 50%, var(--cielo-violeta) 100%);
+
+	/* ── Tipografía ─────────────────────────────────────────── */
+	--tipo-titulos: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+	--tipo-texto: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+	--tipo-cursiva: 'Instrument Serif', Georgia, serif;
+	--tipo-mono: ui-monospace, 'Cascadia Code', monospace;
+
+	/* Escala de texto */
+	--texto-2xs: 11px;
+	--texto-xs: 12px;
+	--texto-sm: 13px;
+	--texto-md: 14px;
+	--texto-base: 15px;
+	--texto-lg: 16px;
+	--texto-xl: 18px;
+	--texto-2xl: 20px;
+	--texto-3xl: 24px;
+	/* Texto de entrada bajo los titulares */
+	--texto-intro: clamp(17px, 0.95rem + 0.4vw, 19px);
+	/* Titulares fluidos: crecen con la pantalla sin media queries */
+	--titulo-sm: clamp(28px, 1.4rem + 1vw, 34px);
+	--titulo-seccion: clamp(30px, 1.6rem + 1.8vw, 42px);
+	--titulo-pagina: clamp(34px, 1.4rem + 2.4vw, 44px);
+	--titulo-portada: clamp(38px, 1.5rem + 3.6vw, 54px);
+
+	/* ── Espacio y medidas ──────────────────────────────────── */
+	--espacio-1: 4px;
+	--espacio-2: 8px;
+	--espacio-3: 12px;
+	--espacio-4: 16px;
+	--espacio-5: 24px;
+	--espacio-6: 32px;
+	--espacio-7: 48px;
+	--espacio-8: 64px;
+
+	--alto-cabecera: 64px;
+	--ancho: 1120px;
+	--margen: 20px;
+	--seccion: 64px;
+
+	/* ── Radios (esquinas cortas) ───────────────────────────── */
+	--radio-xs: 4px;
+	--radio-sm: 6px;
+	--radio: 8px;
+	--radio-lg: 12px;
+	--radio-redondo: 50%;
+
+	/* ── Sombras ────────────────────────────────────────────── */
+	--sombra-suave: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.5);
+	--sombra-alta: 0 1px 2px rgb(0 0 0 / 0.4), 0 22px 44px -16px rgb(0 0 0 / 0.7);
+
+	/* ── Tarjetas: un solo estilo para todo el sitio ────────── */
+	--tarjeta-fondo: var(--color-superficie);
+	--tarjeta-borde: var(--color-borde);
+	--tarjeta-radio: var(--radio-lg);
+
+	/* ── Movimiento ─────────────────────────────────────────── */
+	--duracion-rapida: 0.15s;
+	--duracion: 0.25s;
+	--duracion-lenta: 0.9s;
+	--curva-salida: cubic-bezier(0.16, 1, 0.3, 1);
+	--curva-suave: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* Quiebres del sitio (las media queries no aceptan variables; usar solo estos tres):
+   640px celular grande · 768px tableta · 1024px escritorio */
+@media (min-width: 768px) {
+	:root {
+		--margen: 32px;
+		--seccion: 96px;
+	}
+}

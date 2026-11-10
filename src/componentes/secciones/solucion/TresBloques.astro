@@ -1,0 +1,95 @@
+---
+// Tres tarjetas en fila: con ícono (beneficios) o numeradas (pasos).
+import Icono from '../../ui/Icono.astro';
+import { partesTitular } from '../../../lib/texto';
+import type { Solucion } from '../../../datos/soluciones';
+
+type Bloque = { titulo: string; texto: string; icono?: Solucion['beneficios'][number]['icono'] };
+
+interface Props {
+	/** Palabras entre asteriscos se resaltan: "Lo que *ganas*". */
+	titulo: string;
+	bloques: Bloque[];
+	/** true: muestra 01, 02, 03 en lugar del ícono. */
+	numerados?: boolean;
+}
+
+const { titulo, bloques, numerados = false } = Astro.props;
+const Lista = numerados ? 'ol' : 'div';
+const Item = numerados ? 'li' : 'article';
+---
+
+<section class="seccion">
+	<div class="contenedor">
+		<div class="encabezado-seccion revela">
+			<h2>{partesTitular(titulo).map((parte, i) => (i % 2 ? <em>{parte}</em> : parte))}</h2>
+		</div>
+		<Lista class="tres">
+			{bloques.map((b, i) => (
+				<Item class="bloque tarjeta revela">
+					{numerados ? (
+						<span class="bloque__numero">{String(i + 1).padStart(2, '0')}</span>
+					) : (
+						b.icono && <span class="bloque__icono"><Icono nombre={b.icono} tamano={20} /></span>
+					)}
+					<h3>{b.titulo}</h3>
+					<p>{b.texto}</p>
+				</Item>
+			))}
+		</Lista>
+	</div>
+</section>
+
+<style>
+	.tres {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 14px;
+	}
+
+	.bloque {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		padding: 22px;
+	}
+
+	.bloque h3 {
+		font-size: var(--texto-xl);
+	}
+
+	.bloque p {
+		margin: 0;
+		color: var(--color-suave);
+		font-size: var(--texto-md);
+	}
+
+	.bloque__icono {
+		display: grid;
+		place-items: center;
+		width: 40px;
+		height: 40px;
+		margin-bottom: 6px;
+		border-radius: var(--radio);
+		color: var(--color-marca);
+		background: var(--color-marca-suave);
+	}
+
+	.bloque__numero {
+		margin-bottom: 4px;
+		font-family: var(--tipo-titulos);
+		font-weight: 600;
+		font-size: var(--titulo-sm);
+		line-height: 1;
+		color: var(--color-marca);
+		font-variant-numeric: tabular-nums;
+	}
+
+	@media (min-width: 768px) {
+		.tres {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+</style>
