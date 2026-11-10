@@ -1,7 +1,8 @@
 ---
-// Soluciones de la portada, sin precios. Cada tarjeta lleva a la página de la solución, donde están los precios.
+// Soluciones de la portada. Cada tarjeta muestra el precio más bajo y lleva a la página de la solución, con todos los planes.
 import { getCollection } from 'astro:content';
 import { soluciones } from '../../datos/soluciones';
+import { precioEnSoles } from '../../lib/enlaces';
 import Icono from '../ui/Icono.astro';
 
 const publicados = await getCollection('paquetes', ({ data }) => data.publicado);
@@ -14,7 +15,7 @@ const tarjetas = soluciones.map((solucion) => {
 		...solucion,
 		nombres: solucion.etiquetas ?? paquetes.map(({ data }) => data.nombre.replace(/^Web (\w)/, (_, c) => c.toUpperCase())),
 		disponible: paquetes.length > 0,
-		masPedido: paquetes.some(({ data }) => data.destacado),
+		desde: paquetes.length ? Math.min(...paquetes.map(({ data }) => data.precio)) : null,
 	};
 });
 ---
@@ -23,7 +24,7 @@ const tarjetas = soluciones.map((solucion) => {
 	<div class="contenedor">
 		<div class="encabezado-seccion revela">
 			<h2>Elige por dónde empezar a vender más</h2>
-			<p>Tres caminos según lo que tu negocio necesita hoy. El precio final lo ves dentro de cada solución.</p>
+			<p>Tres caminos según lo que tu negocio necesita hoy. Precio final, sin costos ocultos.</p>
 		</div>
 
 		<div class="soluciones">
@@ -112,7 +113,7 @@ const tarjetas = soluciones.map((solucion) => {
 								</>
 							)}
 							<span class="solucion__categoria">{s.categoria}</span>
-							{s.masPedido && <span class="solucion__insignia">Más pedida</span>}
+							{s.destacada && s.disponible && <span class="solucion__insignia">Más pedida</span>}
 							{!s.disponible && <span class="solucion__insignia">Próximamente</span>}
 						</div>
 						<div class="solucion__cuerpo">
@@ -123,6 +124,11 @@ const tarjetas = soluciones.map((solucion) => {
 								</span>
 							</div>
 							<p>{s.resumen}</p>
+							{s.desde !== null && (
+								<p class="solucion__precio">
+									desde <b>{precioEnSoles(s.desde)}</b>
+								</p>
+							)}
 							{s.nombres.length > 0 && (
 								<ul class="solucion__niveles">
 									{s.nombres.map((n) => (
@@ -725,6 +731,20 @@ const tarjetas = soluciones.map((solucion) => {
 		margin: 0;
 		font-size: var(--texto-md);
 		color: var(--color-suave);
+	}
+
+	.solucion .solucion__precio {
+		margin-top: 10px;
+		font-size: var(--texto-sm);
+		color: var(--color-suave);
+	}
+
+	.solucion__precio b {
+		font-family: var(--tipo-titulos);
+		font-size: var(--texto-xl);
+		font-weight: 600;
+		color: var(--color-texto);
+		margin-left: 2px;
 	}
 
 	.solucion__niveles {

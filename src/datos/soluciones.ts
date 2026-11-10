@@ -1,5 +1,5 @@
 // Soluciones de la portada. Cada una agrupa paquetes de src/content/paquetes/ por su nombre de archivo.
-// Los precios no salen en la portada: viven en la página de cada solución.
+// En la portada cada tarjeta muestra el precio más bajo; los planes completos viven en la página de cada solución.
 // Un paquete con `publicado: false` no se muestra; si una solución no tiene ninguno publicado, aparece como "Próximamente".
 export interface Solucion {
 	slug: string;
@@ -7,6 +7,8 @@ export interface Solucion {
 	categoria: string;
 	resumen: string;
 	icono: 'mundo' | 'rediseno' | 'carrito';
+	/** Lleva la insignia "Más pedida" en la portada. Conviene marcar una sola. */
+	destacada?: boolean;
 	/** Título y texto de la página de la solución. */
 	titular: string;
 	texto: string;
@@ -39,6 +41,7 @@ export const soluciones: Solucion[] = [
 		categoria: 'Presencia web',
 		resumen: 'Que te encuentren en Google y te escriban.',
 		icono: 'mundo',
+		destacada: true,
 		titular: 'Elige el nivel según cuánto quieras crecer',
 		texto: 'Creamos experiencias digitales que transmiten confianza, destacan tu negocio y te conectan con nuevos clientes.',
 		nota: 'Primer año de dominio y hosting incluido',

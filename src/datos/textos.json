@@ -1,6 +1,6 @@
 {
   "portada": {
-    "antetitulo": "Desarrollo web y comercio electrónico",
+    "antetitulo": "Desarrollo web en Tacna",
     "titulo": {
       "inicio": "Tu negocio en línea,",
       "cursiva": "rápido y seguro,",
@@ -49,12 +49,7 @@
     "texto": "Cuéntanos qué necesitas y te decimos qué te conviene, sin compromiso.",
     "boton": "Escríbenos por WhatsApp"
   },
-  "tecnologias": [
-    "WhatsApp",
-    "Google Maps",
-    "Dominio .pe",
-    "Astro"
-  ],
+  "tecnologias": [],
   "preguntas": [
     {
       "p": "¿Cómo se paga?",

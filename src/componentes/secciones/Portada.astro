@@ -1,10 +1,16 @@
 ---
+import { getCollection } from 'astro:content';
 import textos from '../../datos/textos.json';
-import { enlaceWhatsapp } from '../../lib/enlaces';
+import { enlaceWhatsapp, precioEnSoles } from '../../lib/enlaces';
 import Icono from '../ui/Icono.astro';
 import PanelMuestra from '../ilustraciones/PanelMuestra.astro';
 
 const { portada, tecnologias } = textos;
+
+// En los textos de la portada, {desde} se cambia por el precio más bajo publicado; así nunca queda desactualizado.
+const paquetes = await getCollection('paquetes', ({ data }) => data.publicado);
+const desde = paquetes.length ? precioEnSoles(Math.min(...paquetes.map(({ data }) => data.precio))) : '';
+const conPrecio = (texto: string) => texto.replaceAll('{desde}', desde);
 ---
 
 <section class="portada">
@@ -18,9 +24,9 @@ const { portada, tecnologias } = textos;
 			)
 		}
 		<h1 class="entra" style="--i:1">
-			{portada.titulo.inicio} <em>{portada.titulo.cursiva}</em> {portada.titulo.fin}
+			{conPrecio(portada.titulo.inicio)} <em>{conPrecio(portada.titulo.cursiva)}</em> {conPrecio(portada.titulo.fin)}
 		</h1>
-		<p class="portada__subtitulo entra" style="--i:2">{portada.subtitulo}</p>
+		<p class="portada__subtitulo entra" style="--i:2">{conPrecio(portada.subtitulo)}</p>
 		<div class="portada__acciones entra" style="--i:3">
 			<a class="boton boton--marca portada__boton" href="#soluciones">
 				Ver soluciones
@@ -114,6 +120,7 @@ const { portada, tecnologias } = textos;
 	/* Titular: crece solo con la pantalla; en escritorio cabe en dos líneas */
 	h1 {
 		color: var(--color-texto);
+		text-wrap: balance;
 		font-size: var(--titulo-portada);
 		line-height: 1.08;
 		letter-spacing: -0.02em;
@@ -131,6 +138,7 @@ const { portada, tecnologias } = textos;
 	}
 
 	.portada__subtitulo {
+		text-wrap: balance;
 		color: var(--color-suave);
 		font-size: var(--texto-intro);
 		max-width: 46ch;
